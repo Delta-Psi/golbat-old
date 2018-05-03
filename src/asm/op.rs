@@ -47,8 +47,6 @@ pub enum Op {
     ld_A_iHL,
     /// Load address to A
     ld_A_inn(u16),
-    /// Load A to 8-bit register
-    ld_r_A(Reg8),
     /// Load A to address at BC
     ld_iBC_A,
     /// Load A to address at DE

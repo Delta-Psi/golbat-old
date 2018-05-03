@@ -39,11 +39,39 @@ impl Display for Op {
 
         match *self {
             ld_r_n(ref r, n) =>
-                write!(f, "ld {}, ${:x}", r, n),
+                write!(f, "ld {}, ${:02x}", r, n),
             ld_r_r(ref r1, ref r2) =>
                 write!(f, "ld {}, {}", r1, r2),
             ld_r_iHL(ref r) =>
                 write!(f, "ld {}, (HL)", r),
+            ld_iHL_r(ref r) =>
+                write!(f, "ld (HL), {}", r),
+            ld_iHL_n(n) =>
+                write!(f, "ld (HL), ${:02x}", n),
+            ld_A_iBC =>
+                write!(f, "ld A, (BC)"),
+            ld_A_iDE =>
+                write!(f, "ld A, (DE)"),
+            ld_A_iHL =>
+                write!(f, "ld A, (HL)"),
+            ld_A_inn(nn) =>
+                write!(f, "ld A, (${:04x})", nn),
+            ld_iBC_A =>
+                write!(f, "ld (BC), A"),
+            ld_iDE_A =>
+                write!(f, "ld (DE), A"),
+            ld_iHL_A =>
+                write!(f, "ld (HL), A"),
+            ld_inn_A(nn) =>
+                write!(f, "ld (${:04x}), A", nn),
+            ld_A_ioC =>
+                write!(f, "ld A, (C)"),
+            ld_ioC_A =>
+                write!(f, "ld (C), A"),
+            ld_A_ion(n) =>
+                write!(f, "ldh A, (${:02x})", n),
+            ld_ion_A(n) =>
+                write!(f, "ldh (${:02x}), A", n),
 
             _ => unimplemented!(),
         }
