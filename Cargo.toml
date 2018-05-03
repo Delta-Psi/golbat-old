@@ -1,0 +1,11 @@
+[package]
+name = "golbat"
+version = "0.1.0"
+authors = ["Difarem <difarem@gmail.com>"]
+
+[[bin]]
+name = "golbat-demo"
+path = "src/main.rs"
+
+[dependencies]
+nom = "3.2.1"
