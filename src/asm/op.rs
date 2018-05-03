@@ -15,9 +15,12 @@ pub enum Reg16 {
 pub enum Reg8 {
     /// Accumulator
     A,
-    B, C,
-    D, E,
-    H, L,
+    B,
+    C,
+    D,
+    E,
+    H,
+    L,
 }
 
 #[allow(non_camel_case_types)]
@@ -25,7 +28,7 @@ pub enum Op {
     // 8-bit load operation
     /// Load 8-bit value to register
     ld_r_n(Reg8, u8),
-    /// Load 8-bit register to register
+    /// Load 8-bit register to 8-bit register
     ld_r_r(Reg8, Reg8),
     /// Load address at HL to 8-bit register
     ld_r_iHL(Reg8),
@@ -33,8 +36,6 @@ pub enum Op {
     ld_iHL_r(Reg8),
     /// Load 8-bit value to address at HL
     ld_iHL_n(u8),
-    /// Load 8-bit register to A
-    ld_A_r(Reg8),
     /// Load address at BC to A
     ld_A_iBC,
     /// Load address at DE to A
@@ -43,8 +44,6 @@ pub enum Op {
     ld_A_iHL,
     /// Load address to A
     ld_A_inn(u16),
-    /// Load 8-bit value to A
-    ld_A_n(u8),
     /// Load A to 8-bit register
     ld_r_A(Reg8),
     /// Load A to address at BC
