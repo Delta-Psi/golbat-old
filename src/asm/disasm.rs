@@ -270,6 +270,94 @@ pub fn parse_op(input: &[u8]) -> IResult<&[u8], Op, u32> {
         // pop HL
         0xe1 => (input, pop(HL)),
 
+        // add A, A
+        0x87 => (input, add_A_r(A)),
+        // add A, B
+        0x80 => (input, add_A_r(B)),
+        // add A, C
+        0x81 => (input, add_A_r(C)),
+        // add A, D
+        0x82 => (input, add_A_r(D)),
+        // add A, E
+        0x83 => (input, add_A_r(E)),
+        // add A, H
+        0x84 => (input, add_A_r(H)),
+        // add A, L
+        0x85 => (input, add_A_r(L)),
+        // add A, (HL)
+        0x86 => (input, add_A_iHL),
+        // add A, n
+        0xc6 => {
+            let (input, value) = try_parse!(input, le_u8);
+            (input, add_A_n(value))
+        },
+
+        // adc A, A
+        0x8f => (input, adc_A_r(A)),
+        // adc A, B
+        0x88 => (input, adc_A_r(B)),
+        // adc A, C
+        0x89 => (input, adc_A_r(C)),
+        // adc A, D
+        0x8a => (input, adc_A_r(D)),
+        // adc A, E
+        0x8b => (input, adc_A_r(E)),
+        // adc A, H
+        0x8c => (input, adc_A_r(H)),
+        // adc A, L
+        0x8d => (input, adc_A_r(L)),
+        // adc A, (HL)
+        0x8e => (input, adc_A_iHL),
+        // adc A, n
+        0xce => {
+            let (input, value) = try_parse!(input, le_u8);
+            (input, adc_A_n(value))
+        },
+
+        // sub A
+        0x97 => (input, sub_r(A)),
+        // sub B
+        0x90 => (input, sub_r(B)),
+        // sub C
+        0x91 => (input, sub_r(C)),
+        // sub D
+        0x92 => (input, sub_r(D)),
+        // sub E
+        0x93 => (input, sub_r(E)),
+        // sub H
+        0x94 => (input, sub_r(H)),
+        // sub L
+        0x95 => (input, sub_r(L)),
+        // sub (HL)
+        0x96 => (input, sub_iHL),
+        // sub n
+        0xd6 => {
+            let (input, value) = try_parse!(input, le_u8);
+            (input, sub_n(value))
+        },
+
+        // sbc A, A
+        0x9f => (input, sbc_A_r(A)),
+        // sbc A, B
+        0x98 => (input, sbc_A_r(B)),
+        // sbc A, C
+        0x99 => (input, sbc_A_r(C)),
+        // sbc A, D
+        0x9a => (input, sbc_A_r(D)),
+        // sbc A, E
+        0x9b => (input, sbc_A_r(E)),
+        // sbc A, H
+        0x9c => (input, sbc_A_r(H)),
+        // sbc A, L
+        0x9d => (input, sbc_A_r(L)),
+        // sbc A, (HL)
+        0x9e => (input, sbc_A_iHL),
+        // sbc A, n
+        0xde => {
+            let (input, value) = try_parse!(input, le_u8);
+            (input, sbc_A_n(value))
+        },
+
         _ => unimplemented!(),
     };
     IResult::Done(input, result)
