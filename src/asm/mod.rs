@@ -5,3 +5,6 @@ mod disasm;
 pub use self::disasm::parse_op;
 
 mod display;
+
+#[cfg(test)]
+mod tests;
