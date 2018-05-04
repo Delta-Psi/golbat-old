@@ -1,2 +1,2 @@
 # golbat
-description machine broke
+Rust Gameboy disassembler and future emulator.
