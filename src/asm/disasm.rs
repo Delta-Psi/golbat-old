@@ -358,6 +358,72 @@ pub fn parse_op(input: &[u8]) -> IResult<&[u8], Op, u32> {
             (input, sbc_A_n(value))
         },
 
+        // and A
+        0xa7 => (input, and_r(A)),
+        // and B
+        0xa0 => (input, and_r(B)),
+        // and C
+        0xa1 => (input, and_r(C)),
+        // and D
+        0xa2 => (input, and_r(D)),
+        // and E
+        0xa3 => (input, and_r(E)),
+        // and H
+        0xa4 => (input, and_r(H)),
+        // and L
+        0xa5 => (input, and_r(L)),
+        // and (HL)
+        0xa6 => (input, and_iHL),
+        // and n
+        0xe6 => {
+            let (input, value) = try_parse!(input, le_u8);
+            (input, and_n(value))
+        },
+
+        // or A
+        0xb7 => (input, or_r(A)),
+        // or B
+        0xb0 => (input, or_r(B)),
+        // or C
+        0xb1 => (input, or_r(C)),
+        // or D
+        0xb2 => (input, or_r(D)),
+        // or E
+        0xb3 => (input, or_r(E)),
+        // or H
+        0xb4 => (input, or_r(H)),
+        // or L
+        0xb5 => (input, or_r(L)),
+        // or (HL)
+        0xb6 => (input, or_iHL),
+        // or n
+        0xf6 => {
+            let (input, value) = try_parse!(input, le_u8);
+            (input, or_n(value))
+        },
+
+        // xor A
+        0xaf => (input, xor_r(A)),
+        // xor B
+        0xa8 => (input, xor_r(B)),
+        // xor C
+        0xa9 => (input, xor_r(C)),
+        // xor D
+        0xaa => (input, xor_r(D)),
+        // xor E
+        0xab => (input, xor_r(E)),
+        // xor H
+        0xac => (input, xor_r(H)),
+        // xor L
+        0xad => (input, xor_r(L)),
+        // xor (HL)
+        0xae => (input, xor_iHL),
+        // xor n
+        0xee => {
+            let (input, value) = try_parse!(input, le_u8);
+            (input, xor_n(value))
+        },
+
         _ => unimplemented!(),
     };
     IResult::Done(input, result)
