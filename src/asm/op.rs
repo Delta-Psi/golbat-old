@@ -1,5 +1,5 @@
 // 16-bit registers
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
 pub enum Reg16 {
     /// Accumulator and flags
     AF,
@@ -12,7 +12,7 @@ pub enum Reg16 {
     PC,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
 // 8-bit registers
 pub enum Reg8 {
     /// Accumulator
@@ -26,7 +26,7 @@ pub enum Reg8 {
 }
 
 #[allow(non_camel_case_types)]
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
 pub enum Op {
     // 8-bit load operation
     /// Load 8-bit value to register

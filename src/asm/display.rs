@@ -38,13 +38,13 @@ impl Display for Op {
         use self::Op::*;
 
         match *self {
-            ld_r_n(ref r, n) =>
+            ld_r_n(r, n) =>
                 write!(f, "ld {}, ${:02x}", r, n),
-            ld_r_r(ref r1, ref r2) =>
+            ld_r_r(r1, r2) =>
                 write!(f, "ld {}, {}", r1, r2),
-            ld_r_iHL(ref r) =>
+            ld_r_iHL(r) =>
                 write!(f, "ld {}, (HL)", r),
-            ld_iHL_r(ref r) =>
+            ld_iHL_r(r) =>
                 write!(f, "ld (HL), {}", r),
             ld_iHL_n(n) =>
                 write!(f, "ld (HL), ${:02x}", n),
@@ -72,6 +72,21 @@ impl Display for Op {
                 write!(f, "ldh A, (${:02x})", n),
             ld_ion_A(n) =>
                 write!(f, "ldh (${:02x}), A", n),
+            ldd_A_iHL =>
+                write!(f, "ldd A, (HL)"),
+            ldd_iHL_A =>
+                write!(f, "ldd (HL), A"),
+            ldi_A_iHL =>
+                write!(f, "ldi A, (HL)"),
+            ldi_iHL_A =>
+                write!(f, "ldi (HL), A"),
+            
+            ld_rr_nn(rr, nn) =>
+                write!(f, "ld {}, ${:04x}", rr, nn),
+            ld_SP_HL =>
+                write!(f, "ld SP, HL"),
+            ldhl_SP_n(n) =>
+                write!(f, "ldhl SP, ${:04x}", n),
 
             _ => unimplemented!(),
         }
