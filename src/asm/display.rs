@@ -52,16 +52,12 @@ impl Display for Op {
                 write!(f, "ld A, (BC)"),
             ld_A_iDE =>
                 write!(f, "ld A, (DE)"),
-            ld_A_iHL =>
-                write!(f, "ld A, (HL)"),
             ld_A_inn(nn) =>
                 write!(f, "ld A, (${:04x})", nn),
             ld_iBC_A =>
                 write!(f, "ld (BC), A"),
             ld_iDE_A =>
                 write!(f, "ld (DE), A"),
-            ld_iHL_A =>
-                write!(f, "ld (HL), A"),
             ld_inn_A(nn) =>
                 write!(f, "ld (${:04x}), A", nn),
             ld_A_ioC =>

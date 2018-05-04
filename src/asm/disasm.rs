@@ -107,6 +107,118 @@ pub fn parse_op(input: &[u8]) -> IResult<&[u8], Op, u32> {
         // ld D, (HL)
         0x56 => (input, ld_r_iHL(D)),
 
+        // ld E, B
+        0x58 => (input, ld_r_r(E, B)),
+        // ld E, C
+        0x59 => (input, ld_r_r(E, C)),
+        // ld E, D
+        0x5a => (input, ld_r_r(E, D)),
+        // ld E, E
+        0x5b => (input, ld_r_r(E, E)),
+        // ld E, H
+        0x5c => (input, ld_r_r(E, H)),
+        // ld E, L
+        0x5d => (input, ld_r_r(E, L)),
+        // ld E, (HL)
+        0x5e => (input, ld_r_iHL(E)),
+
+        // ld H, B
+        0x60 => (input, ld_r_r(H, B)),
+        // ld H, C
+        0x61 => (input, ld_r_r(H, C)),
+        // ld H, D
+        0x62 => (input, ld_r_r(H, D)),
+        // ld H, E
+        0x63 => (input, ld_r_r(H, E)),
+        // ld H, H
+        0x64 => (input, ld_r_r(H, H)),
+        // ld H, L
+        0x65 => (input, ld_r_r(H, L)),
+        // ld H, (HL)
+        0x66 => (input, ld_r_iHL(H)),
+
+        // ld L, B
+        0x68 => (input, ld_r_r(L, B)),
+        // ld L, C
+        0x69 => (input, ld_r_r(L, C)),
+        // ld L, D
+        0x6a => (input, ld_r_r(L, D)),
+        // ld L, E
+        0x6b => (input, ld_r_r(L, E)),
+        // ld L, H
+        0x6c => (input, ld_r_r(L, H)),
+        // ld L, L
+        0x6d => (input, ld_r_r(L, L)),
+        // ld L, (HL)
+        0x6e => (input, ld_r_iHL(L)),
+
+        // ld (HL), B
+        0x70 => (input, ld_iHL_r(B)),
+        // ld (HL), C
+        0x71 => (input, ld_iHL_r(C)),
+        // ld (HL), D
+        0x72 => (input, ld_iHL_r(D)),
+        // ld (HL), E
+        0x73 => (input, ld_iHL_r(E)),
+        // ld (HL), H
+        0x74 => (input, ld_iHL_r(H)),
+        // ld (HL), L
+        0x75 => (input, ld_iHL_r(L)),
+        // ld (HL), n
+        0x36 => {
+            let (input, value) = try_parse!(input, le_u8);
+            (input, ld_iHL_n(value))
+        },
+
+        // ld A, (BC)
+        0x0a => (input, ld_A_iBC),
+        // ld A, (DE)
+        0x1a => (input, ld_A_iDE),
+        // ld A, (nn)
+        0xfa => {
+            let (input, value) = try_parse!(input, le_u16);
+            (input, ld_A_inn(value))
+        },
+        // ld A, n
+        0x3e => {
+            let (input, value) = try_parse!(input, le_u8);
+            (input, ld_r_n(A, value))
+        },
+
+        // ld (BC), A
+        0x02 => (input, ld_iBC_A),
+        // ld (DE), A
+        0x12 => (input, ld_iDE_A),
+        // ld (nn), A
+        0xea => {
+            let (input, value) = try_parse!(input, le_u16);
+            (input, ld_inn_A(value))
+        },
+        
+        // ld A, (C)
+        0xf2 => (input, ld_A_ioC),
+        // ld (C), A
+        0xe2 => (input, ld_ioC_A),
+        // ldh A, (n)
+        0xf0 => {
+            let (input, value) = try_parse!(input, le_u8);
+            (input, ld_A_ion(value))
+        },
+        // ldh (n), A
+        0xe0 => {
+            let (input, value) = try_parse!(input, le_u8);
+            (input, ld_ion_A(value))
+        },
+
+        // ldd A, (HL)
+        0x3a => (input, ldd_A_iHL),
+        // ldd (HL), A
+        0x32 => (input, ldd_iHL_A),
+        // ldi A, (HL)
+        0x2a => (input, ldi_A_iHL),
+        // ldi (HL), A
+        0x22 => (input, ldi_iHL_A),
+
         // ld BC, nn
         0x01 => {
             let (input, value) = try_parse!(input, le_u16);
@@ -127,6 +239,36 @@ pub fn parse_op(input: &[u8]) -> IResult<&[u8], Op, u32> {
             let (input, value) = try_parse!(input, le_u16);
             (input, ld_rr_nn(SP, value))
         },
+        // ld SP, HL
+        0xf9 => (input, ld_SP_HL),
+        // ldhl SP, n
+        0xf8 => {
+            let (input, value) = try_parse!(input, le_i8);
+            (input, ldhl_SP_n(value))
+        },
+        // ld (nn), SP
+        0x08 => {
+            let (input, value) = try_parse!(input, le_u16);
+            (input, ld_inn_SP(value))
+        },
+
+        // push AF
+        0xf5 => (input, push(AF)),
+        // push BC
+        0xc5 => (input, push(BC)),
+        // push DE
+        0xd5 => (input, push(DE)),
+        // push HL
+        0xe5 => (input, push(HL)),
+
+        // pop AF
+        0xf1 => (input, pop(AF)),
+        // pop BC
+        0xc1 => (input, pop(BC)),
+        // pop DE
+        0xd1 => (input, pop(DE)),
+        // pop HL
+        0xe1 => (input, pop(HL)),
 
         _ => unimplemented!(),
     };

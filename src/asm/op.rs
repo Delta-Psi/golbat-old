@@ -43,16 +43,12 @@ pub enum Op {
     ld_A_iBC,
     /// Load address at DE to A
     ld_A_iDE,
-    /// Load address at HL to A
-    ld_A_iHL,
     /// Load address to A
     ld_A_inn(u16),
     /// Load A to address at BC
     ld_iBC_A,
     /// Load A to address at DE
     ld_iDE_A,
-    /// Load A to address at HL
-    ld_iHL_A,
     /// Load A to address
     ld_inn_A(u16),
     /// Load IO port C (FF00+C) to A
