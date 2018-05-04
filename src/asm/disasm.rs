@@ -424,6 +424,62 @@ pub fn parse_op(input: &[u8]) -> IResult<&[u8], Op, u32> {
             (input, xor_n(value))
         },
 
+        // cp A
+        0xbf => (input, cp_r(A)),
+        // cp B
+        0xb8 => (input, cp_r(B)),
+        // cp C
+        0xb9 => (input, cp_r(C)),
+        // cp D
+        0xba => (input, cp_r(D)),
+        // cp E
+        0xbb => (input, cp_r(E)),
+        // cp H
+        0xbc => (input, cp_r(H)),
+        // cp L
+        0xbd => (input, cp_r(L)),
+        // cp (HL)
+        0xbe => (input, cp_iHL),
+        // cp n
+        0xfe => {
+            let (input, value) = try_parse!(input, le_u8);
+            (input, cp_n(value))
+        },
+
+        // inc A
+        0x3c => (input, inc_r(A)),
+        // inc B
+        0x04 => (input, inc_r(B)),
+        // inc C
+        0x0c => (input, inc_r(C)),
+        // inc D
+        0x14 => (input, inc_r(D)),
+        // inc E
+        0x1c => (input, inc_r(E)),
+        // inc H
+        0x24 => (input, inc_r(H)),
+        // inc L
+        0x2c => (input, inc_r(L)),
+        // inc (HL)
+        0x34 => (input, inc_iHL),
+
+        // dec A
+        0x3d => (input, dec_r(A)),
+        // dec B
+        0x05 => (input, dec_r(B)),
+        // dec C
+        0x0d => (input, dec_r(C)),
+        // dec D
+        0x15 => (input, dec_r(D)),
+        // dec E
+        0x1d => (input, dec_r(E)),
+        // dec H
+        0x25 => (input, dec_r(H)),
+        // dec L
+        0x2d => (input, dec_r(L)),
+        // dec (HL)
+        0x35 => (input, dec_iHL),
+
         _ => unimplemented!(),
     };
     IResult::Done(input, result)
