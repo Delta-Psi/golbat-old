@@ -83,6 +83,12 @@ impl Display for Op {
                 write!(f, "ld SP, HL"),
             ldhl_SP_n(n) =>
                 write!(f, "ldhl SP, ${:04x}", n),
+            ld_inn_SP(nn) =>
+                write!(f, "ld (${:04x}), SP", nn),
+            push(rr) =>
+                write!(f, "push {}", rr),
+            pop(rr) =>
+                write!(f, "push {}", rr),
 
             _ => unimplemented!(),
         }
