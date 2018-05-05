@@ -17,7 +17,7 @@ pub fn run_op<M: Mapper>(rg: &mut Registers, m: &mut M, op: Op) -> Option<u8> {
             Some(4)
         },
         ld_r_iHL(r) => {
-            rg[r] = m[rg.get_hl()];
+            rg[r] = m.read_u8(rg.get_hl());
             Some(8)
         },
 
