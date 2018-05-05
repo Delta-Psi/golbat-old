@@ -150,7 +150,7 @@ pub enum Op {
     /// Add 16-bit register to HL
     add_HL_rr(Reg16),
     /// Add 8-bit value to SP
-    add_SP_n(u8),
+    add_SP_n(i8),
     /// Increment 16-bit register
     inc_rr(Reg16),
     /// Decrement 16-bit register
@@ -195,7 +195,7 @@ pub enum Op {
     /// Rotate left address at HL
     rlc_iHL,
     /// Rotate left 8-bit register through carry flag
-    rl(Reg8),
+    rl_r(Reg8),
     /// Rotate left address at HL through carry flag
     rl_iHL,
     /// Rotate right 8-bit register

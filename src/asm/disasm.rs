@@ -480,7 +480,478 @@ pub fn parse_op(input: &[u8]) -> IResult<&[u8], Op, u32> {
         // dec (HL)
         0x35 => (input, dec_iHL),
 
-        _ => unimplemented!(),
+        // add HL, BC
+        0x09 => (input, add_HL_rr(BC)),
+        // add HL, DE
+        0x19 => (input, add_HL_rr(DE)),
+        // add HL, HL
+        0x29 => (input, add_HL_rr(HL)),
+        // add HL, SP
+        0x39 => (input, add_HL_rr(SP)),
+        // add SP, n
+        0xe8 => {
+            let (input, value) = try_parse!(input, le_i8);
+            (input, add_SP_n(value))
+        },
+        
+        // inc BC
+        0x03 => (input, inc_rr(BC)),
+        // inc DE
+        0x13 => (input, inc_rr(DE)),
+        // inc HL
+        0x23 => (input, inc_rr(HL)),
+        // inc SP
+        0x33 => (input, inc_rr(SP)),
+
+        // dec BC
+        0x0b => (input, dec_rr(BC)),
+        // dec DE
+        0x1b => (input, dec_rr(DE)),
+        // dec HL
+        0x2b => (input, dec_rr(HL)),
+        // dec SP
+        0x3b => (input, dec_rr(SP)),
+
+        // daa
+        0x27 => (input, daa),
+        // cpl
+        0x2f => (input, cpl),
+        // ccf
+        0x3f => (input, ccf),
+        // scf
+        0x37 => (input, scf),
+        // nop
+        0x00 => (input, nop),
+        // halt
+        0x76 => (input, halt),
+        // stop
+        0x10 => {
+            let (input, op) = try_parse!(input, le_u8);
+            if op == 0x00 {
+                (input, stop)
+            } else {
+                return IResult::Error(ErrorKind::Custom(1))
+            }
+        },
+        // di
+        0xf3 => (input, di),
+        // ei
+        0xfb => (input, ei),
+
+        // rlca
+        0x07 => (input, rlca),
+        // rla
+        0x17 => (input, rla),
+        // rrca
+        0x0f => (input, rrca),
+        // rra
+        0x1f => (input, rra),
+
+        // jp nn
+        0xc3 => {
+            let (input, offset) = try_parse!(input, le_u16);
+            (input, jp(offset))
+        },
+        // jp NZ, nn
+        0xc2 => {
+            let (input, offset) = try_parse!(input, le_u16);
+            (input, jp_NZ(offset))
+        },
+        // jp Z, nn
+        0xca => {
+            let (input, offset) = try_parse!(input, le_u16);
+            (input, jp_Z(offset))
+        },
+        // jp NC, nn
+        0xd2 => {
+            let (input, offset) = try_parse!(input, le_u16);
+            (input, jp_NC(offset))
+        },
+        // jp C, nn
+        0xda => {
+            let (input, offset) = try_parse!(input, le_u16);
+            (input, jp_C(offset))
+        },
+        // jp (HL)
+        0xe9 => (input, jp_iHL),
+        
+        // jr n
+        0x18 => {
+            let (input, offset) = try_parse!(input, le_i8);
+            (input, jr(offset))
+        },
+        // jr NZ, n
+        0x20 => {
+            let (input, offset) = try_parse!(input, le_i8);
+            (input, jr_NZ(offset))
+        },
+        // jr Z, n
+        0x28 => {
+            let (input, offset) = try_parse!(input, le_i8);
+            (input, jr_Z(offset))
+        },
+        // jr NC, n
+        0x30 => {
+            let (input, offset) = try_parse!(input, le_i8);
+            (input, jr_NC(offset))
+        },
+        // jr C, n
+        0x38 => {
+            let (input, offset) = try_parse!(input, le_i8);
+            (input, jr_C(offset))
+        },
+
+        // call nn
+        0xcd => {
+            let (input, offset) = try_parse!(input, le_u16);
+            (input, call(offset))
+        },
+        // call NZ, nn
+        0xc4 => {
+            let (input, offset) = try_parse!(input, le_u16);
+            (input, call_NZ(offset))
+        },
+        // call Z, nn
+        0xcc => {
+            let (input, offset) = try_parse!(input, le_u16);
+            (input, call_Z(offset))
+        },
+        // call NC, nn
+        0xd4 => {
+            let (input, offset) = try_parse!(input, le_u16);
+            (input, call_NC(offset))
+        },
+        // call C, nn
+        0xdc => {
+            let (input, offset) = try_parse!(input, le_u16);
+            (input, call_C(offset))
+        },
+
+        // rst 00h
+        0xc7 => (input, rst_00),
+        // rst 08h
+        0xcf => (input, rst_08),
+        // rst 10h
+        0xd7 => (input, rst_10),
+        // rst 18h
+        0xdf => (input, rst_18),
+        // rst 20h
+        0xe7 => (input, rst_20),
+        // rst 28h
+        0xef => (input, rst_28),
+        // rst 30h
+        0xf7 => (input, rst_30),
+        // rst 38h
+        0xff => (input, rst_38),
+
+        // ret
+        0xc9 => (input, ret),
+        // ret NZ
+        0xc0 => (input, ret_NZ),
+        // ret Z
+        0xc8 => (input, ret_Z),
+        // ret NC 
+        0xd0 => (input, ret_NC),
+        // ret C
+        0xd8 => (input, ret_C),
+        // reti
+        0xd9 => (input, reti),
+        
+        0xcb => try_parse!(input, parse_cb),
+
+        _ => panic!("unknown opcode"),
     };
+    IResult::Done(input, result)
+}
+
+fn parse_cb(input: &[u8]) -> IResult<&[u8], Op, u32> {
+            let (input, op) = try_parse!(input, le_u8);
+            let (input, result) = match op {
+                // swap A
+                0x37 => (input, swap_r(A)),
+                // swap B
+                0x30 => (input, swap_r(B)),
+                // swap C
+                0x31 => (input, swap_r(C)),
+                // swap D
+                0x32 => (input, swap_r(D)),
+                // swap E
+                0x33 => (input, swap_r(E)),
+                // swap H
+                0x34 => (input, swap_r(H)),
+                // swap L
+                0x35 => (input, swap_r(L)),
+                // swap (HL)
+                0x36 => (input, swap_iHL),
+
+                // rlc A
+                0x07 => (input, rlc_r(A)),
+                // rlc B
+                0x00 => (input, rlc_r(B)),
+                // rlc C
+                0x01 => (input, rlc_r(C)),
+                // rlc D
+                0x02 => (input, rlc_r(D)),
+                // rlc E
+                0x03 => (input, rlc_r(E)),
+                // rlc H
+                0x04 => (input, rlc_r(H)),
+                // rlc L
+                0x05 => (input, rlc_r(L)),
+                // rlc (HL)
+                0x06 => (input, rlc_iHL),
+
+                // rl A
+                0x17 => (input, rl_r(A)),
+                // rl B
+                0x10 => (input, rl_r(B)),
+                // rl C
+                0x11 => (input, rl_r(C)),
+                // rl D
+                0x12 => (input, rl_r(D)),
+                // rl E
+                0x13 => (input, rl_r(E)),
+                // rl H
+                0x14 => (input, rl_r(H)),
+                // rl L
+                0x15 => (input, rl_r(L)),
+                // rl (HL)
+                0x16 => (input, rl_iHL),
+
+                // rrc A
+                0x0f => (input, rrc_r(A)),
+                // rrc B
+                0x08 => (input, rrc_r(B)),
+                // rrc C
+                0x09 => (input, rrc_r(C)),
+                // rrc D
+                0x0a => (input, rrc_r(D)),
+                // rrc E
+                0x0b => (input, rrc_r(E)),
+                // rrc H
+                0x0c => (input, rrc_r(H)),
+                // rrc L
+                0x0d => (input, rrc_r(H)),
+                // rrc (HL)
+                0x0e => (input, rrc_iHL),
+
+                // rr A
+                0x1f => (input, rr_r(A)),
+                // rr B
+                0x18 => (input, rr_r(B)),
+                // rr C
+                0x19 => (input, rr_r(C)),
+                // rr D
+                0x1a => (input, rr_r(D)),
+                // rr E
+                0x1b => (input, rr_r(E)),
+                // rr H
+                0x1c => (input, rr_r(H)),
+                // rr L
+                0x1d => (input, rr_r(L)),
+                // rr (HI)
+                0x1e => (input, rr_iHL),
+
+                // sla A
+                0x27 => (input, sla_r(A)),
+                // sla B
+                0x20 => (input, sla_r(B)),
+                // sla C
+                0x21 => (input, sla_r(C)),
+                // sla D
+                0x22 => (input, sla_r(D)),
+                // sla E
+                0x23 => (input, sla_r(E)),
+                // sla H
+                0x24 => (input, sla_r(H)),
+                // sla L
+                0x25 => (input, sla_r(L)),
+                // sla (HL)
+                0x26 => (input, sla_iHL),
+
+                // sra A
+                0x2f => (input, sra_r(A)),
+                // sra B
+                0x28 => (input, sra_r(B)),
+                // sra C
+                0x29 => (input, sra_r(C)),
+                // sra D
+                0x2a => (input, sra_r(D)),
+                // sra E
+                0x2b => (input, sra_r(E)),
+                // sra H
+                0x2c => (input, sra_r(H)),
+                // sra L
+                0x2d => (input, sra_r(L)),
+                // sra (HL)
+                0x2e => (input, sra_iHL),
+
+                // srl A
+                0x3f => (input, srl_r(A)),
+                // srl B
+                0x38 => (input, srl_r(B)),
+                // srl C
+                0x39 => (input, srl_r(C)),
+                // srl D
+                0x3a => (input, srl_r(D)),
+                // srl E
+                0x3b => (input, srl_r(E)),
+                // srl H
+                0x3c => (input, srl_r(H)),
+                // srl L
+                0x3d => (input, srl_r(L)),
+                // srl (HL)
+                0x3e => (input, srl_iHL),
+
+                // bit b, A
+                0x47 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, bit_r(bit, A))
+                },
+                // bit b, B
+                0x40 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, bit_r(bit, B))
+                },
+                // bit b, C
+                0x41 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, bit_r(bit, C))
+                },
+                // bit b, D
+                0x42 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, bit_r(bit, D))
+                },
+                // bit b, E
+                0x43 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, bit_r(bit, E))
+                },
+                // bit b, H
+                0x44 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, bit_r(bit, H))
+                },
+                // bit b, L
+                0x45 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, bit_r(bit, L))
+                },
+                // bit b, (HL)
+                0x46 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, bit_iHL(bit))
+                },
+
+                // set b, A
+                0xc7 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, set_r(bit, A))
+                },
+                // set b, B
+                0xc0 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, set_r(bit, B))
+                },
+                // set b, C
+                0xc1 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, set_r(bit, C))
+                },
+                // set b, D
+                0xc2 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, set_r(bit, D))
+                },
+                // set b, E
+                0xc3 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, set_r(bit, E))
+                },
+                // set b, H
+                0xc4 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, set_r(bit, H))
+                },
+                // set b, L
+                0xc5 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, set_r(bit, L))
+                },
+                // set b, (HL)
+                0xc6 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, set_iHL(bit))
+                },
+                
+                // res b, A
+                0x87 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, res_r(bit, A))
+                },
+                // res b, B
+                0x80 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, res_r(bit, B))
+                },
+                // res b, C
+                0x81 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, res_r(bit, C))
+                },
+                // res b, D
+                0x82 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, res_r(bit, D))
+                },
+                // res b, E
+                0x83 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, res_r(bit, E))
+                },
+                // res b, H
+                0x84 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, res_r(bit, H))
+                },
+                // res b, L
+                0x85 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, res_r(bit, L))
+                },
+                // res b, (HL)
+                0x86 => {
+                    let (input, bit) = try_parse!(input, le_u8);
+                    assert!(bit < 8);
+                    (input, res_iHL(bit))
+                },
+
+                _ => panic!("unknown CB-opcode"),
+                //_ => return IResult::Error(ErrorKind::Custom(1)),
+            };
     IResult::Done(input, result)
 }
