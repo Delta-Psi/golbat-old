@@ -3,9 +3,13 @@ pub mod asm;
 bitflags! {
     #[derive(Default)]
     pub struct Flags: u8 {
+        /// Zero flag
         const Z = 0b1000_0000;
+        /// Subtract flg
         const N = 0b0100_0000;
+        /// Half carry flag
         const H = 0b0010_0000;
+        /// Carry flag
         const C = 0b0001_0000;
     }
 }
