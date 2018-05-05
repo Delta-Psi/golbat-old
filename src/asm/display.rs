@@ -90,6 +90,62 @@ impl Display for Op {
             pop(rr) =>
                 write!(f, "push {}", rr),
 
+            add_A_r(r) =>
+                write!(f, "add A, {}", r),
+            add_A_iHL =>
+                write!(f, "add A, (HL)"),
+            add_A_n(n) =>
+                write!(f, "add A, ${:02x}", n),
+                
+            adc_A_r(r) =>
+                write!(f, "adc A, {}", r),
+            adc_A_iHL =>
+                write!(f, "adc A, (HL)"),
+            adc_A_n(n) =>
+                write!(f, "adc A, ${:02x}", n),
+
+            sub_r(r) =>
+                write!(f, "sub {}", r),
+            sub_iHL =>
+                write!(f, "sub (HL)"),
+            sub_n(n) =>
+                write!(f, "sub ${:02x}", n),
+
+            sbc_A_r(r) =>
+                write!(f, "sbc A, {}", r),
+            sbc_A_iHL =>
+                write!(f, "sbc A, (HL)"),
+            sbc_A_n(n) =>
+                write!(f, "sbc A, ${:02x}", n),
+
+            and_r(r) =>
+                write!(f, "and {}", r),
+            and_iHL =>
+                write!(f, "and (HL)"),
+            and_n(n) =>
+                write!(f, "and ${:02x}", n),
+
+            or_r(r) =>
+                write!(f, "or {}", r),
+            or_iHL =>
+                write!(f, "or (HL)"),
+            or_n(n) =>
+                write!(f, "or ${:02x}", n),
+
+            xor_r(r) =>
+                write!(f, "xor {}", r),
+            xor_iHL =>
+                write!(f, "xor (HL)"),
+            xor_n(n) =>
+                write!(f, "xor ${:02x}", n),
+
+            cp_r(r) =>
+                write!(f, "cp {}", r),
+            cp_iHL =>
+                write!(f, "cp (HL)"),
+            cp_n(n) =>
+                write!(f, "cp ${:02x}", n),
+
             _ => unimplemented!(),
         }
     }
