@@ -8,6 +8,7 @@ use cpu::MemoryMap;
 #[derive(Debug)]
 pub enum ParseError {
     UnknownOpcode(Vec<u8>),
+    InvalidBitValue(u8),
 }
 
 /// Attempts to disassemble the instruction at the current program counter. Will return the
@@ -543,299 +544,341 @@ pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
     })
 }
 
-fn parse_cb<M: MemoryMap>(_m: &M, _pc: u16) -> Result<(Op, u16), ParseError> {
-    unimplemented!()
-}
-
-/*
 fn parse_cb<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
-    let op = m[pc];
+    let op = m.read_u8(pc);
 
             Ok(match op {
                 // swap A
-                0x37 => (input, swap_r(A)),
+                0x37 => (swap_r(A), pc+1),
                 // swap B
-                0x30 => (input, swap_r(B)),
+                0x30 => (swap_r(B), pc+1),
                 // swap C
-                0x31 => (input, swap_r(C)),
+                0x31 => (swap_r(C), pc+1),
                 // swap D
-                0x32 => (input, swap_r(D)),
+                0x32 => (swap_r(D), pc+1),
                 // swap E
-                0x33 => (input, swap_r(E)),
+                0x33 => (swap_r(E), pc+1),
                 // swap H
-                0x34 => (input, swap_r(H)),
+                0x34 => (swap_r(H), pc+1),
                 // swap L
-                0x35 => (input, swap_r(L)),
+                0x35 => (swap_r(L), pc+1),
                 // swap (HL)
-                0x36 => (input, swap_iHL),
+                0x36 => (swap_iHL, pc+1),
 
                 // rlc A
-                0x07 => (input, rlc_r(A)),
+                0x07 => (rlc_r(A), pc+1),
                 // rlc B
-                0x00 => (input, rlc_r(B)),
+                0x00 => (rlc_r(B), pc+1),
                 // rlc C
-                0x01 => (input, rlc_r(C)),
+                0x01 => (rlc_r(C), pc+1),
                 // rlc D
-                0x02 => (input, rlc_r(D)),
+                0x02 => (rlc_r(D), pc+1),
                 // rlc E
-                0x03 => (input, rlc_r(E)),
+                0x03 => (rlc_r(E), pc+1),
                 // rlc H
-                0x04 => (input, rlc_r(H)),
+                0x04 => (rlc_r(H), pc+1),
                 // rlc L
-                0x05 => (input, rlc_r(L)),
+                0x05 => (rlc_r(L), pc+1),
                 // rlc (HL)
-                0x06 => (input, rlc_iHL),
+                0x06 => (rlc_iHL, pc+1),
 
                 // rl A
-                0x17 => (input, rl_r(A)),
+                0x17 => (rl_r(A), pc+1),
                 // rl B
-                0x10 => (input, rl_r(B)),
+                0x10 => (rl_r(B), pc+1),
                 // rl C
-                0x11 => (input, rl_r(C)),
+                0x11 => (rl_r(C), pc+1),
                 // rl D
-                0x12 => (input, rl_r(D)),
+                0x12 => (rl_r(D), pc+1),
                 // rl E
-                0x13 => (input, rl_r(E)),
+                0x13 => (rl_r(E), pc+1),
                 // rl H
-                0x14 => (input, rl_r(H)),
+                0x14 => (rl_r(H), pc+1),
                 // rl L
-                0x15 => (input, rl_r(L)),
+                0x15 => (rl_r(L), pc+1),
                 // rl (HL)
-                0x16 => (input, rl_iHL),
+                0x16 => (rl_iHL, pc+1),
 
                 // rrc A
-                0x0f => (input, rrc_r(A)),
+                0x0f => (rrc_r(A), pc+1),
                 // rrc B
-                0x08 => (input, rrc_r(B)),
+                0x08 => (rrc_r(B), pc+1),
                 // rrc C
-                0x09 => (input, rrc_r(C)),
+                0x09 => (rrc_r(C), pc+1),
                 // rrc D
-                0x0a => (input, rrc_r(D)),
+                0x0a => (rrc_r(D), pc+1),
                 // rrc E
-                0x0b => (input, rrc_r(E)),
+                0x0b => (rrc_r(E), pc+1),
                 // rrc H
-                0x0c => (input, rrc_r(H)),
+                0x0c => (rrc_r(H), pc+1),
                 // rrc L
-                0x0d => (input, rrc_r(H)),
+                0x0d => (rrc_r(H), pc+1),
                 // rrc (HL)
-                0x0e => (input, rrc_iHL),
+                0x0e => (rrc_iHL, pc+1),
 
                 // rr A
-                0x1f => (input, rr_r(A)),
+                0x1f => (rr_r(A), pc+1),
                 // rr B
-                0x18 => (input, rr_r(B)),
+                0x18 => (rr_r(B), pc+1),
                 // rr C
-                0x19 => (input, rr_r(C)),
+                0x19 => (rr_r(C), pc+1),
                 // rr D
-                0x1a => (input, rr_r(D)),
+                0x1a => (rr_r(D), pc+1),
                 // rr E
-                0x1b => (input, rr_r(E)),
+                0x1b => (rr_r(E), pc+1),
                 // rr H
-                0x1c => (input, rr_r(H)),
+                0x1c => (rr_r(H), pc+1),
                 // rr L
-                0x1d => (input, rr_r(L)),
+                0x1d => (rr_r(L), pc+1),
                 // rr (HI)
-                0x1e => (input, rr_iHL),
+                0x1e => (rr_iHL, pc+1),
 
                 // sla A
-                0x27 => (input, sla_r(A)),
+                0x27 => (sla_r(A), pc+1),
                 // sla B
-                0x20 => (input, sla_r(B)),
+                0x20 => (sla_r(B), pc+1),
                 // sla C
-                0x21 => (input, sla_r(C)),
+                0x21 => (sla_r(C), pc+1),
                 // sla D
-                0x22 => (input, sla_r(D)),
+                0x22 => (sla_r(D), pc+1),
                 // sla E
-                0x23 => (input, sla_r(E)),
+                0x23 => (sla_r(E), pc+1),
                 // sla H
-                0x24 => (input, sla_r(H)),
+                0x24 => (sla_r(H), pc+1),
                 // sla L
-                0x25 => (input, sla_r(L)),
+                0x25 => (sla_r(L), pc+1),
                 // sla (HL)
-                0x26 => (input, sla_iHL),
+                0x26 => (sla_iHL, pc+1),
 
                 // sra A
-                0x2f => (input, sra_r(A)),
+                0x2f => (sra_r(A), pc+1),
                 // sra B
-                0x28 => (input, sra_r(B)),
+                0x28 => (sra_r(B), pc+1),
                 // sra C
-                0x29 => (input, sra_r(C)),
+                0x29 => (sra_r(C), pc+1),
                 // sra D
-                0x2a => (input, sra_r(D)),
+                0x2a => (sra_r(D), pc+1),
                 // sra E
-                0x2b => (input, sra_r(E)),
+                0x2b => (sra_r(E), pc+1),
                 // sra H
-                0x2c => (input, sra_r(H)),
+                0x2c => (sra_r(H), pc+1),
                 // sra L
-                0x2d => (input, sra_r(L)),
+                0x2d => (sra_r(L), pc+1),
                 // sra (HL)
-                0x2e => (input, sra_iHL),
+                0x2e => (sra_iHL, pc+1),
 
                 // srl A
-                0x3f => (input, srl_r(A)),
+                0x3f => (srl_r(A), pc+1),
                 // srl B
-                0x38 => (input, srl_r(B)),
+                0x38 => (srl_r(B), pc+1),
                 // srl C
-                0x39 => (input, srl_r(C)),
+                0x39 => (srl_r(C), pc+1),
                 // srl D
-                0x3a => (input, srl_r(D)),
+                0x3a => (srl_r(D), pc+1),
                 // srl E
-                0x3b => (input, srl_r(E)),
+                0x3b => (srl_r(E), pc+1),
                 // srl H
-                0x3c => (input, srl_r(H)),
+                0x3c => (srl_r(H), pc+1),
                 // srl L
-                0x3d => (input, srl_r(L)),
+                0x3d => (srl_r(L), pc+1),
                 // srl (HL)
-                0x3e => (input, srl_iHL),
+                0x3e => (srl_iHL, pc+1),
 
                 // bit b, A
                 0x47 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, bit_r(bit, A))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (bit_r(bit, A), pc+2)
                 },
                 // bit b, B
                 0x40 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, bit_r(bit, B))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (bit_r(bit, B), pc+2)
                 },
                 // bit b, C
                 0x41 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, bit_r(bit, C))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (bit_r(bit, C), pc+2)
                 },
                 // bit b, D
                 0x42 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, bit_r(bit, D))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (bit_r(bit, D), pc+2)
                 },
                 // bit b, E
                 0x43 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, bit_r(bit, E))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (bit_r(bit, E), pc+2)
                 },
                 // bit b, H
                 0x44 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, bit_r(bit, H))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (bit_r(bit, H), pc+2)
                 },
                 // bit b, L
                 0x45 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, bit_r(bit, L))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (bit_r(bit, L), pc+2)
                 },
                 // bit b, (HL)
                 0x46 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, bit_iHL(bit))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (bit_iHL(bit), pc+2)
                 },
 
                 // set b, A
                 0xc7 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, set_r(bit, A))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (set_r(bit, A), pc+2)
                 },
                 // set b, B
                 0xc0 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, set_r(bit, B))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (set_r(bit, B), pc+2)
                 },
                 // set b, C
                 0xc1 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, set_r(bit, C))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (set_r(bit, C), pc+2)
                 },
                 // set b, D
                 0xc2 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, set_r(bit, D))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (set_r(bit, D), pc+2)
                 },
                 // set b, E
                 0xc3 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, set_r(bit, E))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (set_r(bit, E), pc+2)
                 },
                 // set b, H
                 0xc4 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, set_r(bit, H))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (set_r(bit, H), pc+2)
                 },
                 // set b, L
                 0xc5 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, set_r(bit, L))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (set_r(bit, L), pc+2)
                 },
                 // set b, (HL)
                 0xc6 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, set_iHL(bit))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (set_iHL(bit), pc+2)
                 },
                 
                 // res b, A
                 0x87 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, res_r(bit, A))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (res_r(bit, A), pc+2)
                 },
                 // res b, B
                 0x80 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, res_r(bit, B))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (res_r(bit, B), pc+2)
                 },
                 // res b, C
                 0x81 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, res_r(bit, C))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (res_r(bit, C), pc+2)
                 },
                 // res b, D
                 0x82 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, res_r(bit, D))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (res_r(bit, D), pc+2)
                 },
                 // res b, E
                 0x83 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, res_r(bit, E))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (res_r(bit, E), pc+2)
                 },
                 // res b, H
                 0x84 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, res_r(bit, H))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (res_r(bit, H), pc+2)
                 },
                 // res b, L
                 0x85 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, res_r(bit, L))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (res_r(bit, L), pc+2)
                 },
                 // res b, (HL)
                 0x86 => {
-                    let (input, bit) = try_parse!(input, le_u8);
-                    assert!(bit < 8);
-                    (input, res_iHL(bit))
+                    let bit = m.read_u8(pc+1);
+                    if bit >= 8 {
+                        return Err(ParseError::InvalidBitValue(bit));
+                    }
+                    (res_iHL(bit), pc+2)
                 },
 
                 op => return Err(ParseError::UnknownOpcode(vec![0xce, op])),
             })
 }
-*/
