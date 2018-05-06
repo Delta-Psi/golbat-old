@@ -4,7 +4,7 @@ mod registers;
 pub use self::registers::{Flags, Registers};
 
 mod mapper;
-pub use self::mapper::Mapper;
+pub use self::mapper::MemoryMap;
 
 mod run;
 pub use self::run::run_op;

@@ -2,6 +2,7 @@ use super::*;
 use self::Op::*;
 use self::op::Reg8::*;
 use self::op::Reg16::*;
+use cpu::MemoryMap;
 
 const DATA: &[(&'static [u8], Op, &'static str)] = &[
     (b"\x06\x65", ld_r_n(B, 0x65), "ld B, $65"),
@@ -55,11 +56,25 @@ const DATA: &[(&'static [u8], Op, &'static str)] = &[
     (b"\x31\x0d\x00", ld_rr_nn(SP, 0x000d), "ld SP, $000d"),
 ];
 
+struct Mapper<'a>(&'a mut [u8]);
+
+impl<'a> MemoryMap for Mapper<'a> {
+    fn read_u8(&self, offset: u16) -> u8 {
+        self.0[offset as usize]
+    }
+
+    fn write_u8(&mut self, offset: u16, value: u8) {
+        self.0[offset as usize] = value
+    }
+}
+
 #[test]
 fn disassembly() {
     for (data, expected, formatted) in DATA.iter() {
-        let result = parse_op(data).to_result().unwrap();
+        let mut data = data.to_vec();
+        let (result, len) = parse_op(&Mapper(&mut data), 0).unwrap();
         assert_eq!(result, *expected);
         assert_eq!(result.to_string(), *formatted);
+        assert_eq!(len as usize, data.len());
     };
 }

@@ -1,6 +1,6 @@
 use super::*;
 use self::asm::Op::*;
-use self::asm::op::Reg8::*;
+use self::asm::Reg8::*;
 
 struct TestMapper(Vec<u8>);
 
@@ -10,7 +10,7 @@ impl TestMapper {
     }
 }
 
-impl Mapper for TestMapper {
+impl MemoryMap for TestMapper {
     fn read_u8(&self, offset: u16) -> u8 {
         self.0[offset as usize]
     }

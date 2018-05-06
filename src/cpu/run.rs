@@ -1,12 +1,10 @@
-use super::asm::op;
-use self::op::Op::{self, *};
-//use self::op::Reg8::*;
-//use self::op::Reg16::*;
+use super::asm;
+use self::asm::Op::{self, *};
 
-use super::{Registers, Mapper};
+use super::{Registers, MemoryMap};
 
 /// Runs a given operation and returns the CPU cycles.
-pub fn run_op<M: Mapper>(rg: &mut Registers, m: &mut M, op: Op) -> Option<u8> {
+pub fn run_op<M: MemoryMap>(rg: &mut Registers, m: &mut M, op: Op) -> Option<u8> {
     match op {
         // load commands
         // 8-bit value to register
