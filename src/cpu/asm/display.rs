@@ -61,13 +61,13 @@ impl Display for Op {
             ld_inn_A(nn) =>
                 write!(f, "ld (${:04x}), A", nn),
             ld_A_ioC =>
-                write!(f, "ld A, (C)"),
+                write!(f, "ld A, ($ff00+C)"),
             ld_ioC_A =>
-                write!(f, "ld (C), A"),
+                write!(f, "ld ($ff00+C), A"),
             ld_A_ion(n) =>
-                write!(f, "ldh A, (${:02x})", n),
+                write!(f, "ldh A, ($ff00+${:02x})", n),
             ld_ion_A(n) =>
-                write!(f, "ldh (${:02x}), A", n),
+                write!(f, "ldh ($ff00+${:02x}), A", n),
             ldd_A_iHL =>
                 write!(f, "ldd A, (HL)"),
             ldd_iHL_A =>

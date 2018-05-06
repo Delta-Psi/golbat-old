@@ -26,12 +26,12 @@ pub fn run_op<M: Mapper>(rg: &mut Registers, m: &mut M, op: Op) -> Option<u8> {
         },
         // 8-bit register to address at HL
         ld_iHL_r(r) => {
-            m.write_u8(tg.get_hl(), rg[r]);
+            m.write_u8(rg.get_hl(), rg[r]);
             Some(8)
         },
         // 8-bit value to address at HL
         ld_iHL_n(n) => {
-            m.write_u8(tg.get_hl(), n);
+            m.write_u8(rg.get_hl(), n);
             Some(12)
         },
 
