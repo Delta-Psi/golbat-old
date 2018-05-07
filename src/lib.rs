@@ -1,6 +1,6 @@
 #[macro_use]
-extern crate nom;
-#[macro_use]
 extern crate bitflags;
+#[macro_use]
+extern crate nom;
 
 pub mod cpu;

@@ -1,4 +1,4 @@
-use super::asm::{Reg8, Reg16};
+use super::asm::{Reg16, Reg8};
 use std::ops::{Index, IndexMut};
 
 bitflags! {
@@ -166,4 +166,3 @@ fn registers() {
     registers.l = 0xb0;
     assert_eq!(registers.get_hl(), 0xbeb0);
 }
-

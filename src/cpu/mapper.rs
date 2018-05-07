@@ -11,7 +11,7 @@ pub trait MemoryMap {
     }
 
     fn read_u16(&self, offset: u16) -> u16 {
-        ((self.read_u8(offset+1) as u16) << 8) | (self.read_u8(offset) as u16)
+        ((self.read_u8(offset + 1) as u16) << 8) | (self.read_u8(offset) as u16)
     }
 
     fn write_u16(&mut self, _offset: u16, _value: u16) {
