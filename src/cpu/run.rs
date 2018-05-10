@@ -1,5 +1,7 @@
 use super::asm;
 use self::asm::Op::{self, *};
+// use self::asm::Reg8::*;
+use self::asm::Reg16::*;
 
 use super::{MemoryMap, Registers, Flags};
 
@@ -34,6 +36,19 @@ pub fn run_op<M: MemoryMap>(rg: &mut Registers, m: &mut M, op: Op) -> Option<u8>
             m.write_u8(rg.get_hl(), n);
             Some(12)
         },
+
+        // 16-bit value to register
+        ld_rr_nn(rr, nn) => {
+            match rr {
+                BC => rg.set_bc(nn),
+                DE => rg.set_de(nn),
+                HL => rg.set_hl(nn),
+                SP => rg.sp = nn,
+                _ => return None,
+            };
+            Some(12)
+        },
+
 
         // arithmetical-logical commands
         // xor 8-bit register with A
