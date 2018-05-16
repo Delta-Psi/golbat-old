@@ -105,6 +105,85 @@ impl Display for Op {
             cp_iHL => write!(f, "cp (HL)"),
             cp_n(n) => write!(f, "cp ${:02x}", n),
 
+            inc_r(r) => write!(f, "inc {}", r),
+            inc_iHL => write!(f, "inc (HL)"),
+            
+            dec_r(r) => write!(f, "dec {}", r),
+            dec_iHL => write!(f, "dec (HL)"),
+            
+            add_HL_rr(rr) => write!(f, "add HL, {}", rr),
+            add_SP_n(n) => write!(f, "add SP, ${:02x}", n),
+            
+            inc_rr(rr) => write!(f, "inc {}", rr),
+            dec_rr(rr) => write!(f, "dec {}", rr),
+
+            swap_r(r) => write!(f, "swap {}", r),
+            swap_iHL => write!(f, "swap (HL)"),
+
+            daa => write!(f, "daa"),
+            cpl => write!(f, "cpl"),
+            ccf => write!(f, "ccf"),
+            scf => write!(f, "scf"),
+            nop => write!(f, "nop"),
+            halt => write!(f, "halt"),
+            stop => write!(f, "stop"),
+            di => write!(f, "di"),
+            ei => write!(f, "ei"),
+
+            rlca => write!(f, "rlca"),
+            rla => write!(f, "rla"),
+            rrca => write!(f, "rrca"),
+            rra => write!(f, "rra"),
+
+            rlc_r(r) => write!(f, "rlc {}", r),
+            rlc_iHL => write!(f, "rlc (HL)"),
+
+            rl_r(r) => write!(f, "rl {}", r),
+            rl_iHL => write!(f, "rl (HL)"),
+
+            rrc_r(r) => write!(f, "rrc {}", r),
+            rrc_iHL => write!(f, "rrc (HL)"),
+
+            rr_r(r) => write!(f, "rr {}", r),
+            rr_iHL => write!(f, "rr (HL)"),
+
+            sla_r(r) => write!(f, "sla {}", r),
+            sla_iHL => write!(f, "sla (HL)"),
+
+            sra_r(r) => write!(f, "sra {}", r),
+            sra_iHL => write!(f, "sra (HL)"),
+
+            srl_r(r) => write!(f, "srl {}", r),
+            srl_iHL => write!(f, "srl (HL)"),
+
+            bit_r(b, r) => write!(f, "bit {}, {}", b, r),
+            bit_iHL(b) => write!(f, "bit {}, (HL)", b),
+
+            set_r(b, r) => write!(f, "set {}, {}", b, r),
+            set_iHL(b) => write!(f, "set {}, (HL)", b),
+
+            res_r(b, r) => write!(f, "res {}, {}", b, r),
+            res_iHL(b) => write!(f, "res {}, (HL)", b),
+
+            jp(nn) => write!(f, "jp ${:04x}", nn),
+            jp_NZ(nn) => write!(f, "jp NZ, ${:04x}", nn),
+            jp_Z(nn) => write!(f, "jp Z, ${:04x}", nn),
+            jp_NC(nn) => write!(f, "jp NC, ${:04x}", nn),
+            jp_C(nn) => write!(f, "jp C, ${:04x}", nn),
+            jp_iHL => write!(f, "jp (HL)"),
+
+            jr(n) => write!(f, "jr ${:02x}", n),
+            jr_NZ(n) => write!(f, "jr NZ, ${:02x}", n),
+            jr_Z(n) => write!(f, "jr Z, ${:02x}", n),
+            jr_NC(n) => write!(f, "jr NC, ${:02x}", n),
+            jr_C(n) => write!(f, "jr C, ${:02x}", n),
+            
+            call(nn) => write!(f, "call ${:04x}", nn),
+            call_NZ(nn) => write!(f, "call NZ, ${:04x}", nn),
+            call_Z(nn) => write!(f, "call Z, ${:04x}", nn),
+            call_NC(nn) => write!(f, "call NC, ${:04x}", nn),
+            call_C(nn) => write!(f, "call C, ${:04x}", nn),
+
             _ => unimplemented!(),
         }
     }
