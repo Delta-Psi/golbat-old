@@ -32,8 +32,8 @@ pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
         // ld L, n
         0x2E => (ld_r_n(L, m.read_u8(pc + 1)), pc + 2),
 
-        // ld A, A
-        0x7F => (ld_r_r(A, A), pc + 1),
+        // ld (HL), A
+        0x77 => (ld_iHL_r(A), pc + 1),
         // ld A, B
         0x78 => (ld_r_r(A, B), pc + 1),
         // ld A, C
@@ -48,9 +48,9 @@ pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
         0x7D => (ld_r_r(A, L), pc + 1),
         // ld A, (HL)
         0x7E => (ld_r_iHL(A), pc + 1),
+        // ld A, A
+        0x7F => (ld_r_r(A, A), pc + 1),
 
-        // ld B, A
-        0x47 => (ld_r_r(B, A), pc + 1),
         // ld B, B
         0x40 => (ld_r_r(B, B), pc + 1),
         // ld B, C
@@ -65,6 +65,8 @@ pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
         0x45 => (ld_r_r(B, L), pc + 1),
         // ld B, (HL)
         0x46 => (ld_r_iHL(B), pc + 1),
+        // ld B, A
+        0x47 => (ld_r_r(B, A), pc + 1),
 
         // ld C, B
         0x48 => (ld_r_r(C, B), pc + 1),
@@ -80,6 +82,8 @@ pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
         0x4D => (ld_r_r(C, L), pc + 1),
         // ld C, (HL)
         0x4E => (ld_r_iHL(C), pc + 1),
+        // ld C, A
+        0x4f => (ld_r_r(C, A), pc + 1),
 
         // ld D, B
         0x50 => (ld_r_r(D, B), pc + 1),
@@ -95,6 +99,8 @@ pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
         0x55 => (ld_r_r(D, L), pc + 1),
         // ld D, (HL)
         0x56 => (ld_r_iHL(D), pc + 1),
+        // ld D, A
+        0x57 => (ld_r_r(D, A), pc + 1),
 
         // ld E, B
         0x58 => (ld_r_r(E, B), pc + 1),
@@ -110,6 +116,8 @@ pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
         0x5d => (ld_r_r(E, L), pc + 1),
         // ld E, (HL)
         0x5e => (ld_r_iHL(E), pc + 1),
+        // ld E, A
+        0x5f => (ld_r_r(E, A), pc + 1),
 
         // ld H, B
         0x60 => (ld_r_r(H, B), pc + 1),
@@ -125,6 +133,8 @@ pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
         0x65 => (ld_r_r(H, L), pc + 1),
         // ld H, (HL)
         0x66 => (ld_r_iHL(H), pc + 1),
+        // ld H, A
+        0x67 => (ld_r_r(H, A), pc + 1),
 
         // ld L, B
         0x68 => (ld_r_r(L, B), pc + 1),
@@ -140,6 +150,8 @@ pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
         0x6d => (ld_r_r(L, L), pc + 1),
         // ld L, (HL)
         0x6e => (ld_r_iHL(L), pc + 1),
+        // ld L, A
+        0x6f => (ld_r_r(L, A), pc + 1),
 
         // ld (HL), B
         0x70 => (ld_iHL_r(B), pc + 1),
@@ -546,7 +558,6 @@ pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
 
 fn parse_cb<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
     let op = m.read_u8(pc);
-    println!("from cb: {:x}", op);
 
     Ok(match op {
         // swap A
@@ -820,6 +831,278 @@ fn parse_cb<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
         0x7e => (bit_iHL(7), pc + 1),
         // bit 7, A
         0x7f => (bit_r(7, A), pc + 1),
+
+        // res 0, B
+        0x80 => (res_r(0, B), pc + 1),
+        // res 0, C
+        0x81 => (res_r(0, C), pc + 1),
+        // res 0, D
+        0x82 => (res_r(0, D), pc + 1),
+        // res 0, E
+        0x83 => (res_r(0, E), pc + 1),
+        // res 0, H
+        0x84 => (res_r(0, H), pc + 1),
+        // res 0, L
+        0x85 => (res_r(0, L), pc + 1),
+        // res 0, (HL)
+        0x86 => (res_iHL(0), pc + 1),
+        // res 0, A
+        0x87 => (res_r(0, A), pc + 1),
+
+        // res 1, B
+        0x88 => (res_r(1, B), pc + 1),
+        // res 1, C
+        0x89 => (res_r(1, C), pc + 1),
+        // res 1, D
+        0x8a => (res_r(1, D), pc + 1),
+        // res 1, E
+        0x8b => (res_r(1, E), pc + 1),
+        // res 1, H
+        0x8c => (res_r(1, H), pc + 1),
+        // res 1, L
+        0x8d => (res_r(1, L), pc + 1),
+        // res 1, (HL)
+        0x8e => (res_iHL(1), pc + 1),
+        // res 1, A
+        0x8f => (res_r(1, A), pc + 1),
+
+        // res 2, B
+        0x90 => (res_r(2, B), pc + 1),
+        // res 2, C
+        0x91 => (res_r(2, C), pc + 1),
+        // res 2, D
+        0x92 => (res_r(2, D), pc + 1),
+        // res 2, E
+        0x93 => (res_r(2, E), pc + 1),
+        // res 2, H
+        0x94 => (res_r(2, H), pc + 1),
+        // res 2, L
+        0x95 => (res_r(2, L), pc + 1),
+        // res 2, (HL)
+        0x96 => (res_iHL(2), pc + 1),
+        // res 2, A
+        0x97 => (res_r(2, A), pc + 1),
+
+        // res 3, B
+        0x98 => (res_r(2, B), pc + 1),
+        // res 3, C
+        0x99 => (res_r(2, C), pc + 1),
+        // res 3, D
+        0x9a => (res_r(2, D), pc + 1),
+        // res 3, E
+        0x9b => (res_r(2, E), pc + 1),
+        // res 3, H
+        0x9c => (res_r(2, H), pc + 1),
+        // res 3, L
+        0x9d => (res_r(2, L), pc + 1),
+        // res 3, (HL)
+        0x9e => (res_iHL(2), pc + 1),
+        // res 3, A
+        0x9f => (res_r(2, A), pc + 1),
+
+        // res 4, B
+        0xa0 => (res_r(4, B), pc + 1),
+        // res 4, C
+        0xa1 => (res_r(4, C), pc + 1),
+        // res 4, D
+        0xa2 => (res_r(4, D), pc + 1),
+        // res 4, E
+        0xa3 => (res_r(4, E), pc + 1),
+        // res 4, H
+        0xa4 => (res_r(4, H), pc + 1),
+        // res 4, L
+        0xa5 => (res_r(4, L), pc + 1),
+        // res 4, (HL)
+        0xa6 => (res_iHL(4), pc + 1),
+        // res 4, A
+        0xa7 => (res_r(4, A), pc + 1),
+
+        // res 5, B
+        0xa8 => (res_r(5, B), pc + 1),
+        // res 5, C
+        0xa9 => (res_r(5, C), pc + 1),
+        // res 5, D
+        0xaa => (res_r(5, D), pc + 1),
+        // res 5, E
+        0xab => (res_r(5, E), pc + 1),
+        // res 5, H
+        0xac => (res_r(5, H), pc + 1),
+        // res 5, L
+        0xad => (res_r(5, L), pc + 1),
+        // res 5, (HL)
+        0xae => (res_iHL(5), pc + 1),
+        // res 5, A
+        0xaf => (res_r(5, A), pc + 1),
+
+        // res 6, B
+        0xb0 => (res_r(6, B), pc + 1),
+        // res 6, C
+        0xb1 => (res_r(6, C), pc + 1),
+        // res 6, D
+        0xb2 => (res_r(6, D), pc + 1),
+        // res 6, E
+        0xb3 => (res_r(6, E), pc + 1),
+        // res 6, H
+        0xb4 => (res_r(6, H), pc + 1),
+        // res 6, L
+        0xb5 => (res_r(6, L), pc + 1),
+        // res 6, (HL)
+        0xb6 => (res_iHL(6), pc + 1),
+        // res 6, A
+        0xb7 => (res_r(6, A), pc + 1),
+
+        // res 7, B
+        0xb8 => (res_r(7, B), pc + 1),
+        // res 7, C
+        0xb9 => (res_r(7, C), pc + 1),
+        // res 7, D
+        0xba => (res_r(7, D), pc + 1),
+        // res 7, E
+        0xbb => (res_r(7, E), pc + 1),
+        // res 7, H
+        0xbc => (res_r(7, H), pc + 1),
+        // res 7, L
+        0xbd => (res_r(7, L), pc + 1),
+        // res 7, (HL)
+        0xbe => (res_iHL(7), pc + 1),
+        // res 7, A
+        0xbf => (res_r(7, A), pc + 1),
+
+        // set 0, B
+        0xc0 => (set_r(0, B), pc + 1),
+        // set 0, C
+        0xc1 => (set_r(0, C), pc + 1),
+        // set 0, D
+        0xc2 => (set_r(0, D), pc + 1),
+        // set 0, E
+        0xc3 => (set_r(0, E), pc + 1),
+        // set 0, H
+        0xc4 => (set_r(0, H), pc + 1),
+        // set 0, L
+        0xc5 => (set_r(0, L), pc + 1),
+        // set 0, (HL)
+        0xc6 => (set_iHL(0), pc + 1),
+        // set 0, A
+        0xc7 => (set_r(0, A), pc + 1),
+
+        // set 1, B
+        0xc8 => (set_r(1, B), pc + 1),
+        // set 1, C
+        0xc9 => (set_r(1, C), pc + 1),
+        // set 1, D
+        0xca => (set_r(1, D), pc + 1),
+        // set 1, E
+        0xcb => (set_r(1, E), pc + 1),
+        // set 1, H
+        0xcc => (set_r(1, H), pc + 1),
+        // set 1, L
+        0xcd => (set_r(1, L), pc + 1),
+        // set 1, (HL)
+        0xce => (set_iHL(1), pc + 1),
+        // set 1, A
+        0xcf => (set_r(1, A), pc + 1),
+
+        // set 2, B
+        0xd0 => (set_r(2, B), pc + 1),
+        // set 2, C
+        0xd1 => (set_r(2, C), pc + 1),
+        // set 2, D
+        0xd2 => (set_r(2, D), pc + 1),
+        // set 2, E
+        0xd3 => (set_r(2, E), pc + 1),
+        // set 2, H
+        0xd4 => (set_r(2, H), pc + 1),
+        // set 2, L
+        0xd5 => (set_r(2, L), pc + 1),
+        // set 2, (HL)
+        0xd6 => (set_iHL(2), pc + 1),
+        // set 2, A
+        0xd7 => (set_r(2, A), pc + 1),
+
+        // set 3, B
+        0xd8 => (set_r(3, B), pc + 1),
+        // set 3, C
+        0xd9 => (set_r(3, C), pc + 1),
+        // set 3, D
+        0xda => (set_r(3, D), pc + 1),
+        // set 3, E
+        0xdb => (set_r(3, E), pc + 1),
+        // set 3, H
+        0xdc => (set_r(3, H), pc + 1),
+        // set 3, L
+        0xdd => (set_r(3, L), pc + 1),
+        // set 3, (HL)
+        0xde => (set_iHL(3), pc + 1),
+        // set 3, A
+        0xdf => (set_r(3, A), pc + 1),
+
+        // set 4, B
+        0xe0 => (set_r(4, B), pc + 1),
+        // set 4, C
+        0xe1 => (set_r(4, C), pc + 1),
+        // set 4, D
+        0xe2 => (set_r(4, D), pc + 1),
+        // set 4, E
+        0xe3 => (set_r(4, E), pc + 1),
+        // set 4, H
+        0xe4 => (set_r(4, H), pc + 1),
+        // set 4, L
+        0xe5 => (set_r(4, L), pc + 1),
+        // set 4, (HL)
+        0xe6 => (set_iHL(4), pc + 1),
+        // set 4, A
+        0xe7 => (set_r(4, A), pc + 1),
+
+        // set 5, B
+        0xe8 => (set_r(5, B), pc + 1),
+        // set 5, C
+        0xe9 => (set_r(5, C), pc + 1),
+        // set 5, D
+        0xea => (set_r(5, D), pc + 1),
+        // set 5, E
+        0xeb => (set_r(5, E), pc + 1),
+        // set 5, H
+        0xec => (set_r(5, H), pc + 1),
+        // set 5, L
+        0xed => (set_r(5, L), pc + 1),
+        // set 5, (HL)
+        0xee => (set_iHL(5), pc + 1),
+        // set 5, A
+        0xef => (set_r(5, A), pc + 1),
+
+        // set 6, B
+        0xf0 => (set_r(6, B), pc + 1),
+        // set 6, C
+        0xf1 => (set_r(6, C), pc + 1),
+        // set 6, D
+        0xf2 => (set_r(6, D), pc + 1),
+        // set 6, E
+        0xf3 => (set_r(6, E), pc + 1),
+        // set 6, H
+        0xf4 => (set_r(6, H), pc + 1),
+        // set 6, L
+        0xf5 => (set_r(6, L), pc + 1),
+        // set 6, (HL)
+        0xf6 => (set_iHL(6), pc + 1),
+        // set 6, A
+        0xf7 => (set_r(6, A), pc + 1),
+
+        // set 7, B
+        0xf8 => (set_r(7, B), pc + 1),
+        // set 7, C
+        0xf9 => (set_r(7, C), pc + 1),
+        // set 7, D
+        0xfa => (set_r(7, D), pc + 1),
+        // set 7, E
+        0xfb => (set_r(7, E), pc + 1),
+        // set 7, H
+        0xfc => (set_r(7, H), pc + 1),
+        // set 7, L
+        0xfd => (set_r(7, L), pc + 1),
+        // set 7, (HL)
+        0xfe => (set_iHL(7), pc + 1),
+        // set 7, A
+        0xff => (set_r(7, A), pc + 1),
 
         op => return Err(ParseError::UnknownOpcode(vec![0xce, op])),
     })

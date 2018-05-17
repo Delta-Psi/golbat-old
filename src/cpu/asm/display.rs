@@ -59,8 +59,8 @@ impl Display for Op {
             ld_inn_A(nn) => write!(f, "ld (${:04x}), A", nn),
             ld_A_ioC => write!(f, "ld A, ($ff00+C)"),
             ld_ioC_A => write!(f, "ld ($ff00+C), A"),
-            ld_A_ion(n) => write!(f, "ldh A, ($ff00+${:02x})", n),
-            ld_ion_A(n) => write!(f, "ldh ($ff00+${:02x}), A", n),
+            ld_A_ion(n) => write!(f, "ld A, ($ff00+${:02x})", n),
+            ld_ion_A(n) => write!(f, "ld ($ff00+${:02x}), A", n),
             ldd_A_iHL => write!(f, "ldd A, (HL)"),
             ldd_iHL_A => write!(f, "ldd (HL), A"),
             ldi_A_iHL => write!(f, "ldi A, (HL)"),
@@ -183,6 +183,13 @@ impl Display for Op {
             call_Z(nn) => write!(f, "call Z, ${:04x}", nn),
             call_NC(nn) => write!(f, "call NC, ${:04x}", nn),
             call_C(nn) => write!(f, "call C, ${:04x}", nn),
+
+            ret => write!(f, "ret"),
+            ret_NZ => write!(f, "ret NZ"),
+            ret_Z => write!(f, "ret Z"),
+            ret_NC => write!(f, "ret NC"),
+            ret_C => write!(f, "ret C"),
+            reti => write!(f, "reti"),
 
             _ => unimplemented!(),
         }
