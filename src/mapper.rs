@@ -1,7 +1,8 @@
 use cpu::MemoryMap;
+use rom::Rom;
 
 pub struct Mapper {
-    pub rom: Vec<u8>,
+    pub rom: Rom,
 
     pub video_ram: Vec<u8>,
     pub switchable_ram: Vec<u8>,
@@ -11,7 +12,7 @@ pub struct Mapper {
 }
 
 impl Mapper {
-    pub fn new(rom: Vec<u8>) -> Mapper {
+    pub fn new(rom: Rom) -> Mapper {
         Mapper {
             rom,
             
@@ -29,7 +30,7 @@ impl MemoryMap for Mapper {
         let offset = offset as usize;
         if offset < 0x8000 {
             // TODO: switchable rom banks
-            self.rom[offset]
+            self.rom.data[offset]
         } else if offset < 0xa000 {
             self.video_ram[offset - 0x8000]
         } else if offset < 0xc000 {
@@ -56,7 +57,7 @@ impl MemoryMap for Mapper {
         let offset = offset as usize;
         if offset < 0x8000 {
             // TODO: switchable rom banks
-            self.rom[offset] = value
+            self.rom.data[offset] = value
         } else if offset < 0xa000 {
             self.video_ram[offset - 0x8000] = value
         } else if offset < 0xc000 {
