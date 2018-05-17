@@ -107,13 +107,13 @@ impl Display for Op {
 
             inc_r(r) => write!(f, "inc {}", r),
             inc_iHL => write!(f, "inc (HL)"),
-            
+
             dec_r(r) => write!(f, "dec {}", r),
             dec_iHL => write!(f, "dec (HL)"),
-            
+
             add_HL_rr(rr) => write!(f, "add HL, {}", rr),
             add_SP_n(n) => write!(f, "add SP, ${:02x}", n),
-            
+
             inc_rr(rr) => write!(f, "inc {}", rr),
             dec_rr(rr) => write!(f, "dec {}", rr),
 
@@ -177,7 +177,7 @@ impl Display for Op {
             jr_Z(n) => write!(f, "jr Z, ${:02x}", n),
             jr_NC(n) => write!(f, "jr NC, ${:02x}", n),
             jr_C(n) => write!(f, "jr C, ${:02x}", n),
-            
+
             call(nn) => write!(f, "call ${:04x}", nn),
             call_NZ(nn) => write!(f, "call NZ, ${:04x}", nn),
             call_Z(nn) => write!(f, "call Z, ${:04x}", nn),

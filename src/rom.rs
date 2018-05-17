@@ -47,8 +47,8 @@ pub struct Header {
     // TODO: licensee code
     pub sgb: bool,
     pub cartrige_type: u8, // TODO: proper parsing here
-    pub rom_size: u8, // same here
-    pub ram_size: u8, // and here
+    pub rom_size: u8,      // same here
+    pub ram_size: u8,      // and here
     pub destination_code: u8,
     // old licensee code would go here...
     pub version_number: u8,
@@ -65,7 +65,7 @@ pub enum HeaderParseError<'a> {
 
 impl Header {
     pub fn parse(data: &[u8]) -> Result<Header, HeaderParseError> {
-        let (_, header) = parse::header(data).map_err(|e| HeaderParseError::NomError(e))?;
+        let (_, header) = parse::header(data).map_err(HeaderParseError::NomError)?;
         Ok(Header {
             entry_point: header.entry_point,
             nintendo_logo: header.nintendo_logo,
@@ -93,9 +93,9 @@ mod parse {
 
     #[derive(Debug)]
     pub struct Header {
-        pub entry_point: Vec<u8>, // 4 bytes
+        pub entry_point: Vec<u8>,   // 4 bytes
         pub nintendo_logo: Vec<u8>, // 48 bytes
-        pub game_title: Vec<u8>, // 16 bytes
+        pub game_title: Vec<u8>,    // 16 bytes
         pub cgb_flag: u8,
         pub licensee_code1: Vec<u8>, // 2 bytes
         pub sgb_flag: u8,

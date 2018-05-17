@@ -15,7 +15,7 @@ impl Mapper {
     pub fn new(rom: Rom) -> Mapper {
         Mapper {
             rom,
-            
+
             video_ram: vec![0; 0x2000],
             switchable_ram: vec![0; 0x2000],
             internal_ram1: vec![0; 0x2000],

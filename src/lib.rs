@@ -6,7 +6,7 @@ extern crate nom;
 pub mod cpu;
 
 mod rom;
-pub use rom::{Rom, Header};
+pub use rom::{Header, Rom};
 
 mod mapper;
 pub use mapper::Mapper;

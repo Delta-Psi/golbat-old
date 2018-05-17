@@ -68,7 +68,6 @@ const DATA: &[(&'static [u8], Op, &'static str)] = &[
     (b"\x74", ld_iHL_r(H), "ld (HL), H"),
     (b"\x75", ld_iHL_r(L), "ld (HL), L"),
     (b"\x36\x04", ld_iHL_n(0x04), "ld (HL), $04"),
-
     (b"\x31\x0d\x00", ld_rr_nn(SP, 0x000d), "ld SP, $000d"),
 ];
 
