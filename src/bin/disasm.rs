@@ -23,7 +23,8 @@ fn main() {
     let mapper = Mapper(&mut buffer);
 
     let mut pc: u16 = 0;
-    while let Ok((op, npc)) = parse_op(&mapper, pc) {
+    loop {
+        let (op, npc) = parse_op(&mapper, pc).unwrap();
         println!("{}", op);
         pc = npc;
         if pc as usize >= len {

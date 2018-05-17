@@ -546,6 +546,7 @@ pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
 
 fn parse_cb<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
     let op = m.read_u8(pc);
+    println!("from cb: {:x}", op);
 
     Ok(match op {
         // swap A
@@ -684,200 +685,141 @@ fn parse_cb<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
         // srl (HL)
         0x3e => (srl_iHL, pc + 1),
 
-        // bit b, A
-        0x47 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (bit_r(bit, A), pc + 2)
-        }
-        // bit b, B
-        0x40 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (bit_r(bit, B), pc + 2)
-        }
-        // bit b, C
-        0x41 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (bit_r(bit, C), pc + 2)
-        }
-        // bit b, D
-        0x42 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (bit_r(bit, D), pc + 2)
-        }
-        // bit b, E
-        0x43 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (bit_r(bit, E), pc + 2)
-        }
-        // bit b, H
-        0x44 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (bit_r(bit, H), pc + 2)
-        }
-        // bit b, L
-        0x45 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (bit_r(bit, L), pc + 2)
-        }
-        // bit b, (HL)
-        0x46 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (bit_iHL(bit), pc + 2)
-        }
+        // bit 0, B
+        0x40 => (bit_r(0, B), pc + 1),
+        // bit 0, C
+        0x41 => (bit_r(0, C), pc + 1),
+        // bit 0, D
+        0x42 => (bit_r(0, D), pc + 1),
+        // bit 0, E
+        0x43 => (bit_r(0, E), pc + 1),
+        // bit 0, H
+        0x44 => (bit_r(0, H), pc + 1),
+        // bit 0, L
+        0x45 => (bit_r(0, L), pc + 1),
+        // bit 0, (HL)
+        0x46 => (bit_iHL(0), pc + 1),
+        // bit 0, A
+        0x47 => (bit_r(0, A), pc + 1),
 
-        // set b, A
-        0xc7 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (set_r(bit, A), pc + 2)
-        }
-        // set b, B
-        0xc0 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (set_r(bit, B), pc + 2)
-        }
-        // set b, C
-        0xc1 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (set_r(bit, C), pc + 2)
-        }
-        // set b, D
-        0xc2 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (set_r(bit, D), pc + 2)
-        }
-        // set b, E
-        0xc3 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (set_r(bit, E), pc + 2)
-        }
-        // set b, H
-        0xc4 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (set_r(bit, H), pc + 2)
-        }
-        // set b, L
-        0xc5 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (set_r(bit, L), pc + 2)
-        }
-        // set b, (HL)
-        0xc6 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (set_iHL(bit), pc + 2)
-        }
+        // bit 1, B
+        0x48 => (bit_r(1, B), pc + 1),
+        // bit 1, C
+        0x49 => (bit_r(1, C), pc + 1),
+        // bit 1, D
+        0x4a => (bit_r(1, D), pc + 1),
+        // bit 1, E
+        0x4b => (bit_r(1, E), pc + 1),
+        // bit 1, H
+        0x4c => (bit_r(1, H), pc + 1),
+        // bit 1, L
+        0x4d => (bit_r(1, L), pc + 1),
+        // bit 1, (HL)
+        0x4e => (bit_iHL(1), pc + 1),
+        // bit 1, A
+        0x4f => (bit_r(1, A), pc + 1),
 
-        // res b, A
-        0x87 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (res_r(bit, A), pc + 2)
-        }
-        // res b, B
-        0x80 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (res_r(bit, B), pc + 2)
-        }
-        // res b, C
-        0x81 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (res_r(bit, C), pc + 2)
-        }
-        // res b, D
-        0x82 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (res_r(bit, D), pc + 2)
-        }
-        // res b, E
-        0x83 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (res_r(bit, E), pc + 2)
-        }
-        // res b, H
-        0x84 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (res_r(bit, H), pc + 2)
-        }
-        // res b, L
-        0x85 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (res_r(bit, L), pc + 2)
-        }
-        // res b, (HL)
-        0x86 => {
-            let bit = m.read_u8(pc + 1);
-            if bit >= 8 {
-                return Err(ParseError::InvalidBitValue(bit));
-            }
-            (res_iHL(bit), pc + 2)
-        }
+        // bit 2, B
+        0x50 => (bit_r(2, B), pc + 1),
+        // bit 2, C
+        0x51 => (bit_r(2, C), pc + 1),
+        // bit 2, D
+        0x52 => (bit_r(2, D), pc + 1),
+        // bit 2, E
+        0x53 => (bit_r(2, E), pc + 1),
+        // bit 2, H
+        0x54 => (bit_r(2, H), pc + 1),
+        // bit 2, L
+        0x55 => (bit_r(2, L), pc + 1),
+        // bit 2, (HL)
+        0x56 => (bit_iHL(2), pc + 1),
+        // bit 2, A
+        0x57 => (bit_r(2, A), pc + 1),
+
+        // bit 3, B
+        0x58 => (bit_r(3, B), pc + 1),
+        // bit 3, C
+        0x59 => (bit_r(3, C), pc + 1),
+        // bit 3, D
+        0x5a => (bit_r(3, D), pc + 1),
+        // bit 3, E
+        0x5b => (bit_r(3, E), pc + 1),
+        // bit 3, H
+        0x5c => (bit_r(3, H), pc + 1),
+        // bit 3, L
+        0x5d => (bit_r(3, L), pc + 1),
+        // bit 3, (HL)
+        0x5e => (bit_iHL(3), pc + 1),
+        // bit 3, A
+        0x5f => (bit_r(3, A), pc + 1),
+
+        // bit 4, B
+        0x60 => (bit_r(4, B), pc + 1),
+        // bit 4, C
+        0x61 => (bit_r(4, C), pc + 1),
+        // bit 4, D
+        0x62 => (bit_r(4, D), pc + 1),
+        // bit 4, E
+        0x63 => (bit_r(4, E), pc + 1),
+        // bit 4, H
+        0x64 => (bit_r(4, H), pc + 1),
+        // bit 4, L
+        0x65 => (bit_r(4, L), pc + 1),
+        // bit 4, (HL)
+        0x66 => (bit_iHL(4), pc + 1),
+        // bit 4, A
+        0x67 => (bit_r(4, A), pc + 1),
+
+        // bit 5, B
+        0x68 => (bit_r(5, B), pc + 1),
+        // bit 5, C
+        0x69 => (bit_r(5, C), pc + 1),
+        // bit 5, D
+        0x6a => (bit_r(5, D), pc + 1),
+        // bit 5, E
+        0x6b => (bit_r(5, E), pc + 1),
+        // bit 5, H
+        0x6c => (bit_r(5, H), pc + 1),
+        // bit 5, L
+        0x6d => (bit_r(5, L), pc + 1),
+        // bit 5, (HL)
+        0x6e => (bit_iHL(5), pc + 1),
+        // bit 5, A
+        0x6f => (bit_r(5, A), pc + 1),
+
+        // bit 6, B
+        0x70 => (bit_r(6, B), pc + 1),
+        // bit 6, C
+        0x71 => (bit_r(6, C), pc + 1),
+        // bit 6, D
+        0x72 => (bit_r(6, D), pc + 1),
+        // bit 6, E
+        0x73 => (bit_r(6, E), pc + 1),
+        // bit 6, H
+        0x74 => (bit_r(6, H), pc + 1),
+        // bit 6, L
+        0x75 => (bit_r(6, L), pc + 1),
+        // bit 6, (HL)
+        0x76 => (bit_iHL(6), pc + 1),
+        // bit 6, A
+        0x77 => (bit_r(6, A), pc + 1),
+
+        // bit 7, B
+        0x78 => (bit_r(7, B), pc + 1),
+        // bit 7, C
+        0x79 => (bit_r(7, C), pc + 1),
+        // bit 7, D
+        0x7a => (bit_r(7, D), pc + 1),
+        // bit 7, E
+        0x7b => (bit_r(7, E), pc + 1),
+        // bit 7, H
+        0x7c => (bit_r(7, H), pc + 1),
+        // bit 7, L
+        0x7d => (bit_r(7, L), pc + 1),
+        // bit 7, (HL)
+        0x7e => (bit_iHL(7), pc + 1),
+        // bit 7, A
+        0x7f => (bit_r(7, A), pc + 1),
 
         op => return Err(ParseError::UnknownOpcode(vec![0xce, op])),
     })
