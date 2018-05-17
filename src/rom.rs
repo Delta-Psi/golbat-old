@@ -11,6 +11,31 @@ impl Rom {
             header: Header::parse(&data[0x0100..])?,
         })
     }
+
+    /*
+    pub fn check_header_complement(&self) -> (bool, u8) {
+        let mut acc: u8 = 0;
+        for (b, i) in self.data[0x0134 .. 0x014c].iter().zip(0x0134usize ..) {
+            if i != 0x014d {
+                acc = acc.wrapping_sub(*b as u8 + 1);
+            }
+        }
+
+        (acc == self.header.complement_check, acc)
+    }
+
+    pub fn check_checksum(&self) -> (bool, u16) {
+        let mut acc: u16 = 0;
+        for (i, b) in self.data.iter().enumerate() {
+            if i != 0x014e && i != 0x014f {
+                acc = acc.wrapping_add(*b as u16);
+            }
+        }
+
+        (acc == self.header.checksum, acc)
+    }
+    FIXME
+    */
 }
 
 #[derive(Debug)]
@@ -46,7 +71,7 @@ impl Header {
             nintendo_logo: header.nintendo_logo,
             // remove padding
             game_title: {
-                let title = header.game_title.splitn(1, |b| *b == 0).nth(0).unwrap();
+                let title = header.game_title.split(|b| *b == 0).nth(0).unwrap();
                 String::from_utf8_lossy(&title).into_owned()
             },
             cgb: header.cgb_flag == 0x80,
