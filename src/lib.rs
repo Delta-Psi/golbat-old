@@ -10,3 +10,6 @@ pub use rom::{Header, Rom};
 
 mod mapper;
 pub use mapper::Mapper;
+
+mod context;
+pub use context::Context;

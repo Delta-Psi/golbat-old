@@ -5,7 +5,7 @@ use std::env;
 use std::fs::File;
 use std::io::Read;
 
-use golbat::Rom;
+use golbat::{Rom, Context};
 
 use sdl2::{event::Event, pixels::Color};
 
@@ -23,6 +23,9 @@ fn main() {
     rom_file.read_to_end(&mut rom_data).unwrap();
     let rom = Rom::read(&rom_data).unwrap();
     println!("{:?}", rom.header);
+
+    let mut context = Context::new(rom);
+    context.bootstrap();
 
     let sdl_context = sdl2::init().unwrap();
     let sdl_video = sdl_context.video().unwrap();
@@ -54,4 +57,3 @@ fn main() {
         canvas.present();
     }
 }
-

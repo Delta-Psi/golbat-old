@@ -1,6 +1,7 @@
 use cpu::MemoryMap;
 use rom::Rom;
 
+#[derive(Debug)]
 pub struct Mapper {
     pub rom: Rom,
 
