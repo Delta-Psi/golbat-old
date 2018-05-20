@@ -1,11 +1,8 @@
-[workspace]
-members = ["sdl2"]
-
 [package]
-name = "golbat"
+name = "golbat_sdl2"
 version = "0.1.0"
 authors = ["Difarem <difarem@gmail.com>"]
 
 [dependencies]
-nom = "4.0.0"
-bitflags = "1.0.3"
+golbat = {path = ".."}
+sdl2 = "0.31.0"
