@@ -37,6 +37,35 @@ pub fn run_op<M: MemoryMap>(rg: &mut Registers, m: &mut M, op: Op) -> Option<u8>
             Some(12)
         }
 
+        // address at HL to A, decrement HL
+        ldd_A_iHL => {
+            let hl = rg.get_hl();
+            rg.a = m.read_u8(hl);
+            rg.set_hl(hl - 1);
+            Some(8)
+        }
+        // A to address at HL, decrement HL
+        ldd_iHL_A => {
+            let hl = rg.get_hl();
+            m.write_u8(hl, rg.a);
+            rg.set_hl(hl - 1);
+            Some(8)
+        }
+        // address at HL to A, increment HL
+        ldi_A_iHL => {
+            let hl = rg.get_hl();
+            rg.a = m.read_u8(hl);
+            rg.set_hl(hl + 1);
+            Some(8)
+        }
+        // A to address at HL, increment HL
+        ldi_iHL_A => {
+            let hl = rg.get_hl();
+            m.write_u8(hl, rg.a);
+            rg.set_hl(hl + 1);
+            Some(8)
+        }
+
         // 16-bit value to register
         ld_rr_nn(rr, nn) => {
             match rr {
@@ -70,7 +99,18 @@ pub fn run_op<M: MemoryMap>(rg: &mut Registers, m: &mut M, op: Op) -> Option<u8>
             Some(8)
         }
 
-        op => unimplemented!("{:?}", op),
+        // misc commands
+        // nop
+        nop => Some(4),
+
+        // jumps
+        // unconditional jump
+        jp(nn) => {
+            rg.pc = nn;
+            Some(12)
+        }
+
+        op => unimplemented!("{}", op),
     }
 }
 

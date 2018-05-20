@@ -27,11 +27,11 @@ impl Context {
         self.cpu.set_de(0x00d8);
         self.cpu.set_hl(0x014d);
         self.cpu.sp = 0xfffe;
+        self.cpu.pc = 0x0100;
     }
 
     pub fn step(&mut self) -> Result<(Op, u8), Error> {
-        let (op, pc) = Op::parse(&mut self.memory, self.cpu.pc)
-            .map_err(Error::OpParseError)?;
+        let (op, pc) = Op::parse(&self.memory, self.cpu.pc).map_err(Error::OpParseError)?;
         self.cpu.pc = pc;
         Ok((op, run_op(&mut self.cpu, &mut self.memory, op).unwrap())) // FIXME
     }

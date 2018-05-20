@@ -6,16 +6,12 @@ use std::fs::File;
 use std::io::Read;
 use std::collections::HashSet;
 
-use golbat::{Rom, Context};
+use golbat::{Context, Rom};
 
-use sdl2::{event::Event, pixels::Color, keyboard::Keycode};
+use sdl2::{event::Event, keyboard::Keycode, pixels::Color};
 
-const _PALETTE: &'static [(u8, u8, u8)] = &[
-    (144, 188, 15),
-    (139, 172, 15),
-    (48, 98, 48),
-    (15, 56, 15),
-];
+const _PALETTE: &'static [(u8, u8, u8)] =
+    &[(144, 188, 15), (139, 172, 15), (48, 98, 48), (15, 56, 15)];
 
 fn main() {
     let rom_path = env::args().nth(1).unwrap();
@@ -31,12 +27,10 @@ fn main() {
     let sdl_context = sdl2::init().unwrap();
     let sdl_video = sdl_context.video().unwrap();
 
-    let window = sdl_video
-        .window("golbat", 160, 144)
-        .build()
-        .unwrap();
+    let window = sdl_video.window("golbat", 160, 144).build().unwrap();
 
-    let mut canvas = window.into_canvas()
+    let mut canvas = window
+        .into_canvas()
         .target_texture()
         .present_vsync()
         .build()
@@ -52,13 +46,16 @@ fn main() {
     'main_loop: loop {
         for event in event_pump.poll_iter() {
             match event {
-                Event::Quit{..} => break 'main_loop,
+                Event::Quit { .. } => break 'main_loop,
                 _ => (),
             }
         }
 
-        let keys = event_pump.keyboard_state().pressed_scancodes()
-            .filter_map(Keycode::from_scancode).collect();
+        let keys = event_pump
+            .keyboard_state()
+            .pressed_scancodes()
+            .filter_map(Keycode::from_scancode)
+            .collect();
         let mut new_keys = &keys - &prev_keys;
 
         for key in new_keys.drain() {
@@ -68,7 +65,7 @@ fn main() {
                     println!("{:?}", op);
                     println!("{} cycles", cycles);
                     println!("{:?}", context.cpu);
-                },
+                }
                 _ => (),
             }
         }
