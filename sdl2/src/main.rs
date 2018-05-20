@@ -4,10 +4,11 @@ extern crate sdl2;
 use std::env;
 use std::fs::File;
 use std::io::Read;
+use std::collections::HashSet;
 
 use golbat::{Rom, Context};
 
-use sdl2::{event::Event, pixels::Color};
+use sdl2::{event::Event, pixels::Color, keyboard::Keycode};
 
 const _PALETTE: &'static [(u8, u8, u8)] = &[
     (144, 188, 15),
@@ -44,7 +45,10 @@ fn main() {
     canvas.set_draw_color(Color::RGB(0, 0, 0));
     canvas.clear();
     canvas.present();
+
     let mut event_pump = sdl_context.event_pump().unwrap();
+    let mut prev_keys = HashSet::new();
+
     'main_loop: loop {
         for event in event_pump.poll_iter() {
             match event {
@@ -52,6 +56,24 @@ fn main() {
                 _ => (),
             }
         }
+
+        let keys = event_pump.keyboard_state().pressed_scancodes()
+            .filter_map(Keycode::from_scancode).collect();
+        let mut new_keys = &keys - &prev_keys;
+
+        for key in new_keys.drain() {
+            match key {
+                Keycode::Space => {
+                    let (op, cycles) = context.step().unwrap();
+                    println!("{:?}", op);
+                    println!("{} cycles", cycles);
+                    println!("{:?}", context.cpu);
+                },
+                _ => (),
+            }
+        }
+
+        prev_keys = keys;
 
         canvas.clear();
         canvas.present();

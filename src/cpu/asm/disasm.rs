@@ -11,10 +11,11 @@ pub enum ParseError {
     InvalidBitValue(u8),
 }
 
+impl Op {
 /// Attempts to disassemble the instruction at the current program counter. Will return the
 /// resulting operation, as well as the new value of the PC register (without accounting for
 /// possible jumps).
-pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
+pub fn parse<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
     let opcode = m.read_u8(pc);
 
     Ok(match opcode {
@@ -550,7 +551,7 @@ pub fn parse_op<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
         // reti
         0xd9 => (reti, pc + 1),
 
-        0xcb => return parse_cb(m, pc + 1),
+        0xcb => return Op::parse_cb(m, pc + 1),
 
         opcode => return Err(ParseError::UnknownOpcode(vec![opcode])),
     })
@@ -1106,4 +1107,5 @@ fn parse_cb<M: MemoryMap>(m: &M, pc: u16) -> Result<(Op, u16), ParseError> {
 
         op => return Err(ParseError::UnknownOpcode(vec![0xce, op])),
     })
+}
 }

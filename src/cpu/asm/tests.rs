@@ -87,7 +87,7 @@ impl<'a> MemoryMap for Mapper<'a> {
 fn disassembly() {
     for (data, expected, formatted) in DATA.iter() {
         let mut data = data.to_vec();
-        let (result, len) = parse_op(&Mapper(&mut data), 0).unwrap();
+        let (result, len) = Op::parse(&Mapper(&mut data), 0).unwrap();
         assert_eq!(result, *expected);
         assert_eq!(result.to_string(), *formatted);
         assert_eq!(len as usize, data.len());

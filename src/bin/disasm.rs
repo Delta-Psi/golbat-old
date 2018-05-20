@@ -1,8 +1,8 @@
 extern crate golbat;
 
 use std::io::{self, Read};
-use golbat::cpu::asm::parse_op;
 use golbat::cpu::MemoryMap;
+use golbat::cpu::asm::Op;
 
 struct Mapper<'a>(&'a mut [u8]);
 
@@ -24,7 +24,7 @@ fn main() {
 
     let mut pc: u16 = 0;
     loop {
-        let (op, npc) = parse_op(&mapper, pc).unwrap();
+        let (op, npc) = Op::parse(&mapper, pc).unwrap();
         println!("{}", op);
         pc = npc;
         if pc as usize >= len {

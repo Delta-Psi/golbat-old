@@ -70,7 +70,7 @@ pub fn run_op<M: MemoryMap>(rg: &mut Registers, m: &mut M, op: Op) -> Option<u8>
             Some(8)
         }
 
-        _ => unimplemented!(),
+        op => unimplemented!("{:?}", op),
     }
 }
 
