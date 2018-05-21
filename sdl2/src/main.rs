@@ -5,12 +5,14 @@ use std::env;
 use std::fs::File;
 use std::io::Read;
 use std::collections::HashSet;
+use std::time::Instant;
+use std::thread::sleep;
 
 use golbat::{Context, Rom};
 
 use sdl2::{event::Event, keyboard::Keycode, pixels::Color};
 
-const _PALETTE: &'static [(u8, u8, u8)] =
+const _PALETTE: &[(u8, u8, u8)] =
     &[(144, 188, 15), (139, 172, 15), (48, 98, 48), (15, 56, 15)];
 
 fn main() {
@@ -44,10 +46,11 @@ fn main() {
     let mut prev_keys = HashSet::new();
 
     'main_loop: loop {
+        let start_time = Instant::now();
+
         for event in event_pump.poll_iter() {
-            match event {
-                Event::Quit { .. } => break 'main_loop,
-                _ => (),
+            if let Event::Quit { .. } = event {
+                break 'main_loop;
             }
         }
 
@@ -56,23 +59,32 @@ fn main() {
             .pressed_scancodes()
             .filter_map(Keycode::from_scancode)
             .collect();
-        let mut new_keys = &keys - &prev_keys;
+        let mut _new_keys = &keys - &prev_keys;
 
+        /*
         for key in new_keys.drain() {
             match key {
                 Keycode::Space => {
-                    let (op, cycles) = context.step().unwrap();
-                    println!("{:?}", op);
-                    println!("{} cycles", cycles);
-                    println!("{:?}", context.cpu);
+                    running = !running;
                 }
                 _ => (),
             }
         }
+        */
 
         prev_keys = keys;
 
+        let (op, time) = context.step().unwrap();
+        println!("{}", op);
+        println!("{:?}", time);
+        println!("{:?}", context.cpu);
+        println!();
+
         canvas.clear();
         canvas.present();
+
+        if start_time.elapsed() < time {
+            sleep(time - start_time.elapsed());
+        }
     }
 }
