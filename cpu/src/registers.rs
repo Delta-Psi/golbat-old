@@ -1,12 +1,13 @@
 use asm::{Reg16, Reg8};
 use std::ops::{Index, IndexMut};
+use std::fmt;
 
 bitflags! {
     #[derive(Default)]
     pub struct Flags: u8 {
         /// Zero flag
         const Z = 0b1000_0000;
-        /// Subtract flg
+        /// Subtract flag
         const N = 0b0100_0000;
         /// Half carry flag
         const H = 0b0010_0000;
@@ -15,7 +16,7 @@ bitflags! {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Default)]
 pub struct Registers {
     pub a: u8,
     pub f: Flags,
@@ -27,6 +28,19 @@ pub struct Registers {
     pub l: u8,
     pub sp: u16,
     pub pc: u16,
+}
+
+impl fmt::Debug for Registers {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        f.debug_struct("Registers")
+            .field("af", &format_args!("0x{:02x}{:02x} [{:?}]", self.a, self.f.bits(), self.f))
+            .field("bc", &format_args!("0x{:02x}{:02x}", self.b, self.c))
+            .field("de", &format_args!("0x{:02x}{:02x}", self.d, self.e))
+            .field("hl", &format_args!("0x{:02x}{:02x}", self.h, self.l))
+            .field("sp", &format_args!("0x{:04x}", self.sp))
+            .field("pc", &format_args!("0x{:04x}", self.pc))
+            .finish()
+    }
 }
 
 impl Registers {

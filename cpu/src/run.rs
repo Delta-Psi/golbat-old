@@ -117,7 +117,7 @@ impl Op {
             // increment address at HL
             // decrement 8-bit register
             dec_r(r) => {
-                rg[r] -= 1;
+                rg[r] = rg[r].wrapping_sub(1); // ???
                 let value = rg[r];
                 check_z(&mut rg.f, value);
                 rg.f.insert(Flags::N);
@@ -128,8 +128,8 @@ impl Op {
             }
             // decrement address at HL
 
-        // misc commands
-        // nop
+            // misc commands
+            // nop
             nop => Some(4),
 
             // jumps
@@ -137,6 +137,11 @@ impl Op {
             jp(nn) => {
                 rg.pc = nn;
                 Some(12)
+            }
+            // relative jump if Z reset
+            jr_NZ(n) => {
+                rg.pc = (rg.pc as i32 + n as i32) as u16;
+                Some(8)
             }
 
             op => unimplemented!("{}", op),

@@ -1,5 +1,5 @@
 use super::*;
-use cpu::Registers;
+use cpu::{Registers, Flags};
 use cpu::asm::{Op, ParseError};
 use std::time::Duration;
 
@@ -25,10 +25,14 @@ impl Context {
     }
 
     pub fn bootstrap(&mut self) {
-        self.cpu.set_af(0x01b0);
-        self.cpu.set_bc(0x0013);
-        self.cpu.set_de(0x00d8);
-        self.cpu.set_hl(0x014d);
+        self.cpu.a = 0x01;
+        self.cpu.f = Flags::Z | Flags::H | Flags::C;
+        self.cpu.b = 0x00;
+        self.cpu.c = 0x13;
+        self.cpu.d = 0x00;
+        self.cpu.e = 0xd8;
+        self.cpu.h = 0x01;
+        self.cpu.l = 0x4d;
         self.cpu.sp = 0xfffe;
         self.cpu.pc = 0x0100;
     }
