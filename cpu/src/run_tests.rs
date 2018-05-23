@@ -1,4 +1,3 @@
-use run_op;
 use MemoryMap;
 use Registers;
 use asm::Op::*;
@@ -28,17 +27,14 @@ fn run_ld() {
     let mut registers = Registers::default();
 
     // ld A, $bb
-    assert_eq!(
-        run_op(&mut registers, &mut mapper, ld_r_n(A, 0xbb)),
-        Some(8)
-    );
+    assert_eq!(ld_r_n(A, 0xbb).run(&mut registers, &mut mapper), Some(8));
     assert_eq!(registers.a, 0xbb);
 
     // ld L, A
-    assert_eq!(run_op(&mut registers, &mut mapper, ld_r_r(L, A)), Some(4));
+    assert_eq!(ld_r_r(L, A).run(&mut registers, &mut mapper), Some(4));
     assert_eq!(registers.l, registers.a);
 
     // ld A, (HL)
-    assert_eq!(run_op(&mut registers, &mut mapper, ld_r_iHL(A)), Some(8));
+    assert_eq!(ld_r_iHL(A).run(&mut registers, &mut mapper), Some(8));
     assert_eq!(registers.a, 0x00);
 }

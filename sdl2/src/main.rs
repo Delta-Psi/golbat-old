@@ -12,8 +12,7 @@ use golbat::{Context, Rom};
 
 use sdl2::{event::Event, keyboard::Keycode, pixels::Color};
 
-const _PALETTE: &[(u8, u8, u8)] =
-    &[(144, 188, 15), (139, 172, 15), (48, 98, 48), (15, 56, 15)];
+const _PALETTE: &[(u8, u8, u8)] = &[(144, 188, 15), (139, 172, 15), (48, 98, 48), (15, 56, 15)];
 
 fn main() {
     let rom_path = env::args().nth(1).unwrap();

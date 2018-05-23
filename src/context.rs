@@ -1,5 +1,5 @@
 use super::*;
-use cpu::{run_op, Registers};
+use cpu::Registers;
 use cpu::asm::{Op, ParseError};
 use std::time::Duration;
 
@@ -37,8 +37,11 @@ impl Context {
         let (op, pc) = Op::parse(&self.memory, self.cpu.pc).map_err(Error::OpParseError)?;
         println!("{}", op);
         self.cpu.pc = pc;
-        let cycles = run_op(&mut self.cpu, &mut self.memory, op).unwrap(); // FIXME
-        let time = Duration::new(0, (f32::from(cycles) * 1_000_000_000.0 / CLOCK_SPEED as f32) as u32);
+        let cycles = op.run(&mut self.cpu, &mut self.memory).unwrap(); // FIXME
+        let time = Duration::new(
+            0,
+            (f32::from(cycles) * 1_000_000_000.0 / CLOCK_SPEED as f32) as u32,
+        );
         Ok((op, time))
     }
 }

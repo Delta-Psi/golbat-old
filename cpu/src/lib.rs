@@ -10,7 +10,6 @@ mod mapper;
 pub use mapper::MemoryMap;
 
 mod run;
-pub use run::run_op;
 
 #[cfg(test)]
 mod run_tests;
