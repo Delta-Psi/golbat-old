@@ -1,6 +1,8 @@
 use cpu::MemoryMap;
 use rom::Rom;
 
+pub const BOOTSTRAP_ROM: &[u8] = include_bytes!("bootstrap.bin");
+
 #[derive(Debug)]
 pub struct Mapper {
     pub rom: Rom,
@@ -29,7 +31,10 @@ impl Mapper {
 impl MemoryMap for Mapper {
     fn read_u8(&self, offset: u16) -> u8 {
         let offset = offset as usize;
-        if offset < 0x8000 {
+        if offset < 0x0100 {
+            // TODO: turn off bootstrap rom
+            BOOTSTRAP_ROM[offset]
+        }else if offset < 0x8000 {
             // TODO: switchable rom banks
             self.rom.data[offset]
         } else if offset < 0xa000 {

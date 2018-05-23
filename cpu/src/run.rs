@@ -132,6 +132,30 @@ impl Op {
             // nop
             nop => Some(4),
 
+            // bitwise commands
+            // test bit in register
+            bit_r(b, r) => {
+                if (rg[r] >> b) & 1 == 0 {
+                    rg.f.insert(Flags::Z);
+                } else {
+                    rg.f.remove(Flags::Z);
+                }
+                rg.f.remove(Flags::N);
+                rg.f.insert(Flags::H);
+                Some(8)
+            }
+            // test bit in address at HL
+            bit_iHL(b) => {
+                if (m.read_u8(rg.get_hl()) >> b) & 1 == 0 {
+                    rg.f.insert(Flags::N);
+                } else {
+                    rg.f.remove(Flags::N);
+                }
+                rg.f.remove(Flags::N);
+                rg.f.insert(Flags::H);
+                Some(16)
+            }
+
             // jumps
             // unconditional jump
             jp(nn) => {

@@ -23,7 +23,7 @@ fn main() {
     println!("{:?}", rom.header);
 
     let mut context = Context::new(rom);
-    context.bootstrap();
+    //context.bootstrap();
 
     let sdl_context = sdl2::init().unwrap();
     let sdl_video = sdl_context.video().unwrap();

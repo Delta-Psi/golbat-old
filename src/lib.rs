@@ -7,7 +7,7 @@ mod rom;
 pub use rom::{Header, Rom};
 
 mod mapper;
-pub use mapper::Mapper;
+pub use mapper::{Mapper, BOOTSTRAP_ROM};
 
 mod context;
 pub use context::Context;
