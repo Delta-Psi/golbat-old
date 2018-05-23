@@ -83,21 +83,48 @@ pub fn run_op<M: MemoryMap>(rg: &mut Registers, m: &mut M, op: Op) -> Option<u8>
         xor_r(r) => {
             rg.a = rg.a.bitxor(rg[r]);
             rg.f = Flags::empty();
-            check_z(&mut rg.f, &rg.a);
+            check_z(&mut rg.f, rg.a);
             Some(4)
         }
+        // xor address at HL with A
         xor_iHL => {
             rg.a = rg.a.bitxor(m.read_u8(rg.get_hl()));
             rg.f = Flags::empty();
-            check_z(&mut rg.f, &rg.a);
+            check_z(&mut rg.f, rg.a);
             Some(8)
         }
+        // xor 8-bit value with A
         xor_n(n) => {
             rg.a = rg.a.bitxor(n);
             rg.f = Flags::empty();
-            check_z(&mut rg.f, &rg.a);
+            check_z(&mut rg.f, rg.a);
             Some(8)
         }
+
+        // increment 8-bit register
+        inc_r(r) => {
+            rg[r] += 1;
+            let value = rg[r];
+            check_z(&mut rg.f, value);
+            rg.f.remove(Flags::N);
+            if value == 0x10 {
+                rg.f.insert(Flags::H);
+            }
+            Some(4)
+        }
+        // increment address at HL
+        // decrement 8-bit register
+        dec_r(r) => {
+            rg[r] -= 1;
+            let value = rg[r];
+            check_z(&mut rg.f, value);
+            rg.f.insert(Flags::N);
+            if value == 0x0f {
+                rg.f.insert(Flags::H);
+            }
+            Some(4)
+        }
+        // decrement address at HL
 
         // misc commands
         // nop
@@ -114,8 +141,8 @@ pub fn run_op<M: MemoryMap>(rg: &mut Registers, m: &mut M, op: Op) -> Option<u8>
     }
 }
 
-fn check_z(f: &mut Flags, value: &u8) {
-    if *value == 0 {
+fn check_z(f: &mut Flags, value: u8) {
+    if value == 0 {
         f.insert(Flags::Z);
     }
 }

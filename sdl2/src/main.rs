@@ -5,8 +5,8 @@ use std::env;
 use std::fs::File;
 use std::io::Read;
 use std::collections::HashSet;
-use std::time::Instant;
-use std::thread::sleep;
+//use std::time::Instant;
+//use std::thread::sleep;
 
 use golbat::{Context, Rom};
 
@@ -46,7 +46,7 @@ fn main() {
     let mut prev_keys = HashSet::new();
 
     'main_loop: loop {
-        let start_time = Instant::now();
+        //let start_time = Instant::now();
 
         for event in event_pump.poll_iter() {
             if let Event::Quit { .. } = event {
@@ -59,32 +59,29 @@ fn main() {
             .pressed_scancodes()
             .filter_map(Keycode::from_scancode)
             .collect();
-        let mut _new_keys = &keys - &prev_keys;
+        let mut new_keys = &keys - &prev_keys;
 
-        /*
         for key in new_keys.drain() {
             match key {
                 Keycode::Space => {
-                    running = !running;
+                    let (_, time) = context.step().unwrap();
+                    println!("{:?}", time);
+                    println!("{:?}", context.cpu);
+                    println!();
                 }
                 _ => (),
             }
         }
-        */
 
         prev_keys = keys;
-
-        let (op, time) = context.step().unwrap();
-        println!("{}", op);
-        println!("{:?}", time);
-        println!("{:?}", context.cpu);
-        println!();
 
         canvas.clear();
         canvas.present();
 
+        /*
         if start_time.elapsed() < time {
             sleep(time - start_time.elapsed());
         }
+        */
     }
 }

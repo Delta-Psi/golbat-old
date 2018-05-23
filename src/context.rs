@@ -35,6 +35,7 @@ impl Context {
 
     pub fn step(&mut self) -> Result<(Op, Duration), Error> {
         let (op, pc) = Op::parse(&self.memory, self.cpu.pc).map_err(Error::OpParseError)?;
+        println!("{}", op);
         self.cpu.pc = pc;
         let cycles = run_op(&mut self.cpu, &mut self.memory, op).unwrap(); // FIXME
         let time = Duration::new(0, (f32::from(cycles) * 1_000_000_000.0 / CLOCK_SPEED as f32) as u32);
