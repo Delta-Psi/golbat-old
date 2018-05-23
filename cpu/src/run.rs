@@ -1,9 +1,10 @@
-use super::asm;
-use self::asm::Op::{self, *};
-// use self::asm::Reg8::*;
-use self::asm::Reg16::*;
+use asm::Op::{self, *};
+// use asm::Reg8::*;
+use asm::Reg16::*;
 
-use super::{Flags, MemoryMap, Registers};
+use Flags;
+use MemoryMap;
+use Registers;
 
 use std::ops::*;
 

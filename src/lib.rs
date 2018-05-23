@@ -1,9 +1,7 @@
 #[macro_use]
-extern crate bitflags;
-#[macro_use]
 extern crate nom;
 
-pub mod cpu;
+pub extern crate golbat_cpu as cpu;
 
 mod rom;
 pub use rom::{Header, Rom};

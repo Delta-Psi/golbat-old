@@ -1,8 +1,8 @@
 use super::*;
+use MemoryMap;
 use self::Op::*;
 use self::op::Reg8::*;
 use self::op::Reg16::*;
-use cpu::MemoryMap;
 
 const DATA: &[(&'static [u8], Op, &'static str)] = &[
     (b"\x06\x65", ld_r_n(B, 0x65), "ld B, $65"),

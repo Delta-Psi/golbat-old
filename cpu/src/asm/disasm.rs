@@ -3,7 +3,7 @@
 use super::Op::{self, *};
 use super::Reg8::*;
 use super::Reg16::*;
-use cpu::MemoryMap;
+use MemoryMap;
 
 #[derive(Debug)]
 pub enum ParseError {

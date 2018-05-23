@@ -1,4 +1,4 @@
-use super::asm::{Reg16, Reg8};
+use asm::{Reg16, Reg8};
 use std::ops::{Index, IndexMut};
 
 bitflags! {

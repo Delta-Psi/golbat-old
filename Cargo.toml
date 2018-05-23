@@ -1,5 +1,5 @@
 [workspace]
-members = ["sdl2"]
+members = ["cpu", "sdl2"]
 
 [package]
 name = "golbat"
@@ -8,4 +8,5 @@ authors = ["Difarem <difarem@gmail.com>"]
 
 [dependencies]
 nom = "4.0.0"
-bitflags = "1.0.3"
+
+golbat_cpu = {path = "./cpu"}

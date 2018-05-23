@@ -1,6 +1,8 @@
-use super::*;
-use self::asm::Op::*;
-use self::asm::Reg8::*;
+use run_op;
+use MemoryMap;
+use Registers;
+use asm::Op::*;
+use asm::Reg8::*;
 
 struct TestMapper(Vec<u8>);
 
