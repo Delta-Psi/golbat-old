@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>
+DuoDreamer's Dreamscape
+</title>
+<meta name="title" content="DuoDreamer's Dreamscape">
+<meta name="keywords" content="poetry,poems,midi,mod,mods,midis,gameboy,gb,pokemon,emulate,emulation,emulators,console,computer,mame,raiden,nesticle,rage,callus,nocash,zsnes,snes9x,arcade,classic,video games,roms">
+
+
+
+<!-- -----------Start of CSS Definitions ------------------ -->
+<link rel="stylesheet" type="text/css" href="default.css">
+<style type="text/css"><!--
+--></style>
+<!------------------------------- End of CSS Definitions ---------------------------->
+
+
+</head>
+
+<body>
+
+
+<!-- Entire Document Starts Here -->
+<div align="center">
+
+
+
+<br>
+
+<!---- Start of Whole Content Body. EG: all content tables will go inside this table --->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+
+
+
+
+<!---- Main (right) column starts here ----------------------------------------------->
+<td valign="top" width=620>
+
+<!-- Start of Content Window #1 -->
+<div>
+<!-- Start of Table Header -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+</table>
+<!-- End of Table Header -->
+
+<!-- Start of Table Body -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=8 class="tablebody">
+<br>
+</td>
+<td width=600 class="tablebody" valign="top">
+
+<!-- Window content goes here -->
+<H2>ASMSchool  -  Lesson 1</H2>
+
+&nbsp;&nbsp;&nbsp;&nbsp;Welcome to ASMSchool, my own little attempt at helping people to learn how to code in assembly 
+language on the GameBoy using RGBDS. These tutorials will hopefully be of use to quite a few people, both total newbies 
+and more experienced coders. I am NOT going to just post some source code, give comments and have you cutting and 
+pasting, that won't teach you very much of anything. Instead, I will be going to the lowest levels and explain 
+everything in as much detail as I can so that you can understand &quot;why does this do this&quot; or &quot;why can't 
+I do that?&quot;. You will learn how the processor works and how to control it before I ever start writing lessons on 
+how to display graphics or how to make sound. Lesson 1 will teach the student about the layout, structure, and general 
+philosophy behind the GameBoy CPU, as well as basic data manipulation. This CPU is a derivative of the very popular 
+8-bit Zilog Z-80 CPU, and has many identical features, although the GameBoy's CPU includes memory handlers, I/O control, 
+and other things not found in the Z80 on-chip. There are also a few things that the Z80 has that were taken out of the 
+GameBoy, as they were deemed by Nintendo R&amp;D as unnesecary. (either that or SHARP's custom chip didn't have those 
+options available. who knows.)<BR><BR>
+
+
+<H2>Lesson 1: Description and Processor Theory</H2>
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;Ok, so you're probably thinking, &quot;where do I start?&quot; or &quot;how do I make a 
+game?&quot;. Well, we are a <B>LONG</B> way from making a game. You have to learn the hardware and how to manipulate 
+it way before you can even make anything worthwhile. I'm going to start here with the basic structure of the GameBoy's 
+CPU, and then explain how you can make it do your evil bidding! MWA HA HA HA HA HA HA!!!.... uh hrm.. oh sorry. ;-) 
+Well to do ANYTHING with a CPU, you have to MOVE and OPERATE on DATA! And how on earth are we going to do that? Well, 
+with registers that's how. Registers in the CPU are where all data is handled and processed.<BR><BR>
+
+<H2>Registers</H2>
+<HR size=4 noshade width="30%" align=left>
+&nbsp;&nbsp;&nbsp;&nbsp;Working with and manipulating data with this processor is accomplished through the use of 8 
+registers inside the CPU. Each of these registers can hold 8-bits or 1 byte of data. The registers can also be paired 
+up to form 16-bit registers for tasks such as addressing data. The names of these registers are <B>A, F, B, C, D, E, 
+H,</B> and <B>L</B>. They can be grouped to form the 16-bit registers <B>AF, BC, DE,</B> and <B>HL</B>. There are also 
+the 16-bit registers <B>SP</B> and <B>PC</B>. Each of these registers has it's own little part to play inside the CPU.<BR><BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;The <B>A</B> register is where almost all data being processed passes through. It is also 
+known as the <I>Accumulator</I> (No, not because it's accumulating dust either!). This register, as well as <b>B, 
+C, D, E, H, L</b> can have data loaded into it directly.(I purposely left out register <b>F</b>) By this I mean you 
+can just say &quot;I want the A register to contain 25!&quot;. You don't specifically have to load a value from memory 
+somewhere. It is the only 8-bit register that can be shifted with a one-byte instruction (you'll find out about 
+SHIFT instructions later). It is the only register that can be complemented, decimal adjusted, or negated with a 
+single byte instruction. It is the source AND destination for all 8-bit arithmetic and logical instructions except 
+for <B>INC</B> and <B>DEC</B>, which increment or decrement a register by 1. This means that when you want to 
+perform a certian operation like <B>ADD</B>ing two 8-bit registers together, the two numbers you'd want to add 
+would be in A and some other 8-bit register, then the answer would be left in A after the operation was completed. 
+Simple eh?<BR><BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;The <B>F</B> register (F for Flags) is a processor status register that can only be read from 
+and not written to, with one exception. Four of the bits in this register indicate the outcome of generally the last 
+operation performed. One bit indicates whether the last operation produced a zero or not, another bit indicates whether 
+or not the last instruction generated a carry, yet another indicates whether or not the last instruction performed a 
+subtract, and a half-carry flag in case a carry is generated between nybbles in a byte.<BR><BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;The <B>B</B> and <B>C</B> registers are generally used as counters during repetitive blocks of 
+code such as moving data from one location to another.<BR><BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;Registers <B>D</B> and <B>E</B> are generally used together as a 16-bit register for holding a 
+destination address in moving data from one address to another. They can be used for other operations though, as much 
+as the instructions will permit.<BR><BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;The <B>H</B> and <B>L</B> registers are special due to the fact that they are extensively used 
+for indirect addressing as register pair <B>HL</B>. <I>Indirect Addressing</I> is when instead of specifying an specific 
+address for an operation, you could just use the 16-bit value in <B>HL</B> as an address. It's pretty handy for things 
+like address calculations when you need to access an array of value for example. This is the ONLY register pair that can 
+be used indirectly in the instructions <B>ADC, ADD, AND, CP, DEC, INC, OR, SUB,</B> and <B>XOR</B>.<BR><BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;The <B>SP</B> register is the <I>Stack Pointer</I>, where values from <B>PUSH, POP, CALL</B>, 
+and <B>RET</B> instructions are placed or taken. These values are return addresses for subroutines and such. When the 
+GameBoy is initlaized, this register contains the value $FFFE. On the GameBoy CPU, the Stack grows from TOP DOWN. The 
+means that when you <B>PUSH</B> a 16-bit value to the stack, it hangs down the address space from the top like a 
+stalactite (or is it stalagmite? I can never remember).<BR><BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;The <B>PC</B> is the <I>Program Counter</I>. This register tells the CPU the address that 
+the next instruction is to be fetched from in memory. When the GameBoy starts up, this register contains the value 
+$0100.<BR><BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;Well, those are the GameBoy's CPU registers. So now that you think you know those, we'll 
+jump right on into the instructiuons that get to play with those registers. Can you hear it? Can you? Can you? I 
+hear the sound of data screaming! We're coming to get you data! <B>Cower in fear little data for a new ASM coder 
+is born!!! MWA HA HA!!!</B><BR><BR>
+
+
+
+<H2>Instruction Set</H2>
+<HR size=4 noshade width="30%" align=left>
+
+&nbsp;&nbsp;&nbsp;&nbsp;The instructions in the instruction set for the GameBoy CPU are also known as opcodes. These 
+opcodes are grouped into 8 general categories.<BR><BR>
+
+<UL>
+<LI>8 and 16-bit Loads</li>
+<LI>8-bit Arithmetic and Logical Instructions</li>
+<LI>16-bit Arithmetic Instructions</li>
+<LI>General Purpose Arithmetic and CPU Control Instructions</li>
+<LI>Rotate and Shift Instructions</li>
+<LI>Bit Manipulation Instructions</li>
+<LI>Jump Instructions</li>
+<LI>Call and Return Instructions</li>
+</UL>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Lesson 1 will cover the 8 and 16-bit load instructions and some general ideas. Lesson 2 will 
+consist of 8 and 16-bit Arithmetic instructions and Logical instructions. Lesson 3 will cover General Purpose arithmetic 
+and CPU control instructions as well as rotates, shifts, and bit manipulation. Lesson 4 will be Jump Instructions and 
+Calls and Returns for program flow control, including all the CONDITIONAL Jumps and Calls.
+<BR>
+
+<H2>8 and 16-bit Loads</H2>
+<HR size=4 noshade width="30%" align=left>
+&nbsp;&nbsp;&nbsp;&nbsp;Well, when programming, your ultimate goal is to manipluate data, as simple as that might 
+sound. Simple yes. Easy, not nessecarily. These instructions are what move data to and from registers, memory, and 
+oblivion (in the case of directly loading a fixed value into a register).<BR><BR>
+
+<H3>Register to Register Transfers</H3>
+&nbsp;&nbsp;&nbsp;&nbsp;The <B>LD</B> (load) instruction can transfer any 8-bit general-purpose register (<B>A, B, 
+C, D, E, H, or L</B>) to any other 8-bit general purpose register. The <B>F</B> register can only be transferred 
+to or from the stack, along with the accumulator as register pair <B>AF</B> (<B>PUSH AF</B> and <B>POP AF</B>).<BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;The common transfer instructions are:<BR>
+<UL>
+<LI><B>LD A, reg</B> - Transfers the contents of reg into the accumulator</li>
+<LI><B>LD reg, A</B> - Transfers the contents of the accumulator into reg</li>
+<LI><B>LD reg, (HL)</B> - Load reg with the value at the address in <B>HL</B></li>
+<LI><B>LD (HL), reg</B> - stores reg at the address in <B>HL</B></li>
+</UL><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Note the the destination of the data comes first in the operand field of the <B>LD</B> 
+instruction. The <B>LD</B> instruction changes ONLY the destination, the source stays intact. Rather than being a 
+MOVE style of instruction, it is rather a COPY of the source contents to the destination contents.<BR><BR>
+
+Now you try...<BR><BR>
+<UL>
+<LI><B>LD A, B</b></li>
+<LI><b>LD C, A</b></li>
+<LI><b>LD A, (HL)</b></li>
+<LI><b>LD (HL), A</B></li>
+</UL><BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;See? Was that really difficult? The first instruction loaded the contents of register <B>B</B> 
+into register <B>A</B>. The next instruction loaded the contents of register <B>A</B> into register <B>C</B>. The third 
+instruction load the memory contents located at the address contained in <B>HL</B> into register <B>A</B>. That might 
+seem a bit wordy, but its just a way to use <B>HL</B> as an address place holder. The last instruction does just the 
+opposite. <BR><BR>
+
+<H3>Direct Loading of Registers</H3>
+<HR size=4 noshade width="30%" align=left>
+&nbsp;&nbsp;&nbsp;&nbsp;The <I>accumulator</I>, register pairs <B>BC, DE</B>, or <B>HL</B>, and the <I>Stack Pointer</I> 
+can be loaded from memory using Direct Addressing. Some examples of this are:<BR>
+<BR>
+<B>1. LD A, ($3FFF)</B><BR>
+This instruction loads the accumulator (register A) from memory location $3FFF.<BR><BR>
+
+<B>2. LD HL, ($A000)</B><BR>
+This instruction loads register <B>L</B> from memory location $A000, and register <B>H</B> from memory location $A001. 
+Note the practice of storing the Least Significant byte at the lower address. <B>Oops! No wait!</B> This instruction isn't 
+viable on the GameBoy CPU! (just checking the experienced coders) You can't just load <B>H</B> and <B>L</B> from two memory 
+locations with one instruction, you must load each one independently when load from memory. When loading a direct data 
+value you <b>CAN</b> do that though.<BR><BR>
+
+<B>3. LD SP, ($4050)</B><BR>
+This instruction loads the <I>Stack Pointer</I> from memory locations $4050 (least significant byte) and $4051 
+(most significant byte). All subsequent stack operations such as <B>PUSH</B> or <B>POP</B> will be located at that 
+new address loaded from that loacation, EG.. if at $4050 the data was $00 and at $4051 was $C4, then the <I>Stack 
+Pointer</I> will contain $C400 and all stack operations will happen there. Notice how the less significant byte of a 
+16-bit address is stored at the LOWER address.<BR><BR>
+
+<H3>Immediate Loading of Registers</H3>
+<HR size=4 noshade width="30%" align=left>
+&nbsp;&nbsp;&nbsp;&nbsp;Immediate addressing can be used to load any specific register or register pair with a specific 
+fixed value. This also includes the <I>Stack Pointer</I> and the <I>Program Counter</I>, though you shouldn't directly 
+load the <I>Program Counter</I> unless you really know what you're doing, since that is where the CPU get the address 
+for the next instruction to execute. Some more examples follow.<BR><BR>
+
+<B>1. LD C, 3</B><BR>
+This instruction loads register <B>C</B> with the value 3. The 3 is an 8-bit data item, NOT a 16-bit address. Also, do 
+not confuse the plain decimal 3 with $0003, even though they are relatively equal.<BR><BR>
+
+<B>2. LD DE, $FF80</B><BR>
+This instruction loads register pair <B>DE</B> with the value $FF80. This would be the same as loading register 
+<B>D</B> with $FF and loading register <B>E</B> with $80.<BR><BR>
+
+
+<H3>Indirect Loading of Registers</H3>
+<HR size=4 noshade width="30%" align=left>
+&nbsp;&nbsp;&nbsp;&nbsp;The instruction <B>LD reg, (HL)</B> can load any 8-bit register from the address in register 
+pair <B>HL</B>. The instruction <B>LD A, (rp)</B> can load the accumulator from the address in register pairs <B>BC, 
+DE</B>, or <B>HL</B>. A is the only register that can use <B>BC</B> and <B>DE</B> with indirect addressing. Note that 
+there is no instruction to load a register pair indirectly, so you CANNOT say something like <B>LD DE,(HL)</B> or 
+<B>LD HL,(A000h)</B>. Examples:<BR><BR>
+
+<B>1. LD D, (HL)</B><BR>
+This instruction loads <B>D</B> with the byte located at the address in register pair <B>HL</B>.<BR><BR>
+
+<B>2. LD A, (BC)</B>
+This instruction loads the accumulator from the memory address in register pair <B>BC</B>. Note that you cannot load any 
+register besides <B>A</B> using <B>BC</B> or <B>DE</B> indirectly.<BR><BR>
+
+
+<H3>Stack Loading of Registers</H3>
+<HR size=4 noshade width="30%" align=left>
+&nbsp;&nbsp;&nbsp;&nbsp;The instruction <B>POP rp</B> (rp is a <I>register pair</I>) loads a register pair from the top 
+of the stack. Remember, that the stack in the GameBoy grows from top-down, so the top of the stack is the lowest address 
+occupied by the stack, which is indexed by the <I>Stack Pointer</I>. Of course, <B>POP</B>ping from the stack INCREMENTS 
+the stack pointer by 2, to point to the new top-of-stack address. <B>PUSH</B> is how you store a register pair to the 
+stack. <I>These two instructions are great for temporarily saving registers if you need to use them for something else</I> 
+(since there's only a few registers).<BR><BR>
+
+<H3>Storing Registers in Memory</H3>
+<HR size=4 noshade width="30%" align=left>
+&nbsp;&nbsp;&nbsp;&nbsp;Well, we talked about loading registers from memory, I guess we should now talk about storing them 
+TO memory. The concept is really easy now that you know how to <B>LD</B> a register. To store registers, you just turn the 
+operands around in the previous examples I gave you. Remember in Z80 and GameBoy assembly code, the structure of an 
+instruction is the OPERATION first, then the DESTINATION, then the SOURCE. Like this:<BR><BR>
+
+<B>LD dest, source</B><BR><BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;All you gotta do to store a register is change the destination to a memory location instead of a 
+register and make the source a register. Here's an example:<BR><BR>
+
+<B>LD ($C000),A</B><BR>
+This just loads the contents of <B>A</B> into the memory location $C000. Note that there are brackets around the memory 
+destination. This is to distinguish the address $C000 from the actual plain 16-bit data value of $C000. You can also do 
+things like:<BR><BR>
+
+<B>LD (HL),C</B><BR>
+This just moves the contents of <B>C</B> to the address contained in <B>HL</B>. Is that pretty simple or what? =)<BR><BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;Ok, well say you want to store a specific value in memory, like maybe.... $6F. Well how would we 
+do that? You could do it a few ways. Let's start out by loading <b>HL</b> with the destination memory address. Then we have to 
+use that address in HL as a destination in memory to load a register to:
+
+<B>LD  HL, address </B>(eg: $8000)<BR><BR>
+<b>LD  (HL), A</b>  &lt;-loads contents of register A into memory location at <b>HL</b>
+
+or
+
+<B>LD  HL, address</B><BR>
+<B>LD (HL), $6F</B> &lt;-loads value $6F into memory location at <b>HL</b> <BR><BR>
+Now those weren't too hard right?<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;For all the specific limitations and abilities when using the LD opcode, see the instruction set reference guide also on my webpage.<BR><BR><BR>
+<br>
+
+<!-- Window content ends here -->
+
+
+</td>
+
+<td width=4 class="tablebody">
+<br>
+</td>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=4 class="tableshadow">
+<br>
+</td>
+</tr>
+</table>
+<!-- End of Table Body -->
+
+<!-- Start of Table Footer -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=3 class="tableborder"></td>
+<td width=2 height=3 class="tablebody"></td>
+<td width=630 height=3 class="tablebody"></td>
+<td width=2 height=3 class="tableborder"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=630 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=630 height=3 class="tableshadow"></td>
+<td width=2 height=3 class="tableshadow"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+
+</table>
+<!-- End of Table Footer -->
+</div>
+<!-- End of Content Window #1 -->
+
+<br>
+
+<!-- Start of footnote window -->
+<div>
+<!-- Start of Table Header -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+</table>
+<!-- End of Table Header -->
+
+<!-- Start of Table Body -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=8 class="tablebody">
+<br>
+</td>
+<td width=600 class="tablebody" valign="top">
+
+<!-- Window content goes here -->
+
+<!-- Stuff Goes here -->
+
+<br>
+
+
+</td>
+
+<td width=4 class="tablebody">
+<br>
+</td>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=4 class="tableshadow">
+<br>
+</td>
+</tr>
+</table>
+<!-- End of Table Body -->
+
+<!-- Start of Table Footer -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=3 class="tableborder"></td>
+<td width=2 height=3 class="tablebody"></td>
+<td width=630 height=3 class="tablebody"></td>
+<td width=2 height=3 class="tableborder"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=630 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=630 height=3 class="tableshadow"></td>
+<td width=2 height=3 class="tableshadow"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+
+</table>
+<!-- End of Table Footer -->
+</div>
+<!-- End of Footnote window ->
+
+</td>
+<!---- Main (right) column ends here ------------------------------------------------->
+
+</tr>
+</table>
+
+</div>
+</body>
+</html>

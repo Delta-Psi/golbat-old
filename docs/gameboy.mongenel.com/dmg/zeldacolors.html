@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"> 
+<html>
+<head>
+	<title>Zelda GBC games played on a GBA</title>
+<!-------------Start of CSS Definitions--------------->
+<link rel="stylesheet" type="text/css" href="../color.css">
+<style type="text/css"><!--
+--></style>
+<!-------------End of CSS Definitions----------------->
+</head>
+
+<body>
+
+<!-- Start of Content Window #1 -->
+<div align="center">
+
+<table cellspacing="0" cellpadding="0" width="600" border="1" bordercolor="#000000">
+<tr><td>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+
+
+<!------Date of Update------>
+<tr>
+<td class="headerbody" width="10"></td>
+<td height="30" class="headerbody">
+<!--Date goes here -->
+<div class="pos2">Zelda: Ages &amp; Seasons GBA behaviour</div>
+</td>
+<td class="headerbody" width="10"></td>
+</tr>
+<!------Date of Update------>
+
+<!------Body of Update------>
+<tr>
+<td class="tablebody" width="10"></td>
+<td class="tablebody">
+
+<br>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+<tr>
+<td class="tableshadow">
+<b>
+<div class="pos2" align="left">Feb 25,2001</div>
+</b>
+</td>
+</tr>
+</table>
+<br>
+These two columns show the game "Zelda:Oracle of Ages" both run under the No$gmb debugger. I used the debugger to get the screenshots and to edit the registers to achieve this behaviour. Right column shows the game normally, the left column shows the game run with CPU register B=1 on startup.<br>
+<br>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+<tr>
+<td class="tableshadow">
+<b>
+<div class="pos2" align="left">Mar 16,2001</div>
+</b>
+</td>
+</tr>
+</table>
+
+<br>
+I just got an email from Hideaki Omuro suggesting to try running the games in No$gmb with the display colors set to "ultra poppy" which is just a straight RGB color, with no filter to make it look like the LCD's "washed out" colors. He suggested that maybe the lighter palettes would appear like the normal gbc palettes if they were in "ultra poppy" mode. And as you can see from the pictures below, they are still too vibrant, which says that the GBA LCD has a washed out look to the colors as well, but it's not as pronounced as the GBC screen and of course, has a better level of contrast.<br>
+
+<div align="center">
+<table>
+<tr>
+	<td align="center">GBC B=$01<br>Game assumes GBA</td>
+	<td align="center">GBC B=$00<br>Game assumes GBC</td>
+	<td align="center">"Ultra Poppy" Colors<br>with GBA colors</td>
+</tr>
+<tr>
+	<td><img src="/images/zelda01.gif" width="160" height="144"></td>
+	<td><img src="/images/zelda02.gif" width="160" height="144"></td>
+	<td><img src="/images/zelda09.gif" width="160" height="144"></td>
+</tr>
+<tr>
+	<td><img src="/images/zelda03.gif" width="160" height="144"></td>
+	<td><img src="/images/zelda04.gif" width="160" height="144"></td>
+	<td><img src="/images/zelda08.gif" width="160" height="144"></td>
+</tr>
+<tr>
+	<td><img src="/images/zelda05.gif" width="160" height="144"></td>
+	<td><img src="/images/zelda06.gif" width="160" height="144"></td>
+	<td><img src="/images/zelda07.gif" width="160" height="144"></td>
+</tr>
+</table>
+</div>
+When the GameBoy Color Starts up, I'd assume that B=0. But I looked at the startup code for these two new 
+"GBA compatible" GBC games and found that they check to see if B=1 on startup (actually it checks if bit 0 
+is set to "1", so B could contain any odd number), and if so, the color palettes are changed to lighter 
+ones. I'm assuming this is because of a better color LCD in the GBA. So does this mean it's safe to assume 
+that the GBA in GBC mode contains $11 in A and $01 in B? I think so. But I have no fricken idea since they aren't out yet! lol
+<br>
+<br>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td class="tableshadow">
+<b>
+<div class="pos2" align="left">Feb 2002</div>
+</b>
+</td>
+</tr>
+</table>
+<br>
+Just a little update to clean up the page. 
+<br>
+
+</td>
+<td class="tablebody" width="10"></td>
+</tr>
+<!------Body of Update------>
+
+<!------Person who Updated------>
+<tr>
+<td class="tableshadow" width="10"></td>
+<td class="tableshadow">
+Posted by <a href="email.html" target="main">Duo</a>
+</td>
+<td class="tableshadow" width="10"></td>
+</tr>
+<!------Person who Updated------>
+
+</table>
+</td></tr></table>
+
+</div>
+<!-- End of Content Window #1 -->
+
+</body>
+</html>

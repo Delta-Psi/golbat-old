@@ -1,0 +1,225 @@
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+*/
+
+body {
+	background: #C0C0C0;
+	margin-top: 20px;
+	text-align: justify;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+	text-align: justify;
+	color: #000000;
+}
+
+h1, h2, h3, h4, h5 {
+	margin: 0;
+}
+
+/* Header */
+
+#header {
+	width: 800px;
+	height: 100px;
+	margin: 0 auto;
+	padding: 0;
+	border: 10px solid #FFFFFF;
+	border-bottom: none;
+	background: #808080;
+}
+
+#header h1 {
+	float: left;
+	margin: 20px 0 0 20px;
+	font-size: 50px;
+	letter-spacing: -7px;
+	color: #FF3030;
+}
+
+#header h2 {
+	float: right;
+	margin: 20px 20px 0 0;
+	font-size: 18px;
+	letter-spacing: -1px;
+}
+
+
+a {
+	color: #0099FF;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #764B31;
+	text-decoration: underline;
+}
+
+.img1 {
+	float: left;
+	margin: 3px 15px 0px 0px;
+	border: 2px solid;
+}
+
+/* Menu */
+
+#menu1 {
+	float: left;
+	width: 160px;
+	margin: 0px auto;
+	padding-bottom: 20px;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 14px;
+	color: #323B2E;
+}
+
+#menu1 ul {
+	margin: 0px;
+	list-style: none;
+	padding: 0px;
+}
+
+#menu1 li {
+}
+
+#menu1 a {
+	display: block;
+	width: 150px;
+	padding: 2px 15px;
+	background-color: #999999;
+	border-top: 0px;
+	border-bottom: 0px;
+	text-align: left;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+#menu2 a {
+	display: block;
+	width: 150px;
+	padding: 0px 20px;
+	background-color: #999999;
+	border-top: 0px;
+	border-bottom: 0px;
+	text-align: left;
+	text-decoration: none;
+	text-transform: uppercase;
+	color: #FFFFFF;
+}
+
+#menu1 a:hover {
+	background-color: #CCCCFF;
+	border-top: 0px;
+	border-bottom: 0px;
+	color: #000000;
+}
+
+/* Content */
+
+#content {
+	width: 800px;
+	margin: 0 auto;
+	border: 10px solid #808080;
+	border-top: none;
+	background: #FFFFFF;
+}
+
+#colOne {
+	float: left;
+	width: 150px;
+	margin-top: 20px;
+	padding: 0 10px 0 20px;
+}
+
+#colTwo {
+	float: right;
+	margin-top: 20px;
+	width: 550px;
+	padding: 0 20px 0 20px;
+}
+
+#content h2 {
+	margin-bottom: 20px;
+	font-size: 18px;
+	letter-spacing: -2px;
+}
+
+
+#footer {
+	width: 800px;
+	margin: 0 auto;
+	padding-top: 20px;
+}
+
+
+#footer p {
+	text-align: center;
+	padding: 0;
+	font-size: 10px;
+}
+
+.neg1 {
+	font-size : 8pt;
+}
+
+.neg2 {
+	font-size : 7pt;
+}
+
+.pos1 {
+	font-size : 12pt;
+}
+
+.pos2 {
+	font-size : 14pt;
+}
+
+.pos3 {
+	font-size : 16pt;
+}
+
+.pos4 {
+	font-size : 20pt;
+}
+
+/* Javascript Applemenu */
+
+.applemenu{
+margin: 5px 0;
+padding: 0;
+width: 170px; /*width of menu*/
+border: 1px solid #9A9A9A;
+}
+
+.applemenu div.silverheader a{
+background: black url(silvergradient.gif) repeat-x center left;
+font: normal 12px Tahoma, "Lucida Grande", "Trebuchet MS", Helvetica, sans-serif;
+color: white;
+display: block;
+position: relative; /*To help in the anchoring of the ".statusicon" icon image*/
+width: auto;
+padding: 5px 0;
+padding-left: 8px;
+text-decoration: none;
+}
+
+
+.applemenu div.silverheader a:visited, .applemenu div.silverheader a:active{
+color: white;
+}
+
+
+.applemenu div.selected a, .applemenu div.silverheader a:hover{
+background-image: url(silvergradientover.gif);
+color: white;
+}
+
+.applemenu div.submenu{ /*DIV that contains each sub menu*/
+background: white;
+padding: 5px;
+height: 300px; /*Height that applies to all sub menu DIVs. A good idea when headers are toggled via "mouseover" instead of "click"*/
+}

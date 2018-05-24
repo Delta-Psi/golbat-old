@@ -1,0 +1,387 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+
+<head>
+<title>
+DuoDreamer's Dreamscape
+</title>
+<meta name="title" content="DuoDreamer's Dreamscape">
+<meta name="keywords" content="poetry,poems,midi,mod,mods,midis,gameboy,gb,pokemon,emulate,emulation,emulators,console,computer,mame,raiden,nesticle,rage,callus,nocash,zsnes,snes9x,arcade,classic,video games,roms">
+
+
+
+<!-- -----------Start of CSS Definitions ------------------ -->
+<link rel="stylesheet" type="text/css" href="../default.css">
+<style type="text/css"><!--
+--></style>
+<!------------------------------- End of CSS Definitions ---------------------------->
+
+</head>
+
+<body>
+
+<!-- Entire Document Starts Here -->
+<div align="center">
+
+
+
+<br>
+
+<!---- Start of Whole Content Body. EG: all content tables will go inside this table --->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+
+
+
+
+<!---- Main (right) column starts here ----------------------------------------------->
+<td valign="top" width=620>
+
+<!-- Start of Content Window #1 -->
+<div>
+<!-- Start of Table Header -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+</table>
+<!-- End of Table Header -->
+
+<!-- Start of Table Body -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=8 class="tablebody">
+<br>
+</td>
+<td width=600 class="tablebody" valign="top">
+
+<!-- Window content goes here -->
+
+<h2>ASMSchool - Lesson 9</h2>
+<h3>Hello, World!</h3>
+The universal first program isn't even safe from the GameBoy. Yes, this lesson is about 
+creating our first program that does something, and it's going to display "Hello, World!" Yes, 
+it might be a little bit cheesy, but this program will require some actual coding.... (oooohh scary!) 
+<br><br>
+We're going to use the blank source template that I outlined in the last lesson as a base for 
+our Hello World program. First thing to do is open that file up and save it as HELLO.ASM. You 
+can use whichever text editor that you want, as long as it saves in plain text format. I'll be using 
+CGBIDE, since it has colored syntax highlighting.<br><br>
+
+Alright now that we have the source file open, lets do some good housekeeping and type in a 
+title for the program in the blank comment space at the beginning. Comments in RGBASM are 
+denoted with a semi-colon and every character after that on a line is considered a comment.<br><br>
+
+<table bgcolor="#000000"><tr><td><PRE><FONT color="#00FF00">
+
+Start:
+	jp Start
+	;This line is a comment.		
+
+
+</FONT></PRE></td></tr></table>
+<br><br>
+I suggest typing something like "HELLO.ASM - Hello World Source Code" at the top of the 
+commented area. This way, when someone reads your source code later, they will know what 
+it is. This includes YOU too! There is nothing more frustrating than looking through tons and 
+tons of source files looking for a specific routine if you don't have something to distinguish 
+the contents of the file. (Of course, you COULD just use a text search to find keywords, but WHY?) 
+<br><br>
+Now you can scroll down to the header area that contains the name of the cartridge. Just 
+change the text within the quotes to "HELLO WORLD" and remove the trailing zeros 
+on the same line, since the title should be 11 characters or less, and have extra zeros to make 
+it exactly 11 bytes long. And since "HELLO WORLD" is 11 bytes long, no extra zeros are 
+needed.<br><br>
+
+<table bgcolor="#000000"><tr><td><pre><font color="#00FF00">
+
+	DB	"HELLO WORLD"	
+
+</font></pre></td></tr></table>
+<br><br>
+
+Pretty simple. The "DB" compiler directive just tells the compiler that the following data on the 
+line is to be treated as raw data. You can see quite a few examples of it in the header. I made a 
+big deal of making sure you edit the name because it would be awfully embarrasing to release 
+a game or a program, and have it's cart name be something like "BLANK ASM" or something 
+equally messed up.<br><br>
+
+Alright, now we have to change a few bytes that define the cartridge hardware, including cartridge 
+size, memory bank controller (MBC), whether or not we need any cartridge RAM, and if the target 
+machine will be DMG (monochrome GameBoy) or CGB (Color GameBoy). Since we are starting 
+out very simple, we will keep the target to the plain GameBoy. You'll find all of the correct 
+values for all of these in the GameBoy Crib Sheet, which you better have printed out by now... 
+hehehe. Otaku spent a good 15 minutes putting that together, you better show your appreciation! 
+(just kidding about the 15 minutes Otaku!)<br><br>
+
+We will be using the smallest possible cartridge size, which is 32K: the Home Bank and one 
+additional bank. We wont need to use the additional bank, but 32K is the normal minimum 
+cartridge size. And we will NOT need any cartridge RAM, since we aren't going to be saving 
+anything. Also, the memory bank controller (MBC) will be a plain MBC5, which is pretty simple 
+to use, and doesn't have any special problems. Also, since we wont be switching banks anyhow, 
+we could pretty much leave this one set to 0. So:<br><br>
+
+<table bgcolor="#000000"><tr><td><pre><font color="#00FF00">
+
+	; $0143 (Color GameBoy compatibility code)
+	DB	$00	; $00 - DMG 
+			; $80 - DMG/GBC
+			; $C0 - GBC Only cartridge
+
+	; $0144 (High-nibble of license code - normally $00 if $014B != $33)
+	DB	$00
+
+	; $0145 (Low-nibble of license code - normally $00 if $014B != $33)
+	DB	$00
+
+	; $0146 (GameBoy/Super GameBoy indicator)
+	DB	$00	; $00 - GameBoy
+
+	; $0147 (Cartridge type - all Color GameBoy cartridges are at least $19)
+	DB	$00	; $00 - ROM Only
+
+	; $0148 (ROM size)
+	DB	$00	; $00 - 256Kbit = 32Kbyte = 2 banks
+
+	; $0149 (RAM size)
+	DB	$00	; $00 - None
+
+
+</font></pre></td></tr></table>
+<br><br>
+That should pretty much cover that part. If I've made any glaring mistakes, let me know. And uh... 
+any mistakes are intentional... yeah... that's it... sure... just to make sure you're paying 
+attention. LOL<br><br>
+
+Anyhow, it's time to jump into the code. Scroll down to the Start label and remove the "JP START". 
+The very first thing we're going to do is DISABLE INTERRUPTS. This is done by the instruction 
+DI. Now let me clear something up: the DI instruction does NOT clear all of the bits of the IE 
+register to disable all of the interrupts. What it does is turns off a big "Interrupt Master Enable" 
+switch that disallows any interrupts from happening, even if we have their flags set in the IE 
+register.<br><br>
+
+<table bgcolor="#000000"><tr><td><pre><font color="#00FF00">
+
+;****************************************************
+;*	Program Start
+;****************************************************
+
+	SECTION "Program Start",HOME[$0150]
+Start::
+	di                ;disable interrupts
+	ld   sp,$FFFE     ;set the stack to $FFFE
+	call WAIT_VBLANK  ;wait for v-blank
+
+	ld   a,0         ;
+	ldh  [rLCDC],a   ;turn off LCD 
+
+	call CLEAR_MAP    ;clear the BG map
+	call LOAD_TILES   ;load up our tiles
+	call LOAD_MAP     ;load up our map
+
+	ld   a,%11100100 ;load a normal palette
+	ldh  [rBGP],a    ;load the palette
+	
+	ld   a,%10010001 ;  =$91 
+	ldh  [rLCDC],a   ;turn on the LCD, BG, etc
+
+Loop::
+	halt
+	nop
+	jp   Loop
+
+
+</font></pre></td></tr></table>
+<br><br>
+Wow! That's a whole lot! (hint of sarcasm) But that is the main part of our program. Ok, here is a 
+quick run-down of this main part.<br><br>
+<ul>
+<li>First we disable interrupts</li>
+<li>Then we set our stack to the area of $FFFE</li>
+<li>Then we call a subroutine to wait until the LCD is in v-blank</li>
+<li>Next we load A with ZERO, and load that value into rLCDC which turns off the LCD</li>
+<li>Then we call a subroutine to clear the map</li>
+<li>And we call a subroutine to load our tiles</li>
+<li>Then we call a subroutine to load our tile map</li>
+<li>And then we set the palette to some normal values (black, gray, light gray, white)
+<li>Next we load a value into A that turns on the LCD in the mode we want it, and load that value into rLCDC</li>
+<li>Now that the LCD is on, we can have an infinite loop</li>
+</ul>
+<br>
+It seems like alot of work to do very little, but we are actually accomplishing alot in very 
+few bytes of real code.<br><br>
+
+Looking at the above code, I'm hoping it's simple enough for you to understand what 
+it's doing when you read it.<br><br>
+
+Ok, that's about it for this time. Sometime soon I will have to expand this lesson to contain the 
+subroutines in the main program loop I have illustrated above. They are pretty simple, no doubt, 
+I just haven't gotten to coding all the HTML. =P
+<br><br>
+
+
+
+<!-- Window content ends here -->
+
+
+</td>
+
+<td width=4 class="tablebody">
+<br>
+</td>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=4 class="tableshadow">
+<br>
+</td>
+</tr>
+</table>
+<!-- End of Table Body -->
+
+<!-- Start of Table Footer -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=3 class="tableborder"></td>
+<td width=2 height=3 class="tablebody"></td>
+<td width=630 height=3 class="tablebody"></td>
+<td width=2 height=3 class="tableborder"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=630 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=630 height=3 class="tableshadow"></td>
+<td width=2 height=3 class="tableshadow"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+
+</table>
+<!-- End of Table Footer -->
+</div>
+<!-- End of Content Window #1 -->
+
+<br>
+
+<!-- Start of footnote window -->
+<div>
+<!-- Start of Table Header -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+</table>
+<!-- End of Table Header -->
+
+<!-- Start of Table Body -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=8 class="tablebody">
+<br>
+</td>
+<td width=600 class="tablebody" valign="top">
+
+<!-- Window content goes here -->
+
+<!-- Stuff Goes here -->
+
+<br>
+
+
+</td>
+
+<td width=4 class="tablebody">
+<br>
+</td>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=4 class="tableshadow">
+<br>
+</td>
+</tr>
+</table>
+<!-- End of Table Body -->
+
+<!-- Start of Table Footer -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=3 class="tableborder"></td>
+<td width=2 height=3 class="tablebody"></td>
+<td width=630 height=3 class="tablebody"></td>
+<td width=2 height=3 class="tableborder"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=630 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=630 height=3 class="tableshadow"></td>
+<td width=2 height=3 class="tableshadow"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+
+</table>
+<!-- End of Table Footer -->
+</div>
+<!-- End of Footnote window ->
+
+</td>
+<!---- Main (right) column ends here ------------------------------------------------->
+
+</tr>
+</table>
+
+</div>
+</body>
+</html>

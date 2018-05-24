@@ -1,0 +1,392 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+
+<head>
+<title>
+DuoDreamer's Dreamscape
+</title>
+<meta name="title" content="DuoDreamer's Dreamscape">
+<meta name="keywords" content="poetry,poems,midi,mod,mods,midis,gameboy,gb,pokemon,emulate,emulation,emulators,console,computer,mame,raiden,nesticle,rage,callus,nocash,zsnes,snes9x,arcade,classic,video games,roms">
+
+
+
+<!-- -----------Start of CSS Definitions ------------------ -->
+<link rel="stylesheet" type="text/css" href="../default.css">
+<style type="text/css"><!--
+--></style>
+<!------------------------------- End of CSS Definitions ---------------------------->
+
+</head>
+
+<body>
+
+<!-- Entire Document Starts Here -->
+<div align="center">
+
+
+
+<br>
+
+<!---- Start of Whole Content Body. EG: all content tables will go inside this table --->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+
+
+
+
+<!---- Main (right) column starts here ----------------------------------------------->
+<td valign="top" width=620>
+
+<!-- Start of Content Window #1 -->
+<div>
+<!-- Start of Table Header -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+</table>
+<!-- End of Table Header -->
+
+<!-- Start of Table Body -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=8 class="tablebody">
+<br>
+</td>
+<td width=600 class="tablebody" valign="top">
+
+<!-- Window content goes here -->
+<H2>ASMSchool  -  Lesson 7</H2>
+<h3>What the hell is RGBDS and WLA?</h3>
+This lesson will introduce you to the assemblers of choice among GB asm coders. Both RGBDS and WLA 
+are great packages for turning your code into a ROM image. Both include an assembler, linker, etc. All 
+the tools you'll need. I WILL NOT put one head and shoulders above the other, since both have their own 
+plusses and minuses. Currently I use RGBDS, but I have used WLA and I like that one just as much.<br><br>
+
+Ok, if you haven't already, go download RGBDS and WLA. You're definately going to need them. And you might 
+want to get CGBIDE also, just so I know what kind of editor you're using ;-).<br><br>
+
+First we'll work with RGBDS. You should have these files, either in the same directory as your source, 
+or pointed to in your DOS PATH:<br><br>
+<table bgcolor="#000000"><tr><td><PRE><FONT color="#00FF00">
+
+ Volume in drive C has no label
+ Volume Serial Number is XXXX-XXXX
+ Directory of C:\Program Files\GAMEBOY\RGBDS
+
+.              &lt;DIR&gt;        04-08-01 10:18a .
+..             &lt;DIR&gt;        04-08-01 10:18a ..
+DOCS           &lt;DIR&gt;        04-08-01 10:18a docs
+RGBASM   EXE       114,688  02-19-00  4:42p RGBASM.EXE
+RGBFIX   EXE        45,056  02-19-00  4:43p RGBFIX.EXE
+XLIB     EXE        43,520  02-19-00  4:42p XLIB.EXE
+XLINK    EXE        53,248  02-19-00  4:42p XLINK.EXE
+CGBIDE   EXE       466,944  03-11-00 11:09p CGBIDE.EXE
+DOCS     ZIP        44,684  02-19-00  4:43p docs.zip
+CGBIDE   ZIP       196,714  04-09-01  6:43p CGBIDE.zip
+         7 file(s)        964,854 bytes
+         3 dir(s)     516,530,176 bytes free
+</FONT></PRE></td></tr></table>
+<br>
+If you don't know what a DOS PATH is, just stick the files in the same directory as your source code. 
+These files don't have to be that specific size, there is a plain DOS version, and a version compiled 
+for Win9X console (DOS box in Windows) so the file sizes may not match. No worries, mon!<br><br>
+
+Ok, you'll see that we have 4 EXE's. RGBASM is the assembler, it takes your code and converts it to the 
+correct data objects that XLINK turns into a final ROM image. RGBFIX is a cleanup tool. What it does is 
+takes a ROM image and corrects internal header information (checksum, name, filesize, etc) and can pad 
+or truncate the rom image to an appropriate size (32, 64, 128, 256, 512K, etc). I haven't really used 
+XLIB.EXE, though I'm sure it has something to do with managing libraries of code. =P<br><br>
+
+Ok, lets jump right in and take a look at the batch file that I use in one of my projects.<br><br>
+<table bgcolor="#000000"><tr><td><PRE><FONT color="#00FF00">
+
+Contents of file MAKE.BAT:
+
+rgbasm -obank1.obj bank1.asm
+rgbasm -obank2.obj bank2.asm
+rgbasm -obank3.obj bank3.asm
+rgbasm -odecomp.obj decomp.asm
+rgbasm -ouservars.obj uservars.asm
+rgbasm -ostartup.obj startup.asm
+rgbasm -olib.obj lib.asm
+
+xlink -mtest.map -ntest.sym link1
+
+rgbfix -v -o test.gbc
+
+ren test.map testmap.txt
+
+</FONT></PRE></td></tr></table>
+<br>
+I REALLY hope you know how to use batch files and the DOS Prompt. If not, STOP READING NOW and go get 
+"DOS For Dummies", a great book for all of you kids who were raised in a GUI world...<br><br>
+
+The first 7 lines are just running the assembler on several source files for my project. My project is 
+split up into multiple files for clarity and simplicity, plus if I only make one small change in one 
+of the source files, I only have to recomile that specific source file. The syntax for RGBASM is pretty 
+simple, and I've used the simplest form here, just an input and output file. Obviously the 
+"-o&lt;filename&gt;" tells the assembler what file to write the output to, and the second operand is just 
+the source file.<br><br>
+
+The next line "xlink -mtest.map -ntest.sym link1" invokes the linker to put together all of the objects 
+that RGBASM created from the source files. The "-mtest.map" option tells the linker to output a map file named "test.map", 
+which is basically a little text detailing everything in the ROM, and the "-ntest.sym" option tells the 
+linker to output a no$gmb compatible SYMbol file called test.sym, so that when I load the ROM in the no$gmb debugger, 
+it will show the labels from my source code so it's easier to debug. The symbol file must have the same 
+name as the ROM image, or else no$gmb wont know where to load the symbol file from. More information on 
+the format of the sym file and other no$gmb options can be found in it's help file (open the emu and press F1). 
+And the option on the very end is the link script. The link script tells the linker all of the object files 
+to put together into a ROM and what name to give the output.
+<br><br>
+<table bgcolor="#000000"><tr><td><PRE><FONT color="#00FF00">
+
+Contents of file LINK1:
+
+[Objects]
+bank1.obj
+bank2.obj
+bank3.obj
+decomp.obj
+uservars.obj
+startup.obj
+lib.obj
+
+[Output]
+test.gbc
+
+
+</FONT></PRE></td></tr></table>
+<br><br>
+
+Now we have a ROM image, but we aren't quite done yet. In the next line of the batch file I use RGBFIX 
+to check the ROM image header and correct any information that needs to be done, such as checksums, the Nintendo 
+logo data, etc. And then the last line of the batch file just renames the map file to a TXT file so I can 
+open it easily in Notepad and take a look.
+<br><br>
+&lt;IMPORTANT NOTE&gt; The logo data in the header is a VERY touchy subject. Nintendo has staunchly 
+defended the idea that this logo data is their property, since it draws out the Nintendo logo when the GB powers up. 
+Nintendo claims that using this piece of data without their prior authorization is a violation of copyright laws. 
+Unfortunately, the ROM image MUST contain a correct header to run the game. There has been legal precedent 
+that it is not illegal to include such a "signature" on the basis that it is an anti-competetive practice. 
+Sega and Accolade were involved in a lawsuit over the same issue. Accolade produced a game for the Genesis 
+game console without the prior consent of Sega, and distributed the game. The game included a signature 
+that the Genesis checks to make sure it's an authorized game, even though the game had NOT been approved by Sega. 
+The judge ruled in favor of Accolade stating that Sega was being anti-competetive. Of course, the game package 
+didn't have Sega's "Seal Of Approval" on the front of it, but the game ran nonetheless. You'll find that in 
+many game consoles, there is a note in the instruction manual saying something to the effect that using any 
+game not approved for use on the console isn't authorized, etc... It's pretty much bullshit strongarm tactics 
+to get the consumer to think of non-approved games as possible damaging to your game system. So, you REALLY 
+have to watch yourself in homebrew game development to make sure you stay clear of copyright issues. &lt;/IMPORTANT NOTE&gt;<br><br>
+
+Ok, now we've made it through our first make file. Now lets run it and see what happens! Just type MAKE 
+if you're at a DOS prompt, or double-click the batch file if you're using Windows Explorer.
+<br><br>
+<table bgcolor="#000000"><tr><td><PRE><FONT color="#00FF00">
+
+C:\GAME>make
+
+C:\GAME>rgbasm -obank1.obj bank1.asm
+Output filename bank1.obj
+Assembling bank1.asm
+Pass 1...
+Pass 2...
+Success! 1212 lines in 0.17 seconds (427764 lines/minute)
+
+...(clipped out other assembling for space concerns)...
+
+C:\GAME>xlink -mtest.map -ntest.sym link1
+
+C:\GAME>rgbfix -v -o test.gbc
+Setting Colour GameBoy only mode
+        Colour GameBoy only mode set
+Validating header:
+        Nintendo Character Area is OK
+		ROM size byte is OK
+		Cartridge type byte is OK
+		Checksum changed from 0x000 to 0xF44C
+		CompChecksum changed from 0x00 to 0x4C
+		
+C:\GAME>ren test.map testmap.txt
+
+</FONT></PRE></td></tr></table>
+<br><br>
+WOW! if you see the word SUCCESS in your assembling, that's a GOOD THING. =) It means that the assembler 
+didn't have any MAJOR issues with your sourcecode, such as syntax errors. Ok, now that you've watched me 
+compile one of my projects, you sorta know how things will go when you start assembling your own projects.<br><br>
+
+Well, now I've run into a problem. I've spent this whole afternoon writing this tutorial, now I'm tired 
+as hell and I haven't even touched on the WLA assembler yet... (sorry Ville!) Well, in actuality WLA is very 
+similar to RGBDS, it's just a little different. Plus, WLA will assemble for a few different CPU's, not just the 
+GameBoy.<br><br>
+
+That's the end of this lesson. The next lesson will be along shortly... =)
+
+
+<br>
+<br>
+
+<!-- Window content ends here -->
+
+
+</td>
+
+<td width=4 class="tablebody">
+<br>
+</td>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=4 class="tableshadow">
+<br>
+</td>
+</tr>
+</table>
+<!-- End of Table Body -->
+
+<!-- Start of Table Footer -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=3 class="tableborder"></td>
+<td width=2 height=3 class="tablebody"></td>
+<td width=630 height=3 class="tablebody"></td>
+<td width=2 height=3 class="tableborder"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=630 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=630 height=3 class="tableshadow"></td>
+<td width=2 height=3 class="tableshadow"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+
+</table>
+<!-- End of Table Footer -->
+</div>
+<!-- End of Content Window #1 -->
+
+<br>
+
+<!-- Start of footnote window -->
+<div>
+<!-- Start of Table Header -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+</table>
+<!-- End of Table Header -->
+
+<!-- Start of Table Body -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=8 class="tablebody">
+<br>
+</td>
+<td width=600 class="tablebody" valign="top">
+
+<!-- Window content goes here -->
+
+<!-- Stuff Goes here -->
+
+<br>
+
+
+</td>
+
+<td width=4 class="tablebody">
+<br>
+</td>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=4 class="tableshadow">
+<br>
+</td>
+</tr>
+</table>
+<!-- End of Table Body -->
+
+<!-- Start of Table Footer -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=3 class="tableborder"></td>
+<td width=2 height=3 class="tablebody"></td>
+<td width=630 height=3 class="tablebody"></td>
+<td width=2 height=3 class="tableborder"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=630 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=630 height=3 class="tableshadow"></td>
+<td width=2 height=3 class="tableshadow"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+
+</table>
+<!-- End of Table Footer -->
+</div>
+<!-- End of Footnote window ->
+
+</td>
+<!---- Main (right) column ends here ------------------------------------------------->
+
+</tr>
+</table>
+
+</div>
+</body>
+</html>

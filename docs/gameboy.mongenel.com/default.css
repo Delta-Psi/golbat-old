@@ -1,0 +1,265 @@
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+*/
+
+body {
+	background: #C0C0C0;
+	margin-top: 20px;
+	text-align: justify;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+	text-align: justify;
+	color: #000000;
+}
+
+h1, h2, h3, h4, h5 {
+	margin: 0;
+}
+
+/* Header */
+
+#header {
+	width: 800px;
+	height: 100px;
+	margin: 0 auto;
+	padding: 2;
+	border: 10px solid #FFFFFF;
+	border-bottom: none;
+	background: #808080;
+}
+
+#header:after {
+    content: "<h1><i><font color="#FF0000">G</font><font color="#660099">A</font><font color="#0000F0">M</font><font color="#00C0FF">E</font> <font color="#80FF00">B</font><font color="#FFFF00">O</font><font color="#FF6600">Y</font></i><font color="#000000">&nbsp; Dev. &nbsp;</font></h1>";
+}
+
+#header h1 {
+	float: left;
+	margin: 20px 0 0 20px;
+	font-size: 50px;
+	letter-spacing: -7px;
+	color: #FF3030;
+}
+
+#header h2 {
+	float: right;
+	margin: 20px 20px 0 0;
+	font-size: 18px;
+	letter-spacing: -1px;
+}
+
+
+a {
+	color: #0099FF;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #764B31;
+	text-decoration: underline;
+}
+
+.img1 {
+	float: left;
+	margin: 3px 15px 0px 0px;
+	border: 2px solid;
+}
+
+/* Menu */
+
+#menu1 {
+	float: left;
+	width: 160px;
+	margin: 0px auto;
+	padding-bottom: 20px;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 14px;
+	color: #323B2E;
+}
+
+#menu1 ul {
+	margin: 0px;
+	list-style: none;
+	padding: 0px;
+}
+
+#menu1 li {
+}
+
+#menu1 a {
+	display: block;
+	width: 150px;
+	padding: 2px 15px;
+	background-color: #999999;
+	border-top: 0px;
+	border-bottom: 0px;
+	text-align: left;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+#menu2 a {
+	display: block;
+	width: 150px;
+	padding: 0px 20px;
+	background-color: #999999;
+	border-top: 0px;
+	border-bottom: 0px;
+	text-align: left;
+	text-decoration: none;
+	text-transform: uppercase;
+	color: #FFFFFF;
+}
+
+#menu1 a:hover {
+	background-color: #CCCCFF;
+	border-top: 0px;
+	border-bottom: 0px;
+	color: #000000;
+}
+
+/* Content */
+
+#content {
+	width: 800px;
+	margin: 0 auto;
+	border: 10px solid #808080;
+	border-top: 2px;
+	background: #FFFFFF;
+}
+
+#colOne {
+	float: left;
+	width: 150px;
+	margin-top: 20px;
+	padding: 0 10px 0 20px;
+}
+
+#colTwo {
+	float: right;
+	margin-top: 20px;
+	width: 550px;
+	padding: 0 20px 0 20px;
+}
+
+#content h2 {
+	margin-bottom: 20px;
+	font-size: 18px;
+	letter-spacing: -2px;
+}
+
+
+#footer {
+	width: 800px;
+	margin: 0 auto;
+	padding-top: 20px;
+}
+
+
+#footer p {
+	text-align: center;
+	padding: 0;
+	font-size: 10px;
+}
+
+.neg1 {
+	font-size : 8pt;
+}
+
+.neg2 {
+	font-size : 7pt;
+}
+
+.pos1 {
+	font-size : 12pt;
+}
+
+.pos2 {
+	font-size : 14pt;
+}
+
+.pos3 {
+	font-size : 16pt;
+}
+
+.pos4 {
+	font-size : 20pt;
+}
+
+
+#screen-gameboy-text {
+  position: absolute;
+  font-family: 'Asap', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: -2px;
+  text-align: center;
+  opacity: 0;
+  width: 500px;
+  left: 0px;
+  top: 0px;
+  -webkit-transform: skew(-5deg);
+  transform: skew(-5deg);
+  overflow: hidden;
+  white-space: nowrap;
+  color: #3232fc;
+  background: -webkit-linear-gradient(0deg, #3232fc 40%, #85e367 40%, #85e367 45%, #ff52e8 45%, #ff52e8 50%, #ff0151 50%, #ff0151 55%, #f9e52e 55%, #f9e52e 60%, #e8e8e8 60%);
+  background-position: 150px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-animation: screen-gameboy-text 3s infinite linear;
+  animation: screen-gameboy-text 3s infinite linear;
+}
+@keyframes screen-gameboy-text {
+  0% {
+    color: #f9e52e;
+    background-position: 0px;
+    opacity: 0;
+  }
+  11.7% {
+    opacity: 0;
+  }
+  12% {
+    color: #f9e52e;
+    background-position: 0px;
+    opacity: 1;
+  }
+  19.5% {
+    color: #f9e52e;
+  }
+  21% {
+    color: #ff0151;
+  }
+  28.5% {
+    color: #ff0151;
+  }
+  30% {
+    color: #ff52e8;
+  }
+  37.5% {
+    color: #ff52e8;
+  }
+  39% {
+    color: #85e367;
+  }
+  46.5% {
+    color: #85e367;
+  }
+  48% {
+    color: #3232fc;
+  }
+  54% {
+    background-position: 130px;
+  }
+  81% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 0;
+  }
+}

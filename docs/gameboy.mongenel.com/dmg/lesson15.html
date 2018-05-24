@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Gameboy Dev</title>
+<meta name="Keywords" content="" />
+<meta name="Description" content="" />
+<link href="default.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header">
+	
+	<h1><i><font color="#FF0000">G</font><font color="#660099">A</font><font color="#0000F0">M</font><font color="#00C0FF">E</font> <font color="#80FF00">B</font><font color="#FFFF00">O</font><font color="#FF6600">Y</font></i>&nbsp; Dev &nbsp;</h1>
+    
+  <h2>gameboy.mongenel.com<br>Homebrew Game Boy<br>Development</h2>
+  <img src="images/gameboy.png" /><img src="images/gameboycolor.png" />
+</div>
+
+
+
+<!-- Entire Document Starts Here -->
+<div align="center">
+
+
+
+<br>
+
+<!---- Start of Whole Content Body. EG: all content tables will go inside this table --->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+
+
+
+
+<!---- Main (right) column starts here ----------------------------------------------->
+<td valign="top" width=620>
+
+<!-- Start of Content Window #1 -->
+<div>
+<!-- Start of Table Header -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+</table>
+<!-- End of Table Header -->
+
+<!-- Start of Table Body -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=8 class="tablebody">
+<br>
+</td>
+<td width=600 class="tablebody" valign="top">
+
+<!-- Window content goes here -->
+<H2>ASMSchool  -  Lesson 15</H2>
+
+<h3>How to use the BGB Emulator/Debugger</h3>
+
+This is a <b>VERY</b> important lesson, for it teaches you to use the best emulator/debugger 
+available for the GameBoy system, BGB! This awesome tool will help you alot in learning 
+assembly code, and help alot when you've got a bug in your code and can't find it. BGB is FREE and you can download it from 
+<a href="http://bgb.bircd.org/" target="_blank">http://bgb.bircd.org/</a>. <br>
+
+<h3>Interface</h3>
+Obviously, it's pretty smart to get to know the interface first. In the image below you can see the 5 major 
+sections of the interface. Section A is the Code Window. This is where you can view the disassembled 
+program code, and even poke in quick, temporary changes if you want to. Panel B is an extension of the Code Window 
+but instead doesn't show opcodes, but straight hex values anywhere in the GB's address space. Panel C is 
+the LCD display output window, whatever would appear on the GameBoy screen appears in this window. Panel D 
+shows the CPU's Registers and Flags, you can even alter the Flags, as they are simple check boxes, which is pretty 
+handy for checking out &quot;what if&quot; conditions at run-time. Panel E shows 16-bit wide values in the address 
+space, and I'm pretty sure follows the Stack Pointer. Ok! Now that you know what the program looks like, you can begin using it! 
+Press F12 to get open a ROM Image (preferrably a LEGAL one), pick one, and it will load up and run. Simple eh? Ok, the default configuration for key input is the arrow keys, TAB and SPACE for A &amp; B, and CTRL and ENTER for SELECT &amp; START. Pressing ESC while emulation is in progress will pause it and bring you back to the debugger, where the current line of code executing will be highlighted.
+<br><br>
+<div align="center"><img src="/images/window01.jpg"></div>
+<br>
+<h3>Tools</h3>
+<hr noshade size=4 width=20% align="left">
+VRAM Viewer (F5)
+<hr noshade size=4 width=20% align="left">
+<br>
+The figure below show a picture of the VRAM Viewer window in No$gmb. You can open it from the "Window" menu or by pressing F5 when a program is NOT running (pressing F5 while a program is running will bring up the SNAPSHOT dialog). This window shows various data in the video RAM of the GameBoy. This is a VERY handy little tool, so I advise you start using it.<br><br>
+<div align="center"><img src="/images/novram.jpg" width="288" height="215" border="0" alt=""></div><br><br>
+In the picture above, the PALETTES tab is selected, showing you the current contents of all the GBC palettes. There are a few other tabs, one which shows the output screen, one shows the BG Map contents, one shows the Tile RAM contents, and another shows the OAM (sprite) data. 
+<br>NOTE: you CAN have the VRAM Viewer window open (and in the background) while running a program, and it will show the contents of VRAM "on-the-fly", but be warned, it sucks alot more CPU time. (on my K6-2 500, the emu can run about 8X faster than normal)<br>
+<br><br>
+<hr noshade size=4 width=20% align="left">
+Emulator Setup (F11)
+<hr noshade size=4 width=20% align="left">
+<br>
+Pressing F11 gets you the Setup window where you can set and change various emulator options, including type of GameBoy emulated and debugging exceptions, sound, controls, etc.<br><br>
+<div align="center"><img src="/images/nosetup.jpg" width="291" height="226" border="0" alt=""></div>
+<br><br>Play with all the options to get a feel for what you have available, as there is really too many options for me to detail. 
+Take note that the "Xcept" tab holds options for how the emulator acts during emulation. It can tell you if your code is doing something 
+illegal but hard to notice, like turning off the LCD outside of V-Blank, or accessing the Echo RAM and a few other things, including software 
+breakpoints.<br><br>
+
+<hr noshade size=4 width=20% align="left">
+Hardware Info (F10)
+<hr noshade size=4 width=20% align="left">
+<br>
+Pressing F10 brings up the Hardware Info window. In this window you can view all of the hardware registers in the GameBoy and their current contents. UNLIKE the VRAM Viewer, you can't see the contents of this window "on-the-fly", but rather, when you pause emulation by hitting ESC.<br><br>
+<div align="center"><img src="/images/nohard.jpg" width="272" height="192" border="0" alt=""></div><br><br>
+
+<hr noshade size=4 width=20% align="left">
+Utilities Menu
+<hr noshade size=4 width=20% align="left">
+<br>
+This menu is FULL of great little goodies to help in your debugging. You can start No$GMB's 
+built-in text editor to edit source code, and then tell no$gmb to assemble it. There is an option 
+to write the currently loaded ROM image to a GBXchanger flash cart (highly reccommended). You 
+can disassemble the currently loaded ROM image to a text file, or dump hex data to a file. Pressing 
+the PrntScr button on your keyboard will take a screenshot of the current running screen. You can also 
+edit the color scheme that no$gmb displays DMG games in and even open a window to enter GameShark and 
+GameGenie cheat codes.<br><br>
+
+<hr noshade size=4 width=20% align="left">
+Other Menus
+<hr noshade size=4 width=20% align="left">
+<br>
+The other menus contain options and commands that control the emulator, allowing you to 
+reset the emulation, step though emulation one instruction at a time, trace, and many other 
+things including search functions and assembling an opcode directly into memory.
+
+<br><br>
+That's all for now, play with the emulator and get to know all of it's features, you'll find it to be VERY helpful with developing and debugging your own GameBoy programs/games. You should check out the Help file included as it's very helpful and contains EVERYTHING you'd want to know about the emulator.<br><br>
+Also, I REALLY recommend that you register the emulator, as GameBoy standard emulation is freeware, but GameBoy Color emulation is shareware and lasts for only 5 minutes each time you start the emu. To register is really easy and inexpensive, and is well worth it for everything that the emulator does. Check out <a href="http://www.work.de/nocash" target="_blank">http://www.work.de/nocash</a> for details. A special thanks to Martin Korth for writing the emulator in the first place.
+
+<br><br><br>
+
+<!-- Window content ends here -->
+
+
+</td>
+
+<td width=4 class="tablebody">
+<br>
+</td>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=4 class="tableshadow">
+<br>
+</td>
+</tr>
+</table>
+<!-- End of Table Body -->
+
+<!-- Start of Table Footer -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=3 class="tableborder"></td>
+<td width=2 height=3 class="tablebody"></td>
+<td width=630 height=3 class="tablebody"></td>
+<td width=2 height=3 class="tableborder"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=630 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=630 height=3 class="tableshadow"></td>
+<td width=2 height=3 class="tableshadow"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+
+</table>
+<!-- End of Table Footer -->
+</div>
+<!-- End of Content Window #1 -->
+
+<br>
+
+<!-- Start of footnote window -->
+<div>
+<!-- Start of Table Header -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+</table>
+<!-- End of Table Header -->
+
+<!-- Start of Table Body -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=8 class="tablebody">
+<br>
+</td>
+<td width=600 class="tablebody" valign="top">
+
+<!-- Window content goes here -->
+
+<!-- Stuff Goes here -->
+
+<br>
+
+
+</td>
+
+<td width=4 class="tablebody">
+<br>
+</td>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=4 class="tableshadow">
+<br>
+</td>
+</tr>
+</table>
+<!-- End of Table Body -->
+
+<!-- Start of Table Footer -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=3 class="tableborder"></td>
+<td width=2 height=3 class="tablebody"></td>
+<td width=630 height=3 class="tablebody"></td>
+<td width=2 height=3 class="tableborder"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=630 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=630 height=3 class="tableshadow"></td>
+<td width=2 height=3 class="tableshadow"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+
+</table>
+<!-- End of Table Footer -->
+</div>
+<!-- End of Footnote window ->
+
+</td>
+<!---- Main (right) column ends here ------------------------------------------------->
+
+</tr>
+</table>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.03 [es] (Win95; I) [Netscape]">
+   <META NAME="Author" CONTENT="bla bla">
+   <TITLE>game genie codes</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+The Game Genie is designed to replace Cartridge ROM bytes
+with user entered values. It doesn't actually modify the information in
+the Cartridges themselves. GameBoy Games just ACT like the ROM has been
+modified.
+
+<P>This is the format for Game Genie codes for GameBoy:
+<BR>&nbsp;
+<TABLE BORDER >
+<TR>
+<TD VALIGN=CENTER COLSTART="1">
+<H2>
+DD</H2>
+</TD>
+
+<TD VALIGN=CENTER COLSTART="2">
+<H2>
+2-103</H2>
+</TD>
+
+<TD VALIGN=CENTER COLSTART="3">
+<H2>
+-ACB</H2>
+</TD>
+</TR>
+
+<TR>
+<TD COLSTART="1">Replace Value</TD>
+
+<TD COLSTART="2">Address</TD>
+
+<TD COLSTART="3">Compare Value</TD>
+</TR>
+</TABLE>
+Late model Game Genies only require you to enter the first six digits.
+All nine digits are required for selecting a specific rom bank.
+
+<P>The DD above is the Replace Value. AB above is the old byte value in
+ROM to be replaced. Since there are different ways of selecting rom banks,
+the only way for the Game Genie to determine which byte to replace in which
+ROM bank is by comparing what's in ROM to the Compare Value. If these match
+up, then the replace value is put on the data bus. Otherwise the old ROM
+data is presented to the GameBoy.
+
+<P>The AB compare value is encoded. To restore it's original value invert
+AB (xor $ff), rotate value right by 2, then invert bits 0, 2 and 6 (xor
+$45).
+
+<P>The C value above is still undetermined but if you XOR it with encoded
+nibble A the result must not be any of the values 1 through 7 or else you
+will receive a bad code message. Usually this value will be 8 when decoded.
+
+<P>The Game Genie can only modify/replace ROM addresses 0002 to 7FFF. The
+most significant nibble in the address (3 above) is complemented. (i.e.
+it is entered as a complemented value.) ( Values:0,1,2,3,4,5,6,7 --> Complement
+equivalent:F,E,D,C,B,A,9,8) Values of 0 - 7 are not allowed for the most
+significant nibble as these are above memory locations 7FFF.
+
+<P>From my testing I've concluded that six digit codes affect every ROM
+bank. (i.e. a code that affects address 7000 will also affect virtual addresses
+0F000, 17000, 1F000, 27000, etc.). This probably is not a problem for most
+games since graphics are usually put in these extra banks &amp; minor 'flaws'
+introduced into these banks would probably hardly be noticeable. This WOULD
+heavily affect Multi-game cartridges though that may have code in every
+bank.
+<BR>&nbsp;
+<TABLE BORDER >
+<TR>
+<TD COLSTART="1">Examples Codes:</TD>
+
+<TD ALIGN=CENTER COLSTART="2">Game</TD>
+
+<TD ALIGN=CENTER COLSTART="3">Game Effect</TD>
+
+<TD ALIGN=CENTER COLSTART="4">Technical Effect</TD>
+</TR>
+
+<TR>
+<TD ALIGN=CENTER COLSTART="1">0A1-B9F</TD>
+
+<TD COLSTART="2">Addams Family</TD>
+
+<TD COLSTART="3">Start with 10 lives.</TD>
+
+<TD COLSTART="4">Address 01B9 replace with new value 0A.&nbsp;</TD>
+</TR>
+
+<TR>
+<TD ALIGN=CENTER COLSTART="1">068-5FF-E66</TD>
+
+<TD COLSTART="2">Adventure Island&nbsp;</TD>
+
+<TD COLSTART="3">Start with 7 lives.</TD>
+
+<TD COLSTART="4">Address 085F replace 03 with new value 06.</TD>
+</TR>
+
+<TR>
+<TD ALIGN=CENTER COLSTART="1">05D-49C-E62&nbsp;</TD>
+
+<TD COLSTART="2">Super Mario Land</TD>
+
+<TD COLSTART="3">Start with 6 lives.</TD>
+
+<TD COLSTART="4">Address 3D49 replace 02 with new value 05.</TD>
+</TR>
+</TABLE>
+&nbsp;
+</BODY>
+</HTML>

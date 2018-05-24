@@ -1,0 +1,289 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+
+<head>
+<title>
+DuoDreamer's Dreamscape
+</title>
+<meta name="title" content="DuoDreamer's Dreamscape">
+<meta name="keywords" content="poetry,poems,midi,mod,mods,midis,gameboy,gb,pokemon,emulate,emulation,emulators,console,computer,mame,raiden,nesticle,rage,callus,nocash,zsnes,snes9x,arcade,classic,video games,roms">
+
+
+
+<!-- -----------Start of CSS Definitions ------------------ -->
+<link rel="stylesheet" type="text/css" href="../default.css">
+<style type="text/css"><!--
+--></style>
+<!------------------------------- End of CSS Definitions ---------------------------->
+
+</head>
+
+<body>
+
+<!-- Entire Document Starts Here -->
+<div align="center">
+
+
+
+<br>
+
+<!---- Start of Whole Content Body. EG: all content tables will go inside this table --->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+
+
+
+
+<!---- Main (right) column starts here ----------------------------------------------->
+<td valign="top" width=620>
+
+<!-- Start of Content Window #1 -->
+<div>
+<!-- Start of Table Header -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+</table>
+<!-- End of Table Header -->
+
+<!-- Start of Table Body -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=8 class="tablebody">
+<br>
+</td>
+<td width=600 class="tablebody" valign="top">
+
+<!-- Window content goes here -->
+
+<h2> ASMSchool - Lesson 8</h2>
+<h3>First Things First</h3>
+Welcome to Lesson 8. This lesson will detail a few things that you need to know, layouts, etc. 
+Just a bunch of miscellaneous shit I think you should know about. First, I'm going to show you 
+the basic layout of a source file and an include file. I'll show you the sections that should be in 
+your source code, and a few assembler directives that you'll use alot.<br><br>
+
+At this point, you should know what the <a href="gbspec.txt" target="_blank" class="tableheader">PANDOC</a> is, and have a copy of it handy. It contains all the juicy hardware details that I wont bother boring you with just yet.<br><br>
+
+This <a href="blankasm.txt" target="_blank" class="tableheader">skeleton source file (click for link)</a> is very 
+basic but it's a very clear, concise layout. Click on that link to open up the file in a new window. 
+<br><br>
+
+Taking a look at the skeleton source file, you'll notice that it's got a few sections; the file 
+description, a section for includes, a section for equates, a section for constants, the header 
+section, and the code section. The header section is the really important part, as this is needed 
+for every GameBoy program.<br><br>
+
+Ok, this source file is really really plain, but it's the bare minimum that you'll need. As it stands, 
+the file will compile into a ROM and run on a GameBoy, but all it will do is run in a loop, since 
+that's all the code thats in it. The header area has a few sections in it that define specific locations 
+for certain things. If you look over it, you'll notice the Restart (RST) vectors at the beginning from 
+$0000 to $0038. These are locations that are jumped to if the CPU happens upon a RST $XX 
+opcode. Basically, they are used in routines as a fast CALL, since a normal CALL opcode takes 3 
+bytes and an RST only takes one byte. Usually, an RST will either have a very short routine, 
+only a few bytes long, since there are only 8 bytes between each RST (eg: $00, $08, $10, $18, etc). 
+Sometimes, if you need a routine a little bit longer than 8 bytes, you can place a JP (jump) at the 
+RST that jumps to your other routine, but TAKE NOTE that jumping is a 3 byte long instruction 
+and defeats the purpose of speed in a RST.<br><br>
+
+Ok, now the next few sections are the Interrupt Vectors. You'll notice that in the SECTION 
+directive, there are two operands: a NAME for the section and a LOCATION of the section. 
+The SECTION directive is an RGBASM directive, since I'll be using RGBDS in my lessons. 
+Notice that all of the Sections so far are in the HOME bank (bank 0) at the location specified in 
+the brackets. The header sections MUST go in these specific locations in Bank 0. Ok, those 
+interrupt vectors are locations that the CPU will jump to if certain hardware conditions are met. 
+These hardware conditions are easily enabled/disabled by setting the corresponding bits in the 
+IE (located at $FFFF) register. If I wanted to enable the V-Blank Interrupt, I'd just set bit 0 of IE to 
+1 and once the LCD hits v-blank (which it does 60 times per second), the CPU would disable all interrupts then jump to 
+$0040, which would usually have a "JP VBlankRoutine" which just jumps to a routine that I 
+want to run every v-blank. The reason that the CPU disables interrupts when an interrupt 
+happens is so that one interrupt can't interrupt another interrupt already in progress... sounds 
+scary doesn't it? Many games use the v-blank as a timer to control game speed. The 
+other interrupts work just the same way, and all the details of them can be found in the 
+<a href="gbspec.txt" target="_blank" class="tableheader">PANDOC.</a> Since my blank simple source doesn't need 
+to use any IRQ's, I've placed a RETI instruction at each of them, which just returns from the 
+interrupt condition (RETI = Return and Enable Interrupts).<br><br>
+
+After the IRQ's there is a little bit of free space up until $0100. That's where the GameBoy starts 
+executing from the cartridge. But there is only 4 bytes of space here before the Logo Data section 
+starts, so normally there are two instructions placed here, a NOP followed by a JP START. Since 
+the header area ends at $0150, START is usually located here. You'll notice that in the source 
+file, that my START has a SECTION directive that places it in Bank 0 at $0150. It's a good normal 
+place to put it. Of course, I kinda skipped over the cart info section, which is pretty much self-explanatory. 
+It's just the logo data, cart name and a few things that define the cart hardware. No sweat.<br><br>
+
+Getting back to $0150, this is where everything really starts. All I've put here is a simple JP START 
+that just jumps back to itself and basically accomplishes nothing except for teaching you a few 
+things about the basic layout of an ASM source file.<br><br>
+
+Hm... well I think that's about it, it's time to move on to lesson 9. I know I'll think of something 
+to add here later... shit happens. I know this might sound a little goofy to you, but READ THIS 
+LESSON AGAIN. Why? Because you'll better remember the layout if you review it once more. 
+Think of it as a homework assignment... but a hell of alot easier. =)<br><br>
+
+
+<!-- Window content ends here -->
+
+
+</td>
+
+<td width=4 class="tablebody">
+<br>
+</td>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=4 class="tableshadow">
+<br>
+</td>
+</tr>
+</table>
+<!-- End of Table Body -->
+
+<!-- Start of Table Footer -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=3 class="tableborder"></td>
+<td width=2 height=3 class="tablebody"></td>
+<td width=630 height=3 class="tablebody"></td>
+<td width=2 height=3 class="tableborder"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=630 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=630 height=3 class="tableshadow"></td>
+<td width=2 height=3 class="tableshadow"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+
+</table>
+<!-- End of Table Footer -->
+</div>
+<!-- End of Content Window #1 -->
+
+<br>
+
+<!-- Start of footnote window -->
+<div>
+<!-- Start of Table Header -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=612 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+</table>
+<!-- End of Table Header -->
+
+<!-- Start of Table Body -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=8 class="tablebody">
+<br>
+</td>
+<td width=600 class="tablebody" valign="top">
+
+<!-- Window content goes here -->
+
+<!-- Stuff Goes here -->
+
+<br>
+
+
+</td>
+
+<td width=4 class="tablebody">
+<br>
+</td>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=4 class="tableshadow">
+<br>
+</td>
+</tr>
+</table>
+<!-- End of Table Body -->
+
+<!-- Start of Table Footer -->
+<table border=0 cellpadding=0 cellspacing=0 width=620>
+<tr>
+<td width=2 height=3 class="tableborder"></td>
+<td width=2 height=3 class="tablebody"></td>
+<td width=630 height=3 class="tablebody"></td>
+<td width=2 height=3 class="tableborder"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=630 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=630 height=3 class="tableshadow"></td>
+<td width=2 height=3 class="tableshadow"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+
+</table>
+<!-- End of Table Footer -->
+</div>
+<!-- End of Footnote window ->
+
+</td>
+<!---- Main (right) column ends here ------------------------------------------------->
+
+</tr>
+</table>
+
+</div>
+</body>
+</html>

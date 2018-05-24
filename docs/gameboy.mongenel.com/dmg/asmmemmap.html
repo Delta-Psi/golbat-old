@@ -1,0 +1,525 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+
+<head>
+<title>
+DuoDreamer's Dreamscape
+</title>
+<meta name="title" content="DuoDreamer's Dreamscape">
+<meta name="keywords" content="poetry,poems,midi,mod,mods,midis,gameboy,gb,pokemon,emulate,emulation,emulators,console,computer,mame,raiden,nesticle,rage,callus,nocash,zsnes,snes9x,arcade,classic,video games,roms">
+
+
+
+<!-- -----------Start of CSS Definitions ------------------ -->
+<link rel="stylesheet" type="text/css" href="../color.css">
+<style type="text/css"><!--
+--></style>
+<!------------------------------- End of CSS Definitions ---------------------------->
+</head>
+
+<body>
+<!-- This Tutorial was written by Randy Mongenel, AKA DuoDreamer and is copyrighted to him, all rights reserved
+	 Any Reproduction, Distribution, or unapproved use is prohibited. Please give credit where credit is due -->
+
+
+<!-- Entire Document Starts Here -->
+<div align="center">
+
+
+
+<br>
+
+<!---- Start of Whole Content Body. EG: all content tables will go inside this table --->
+<table border=0 cellpadding=0 cellspacing=0 width=700>
+<tr>
+
+
+<!---- Main (right) column starts here ----------------------------------------------->
+<td valign="top" width=700>
+
+<!-- Start of Content Window #1 -->
+<div>
+<!-- Start of Table Header -->
+<table border=0 cellpadding=0 cellspacing=0 width=700>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=692 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=692 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=692 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+</table>
+<!-- End of Table Header -->
+
+<!-- Start of Table Body -->
+<table border=0 cellpadding=0 cellspacing=0 width=700>
+<tr>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=8 class="tablebody">
+<br>
+</td>
+<td width=680 class="tablebody" valign="top">
+<!-- Window content goes here -->
+<h3>GameBoy Memory Map</h3>
+The GameBoy contains an 8-bit processor, meaning it can access 8-bits of data at one time. 
+To access this data, it has a 16-bit address bus, which can address 65,536 positions of memory. 
+This address space is split into the following areas.<br><br>
+<div align="center">
+<img src="./images/memmap.gif" width=567 height=74></div>
+<br>
+<table align="center" width="500" cellspacing="2" cellpadding="2" border="0">
+<tr>
+    <td class="gray" colspan="3" align="center" >GameBoy Memory Areas</td>
+</tr>
+<tr>
+	<td bgcolor="#FF00FF"></td>
+    <td class="gray">$FFFF</td>
+    <td class="gray">Interrupt Enable Flag</td>
+</tr>
+<tr>
+	<td bgcolor="#FF00FF"></td>
+    <td class="gray">$FF80-$FFFE</td>
+    <td class="gray">Zero Page - 127 bytes</td>
+</tr>
+<tr>
+	<td bgcolor="#FF00FF"></td>
+    <td class="gray">$FF00-$FF7F</td>
+    <td class="gray">Hardware I/O Registers</td>
+</tr>
+<tr>
+	<td bgcolor="#FF00FF"></td>
+    <td class="gray">$FEA0-$FEFF</td>
+    <td class="gray">Unusable Memory</td>
+</tr>
+<tr>
+	<td bgcolor="#FF00FF"></td>
+    <td class="gray">$FE00-$FE9F</td>
+    <td class="gray">OAM - Object Attribute Memory</td>
+</tr>
+<tr>
+	<td bgcolor="#000000"></td>
+    <td class="gray">$E000-$FDFF</td>
+    <td class="gray">Echo RAM - Reserved, Do Not Use</td>
+</tr>
+<tr>
+	<td bgcolor="#FFFF00"></td>
+    <td class="gray">$D000-$DFFF</td>
+    <td class="gray">Internal RAM - Bank 1-7 (switchable - CGB only)</td>
+</tr>
+<tr>
+	<td bgcolor="#FFFF00"></td>
+    <td class="gray">$C000-$CFFF</td>
+    <td class="gray">Internal RAM - Bank 0 (fixed)</td>
+</tr>
+<tr>
+	<td bgcolor="#00FF00"></td>
+    <td class="gray">$A000-$BFFF</td>
+    <td class="gray">Cartridge RAM (If Available)</td>
+</tr>
+<tr>
+	<td bgcolor="#0000FF"></td>
+    <td class="gray">$9C00-$9FFF</td>
+    <td class="gray">BG Map Data 2</td>
+</tr>
+<tr>
+	<td bgcolor="#0000FF"></td>
+    <td class="gray">$9800-$9BFF</td>
+    <td class="gray">BG Map Data 1</td>
+</tr>
+<tr>
+	<td bgcolor="#00FFFF"></td>
+    <td class="gray">$8000-$97FF</td>
+    <td class="gray">Character RAM</td>
+</tr>
+<tr>
+	<td bgcolor="#FF0000"></td>
+    <td class="gray">$4000-$7FFF</td>
+    <td class="gray">Cartridge ROM - Switchable Banks 1-xx</td>
+</tr>
+<tr>
+	<td bgcolor="#FF0000"></td>
+    <td class="gray">$0150-$3FFF</td>
+    <td class="gray">Cartridge ROM - Bank 0 (fixed)</td>
+</tr>
+<tr>
+	<td bgcolor="#808080"></td>
+    <td class="gray">$0100-$014F</td>
+    <td class="gray">Cartridge Header Area</td>
+</tr>
+<tr>
+	<td bgcolor="#c0c0c0"></td>
+    <td class="gray">$0000-$00FF</td>
+    <td class="gray">Restart and Interrupt Vectors</td>
+</tr>
+</table>
+<br>
+<br>
+<hr size=4 noshade>
+<br>
+<h4>$0000-$00FF - Restart and Interrupt Vector Table</h4>
+The first 255 byte area in the Gameboy address space is reserved for Interrupt Vectors and 
+Restart Vectors. Interrupts are a break in program code generated by a piece of the hardware 
+when a certain condition is met. These conditions can be set by the programmer. There are several 
+different types of interrupts, and when an interrupt is generated, the program stops where it is, 
+and jumps to one of the specified locations in the Vector Table. The types of interrups are:<br>
+<ul>
+<li>V-Blank - This interrupt can be generated when the LCD has drawn the last line on the screen and gone into the vertical blanking period. When this Interrupt is triggered, the CPU stores the current point of execution on the Stack, and jumps to $0040, which will usually contain another jump to the location of the code you want executed during the v-blank period.</li>
+<li>LCDC - This interrupt can be generated by the LCD controller chip on various conditions, the most commonly used being the LYC condition, which is an interrupt generated when the LCD begins to draw a certain scanline. The scanline it generates an interrupt on is selectable. When triggered, this interrupt forces the CPU to jump to address $0048. For more information, see the section on I/O registers.</li>
+<li>Timer - The system timer can be set to count at specified frequencies, and will increment a count register. When this register overflows, an interrupt is generated and the CPU jumps to $0050. More information in the I/O register section.</li>
+<li>Serial - Generated by the serial link controller. The CPU jumps to $0058 when this interrupt is triggered. More info in the I/O register section.</li>
+<li>Joypad - Generated when a key is pressed. Due to button &quot;bounce&quot;, this interrupt may occur several times when a button is pressed. More info in the I/O register section.</li>
+</ul>
+
+<hr size=4 noshade>
+<br>
+<h4>$0100-$014F - Cartridge Header Area</h4>
+This area in the GameBoy address space contains information about the cartridge that is inserted, including; 
+type of cartridge, size of rom, size of ram, a Nintendo logo, and other information. Also, at $0100, there is 
+a NOP instruction, followed by a JUMP to the start of the program, usually $0150. The GameBoy's CPU begins 
+execution at $0100, that is why this is included. If the Nintendo logo bytes are not correct, the GameBoy 
+will not execute the game. Upon power up, the system ROM in a GameBoy will verify that the logo is correct. 
+Nintendo has tried to use the logo to keep only authorized developers from publishing games, since the logo 
+is a registered trademark of Nintendo. But, a legal precedent was set in the United States in a case of 
+Sega vs. Accolade (c.1993). Sega's Genesis console also has a signature that is a copyright of Sega, and 
+Accolade used this logo so that their games, which were not approved by Sega, would be able to play on the 
+Genesis console. The judge ruled in favor of Accolade, stating that using a logo to that degree was an 
+anti-competetive practice, and therefore, Accolade was allowed to continue selling their games. At least, 
+that's what I heard. =P<br>
+<br>
+<table align="center" width="500" cellspacing="2" cellpadding="2" border="0">
+<tr>
+	<td colspan="2" align="center" class="gray">Cart Header</td>
+</tr>
+<tr>
+	<td class="gray">$0100-$0103</td>
+	<td class="gray">NOP / JP $0150</td>
+</tr>
+<tr>
+	<td class="gray">$0104-$0133</td>
+	<td class="gray">Nintendo Logo</td>
+</tr>
+<tr>
+	<td class="gray">$0134-$013E</td>
+	<td class="gray">Game Title (Uppercase ASCII)</td>
+</tr>
+<tr>
+	<td class="gray">$013F-$0142</td>
+	<td class="gray">4-byte Game Designation</td>
+</tr>
+<tr>
+	<td class="gray">$0143</td>
+	<td class="gray">Color Compatibility byte</td>
+</tr>
+<tr>
+	<td class="gray">$0144-$0145</td>
+	<td class="gray">New Licensee Code</td>
+</tr>
+<tr>
+	<td class="gray">$0146</td>
+	<td class="gray">SGB Compatibility byte</td>
+</tr>
+<tr>
+	<td class="gray">$0147</td>
+	<td class="gray">Cart Type</td>
+</tr>
+<tr>
+	<td class="gray">$0148</td>
+	<td class="gray">Cart ROM size</td>
+</tr>
+<tr>
+	<td class="gray">$0149</td>
+	<td class="gray">Cart RAM size</td>
+</tr>
+<tr>
+	<td class="gray">$014A</td>
+	<td class="gray">Destination code</td>
+</tr>
+<tr>
+	<td class="gray">$014B</td>
+	<td class="gray">Old Licensee code</td>
+</tr>
+<tr>
+	<td class="gray">$014C</td>
+	<td class="gray">Mask ROM version</td>
+</tr>
+<tr>
+	<td class="gray">$014D</td>
+	<td class="gray">Complement checksum</td>
+</tr>
+<tr>
+	<td class="gray">$014E-$014F</td>
+	<td class="gray">Checksum</td>
+</tr>
+</table>
+<br>
+<hr size=4 noshade>
+<h4>$0150-$3FFF - ROM Bank 0</h4>
+Realistically, ROM Bank 0 includes all the data from $0000 to $014Fm but they were special areas, so I made them separate.
+ ROM Bank 0 is the home bank. It's the fist 16K bank of any ROM image, and is a fixed bank, which means you can't switch 
+ it out with other banks, like you can with the next section (which is discussed in the next section). When the GameBoy powers up, 
+program execution starts at $0100, which almost always has a jump to $0150 (jp $0150), the first byte of free space. So really, 
+$0150 will be the start of your programs. Since this bank is fixed and <b>CANNOT</b> be changed out, it usually contains the 
+majority of the game's engine, or core routines. So I guess you could say that instead of programming a 64K address space, you're 
+actually restricted to 16K for most things. 
+<br>
+<br>
+<hr size=4 noshade>
+<h4>$4000-$7FFF - ROM Bank n</h4>
+This is where alot of your game data will exist... in this 16K space. This area is switchable or <b>banked</b>. You can switch in 16K 
+chunks of the entire ROM in this area, through the use of the Memory Bank Controller (MBC) on the cartridge. How the MBC works is you 
+basically &quot;write&quot; to an area in ROM, and since ROM is by nature READ ONLY MEMORY, writing a value to ROM is futile, except 
+in the case of the MBC. It intercepts the attempted write to ROM and interprets it into a bank switch. the value you try to write 
+to ROM is generally the bank number you want to change to. For example, when using MBC1, one would do this to change to bank 5:<br>
+<ul>
+<li>LD	A,5</li>
+<li>LD	HL,$2000</li>
+<li>LD	(HL),A</li>
+</ul>
+The first line loads the value 5 into register A. The second line loads register pair HL with $2000, our destination address. 
+The third line loads the value in register A into the address indexed by register pair HL. Easy, right?
+<br>
+<br>
+<hr size=4 noshade>
+<h4>$8000-$97FF - Character RAM</h4>
+This area is RAM inside the GB unit, and is used exclusively for video purposes. This area is also known as Tile RAM, since it holds 
+tiles. Each tile is 8x8 pixels of 2-bit color, which makes each tile 16 bytes long. This area is also divided up into two modes of 
+tiles, signed and unsigned. In unsigned mode, tiles are numbered from 0-255 at $8000-$9000. In signed mode, tiles are numbered in 
+two's complement from -127 to 128 at $87FF-$97FF. I think... lol. Generally most ppl use 0-255 tiles, since it's nice and easy.
+<br>
+<br>
+<hr size=4 noshade>
+<h4>$9800-$9BFF - BG Map Data 1</h4>
+This 1024-byte long area is what the video processor uses to build the display. Each byte in this space represnts an 8x8 pixel space 
+on the display. This area is 32x32 tiles large... EG: 1024 bytes. The display processor takes each byte and then goes into the Character RAM 
+area and gets the corresponding tile from that area and draws it to the screen. So, if the first byte in the Map area contained $40, the 
+display processor would get tile $40 from the Character RAM and put it in the top-left corner of the virtual screen. I say virtual screen 
+because the actual LCD is only 160x144 pixels in size and is basically a viewport that can be scrolled around the 32x32 tile (256x256 pixel) 
+background area in video memory.
+<br>
+<br>
+<hr size=4 noshade>
+<h4>$9C00-$9FFF - BG Map Data 2</h4>
+This area is just a second background map area like the previous one. To specify which map the video processor uses to build the 
+background image, change the apropriate bit in the LCDC I/O register, explained later.
+<br>
+<br>
+<hr size=4 noshade>
+<h4>$A000-$BFFF - External (cartridge) RAM</h4>
+If present on the cartridge, this area is mapped to the RAM on the cartridge.
+<br>
+<br>
+<hr size=4 noshade>
+<h4>$C000-$DFFF - Internal Work RAM</h4>
+This RAM in inside the GameBoy. Generally used for most common variables and such in games.
+<br>
+<br>
+<hr size=4 noshade>
+<h4>$E000-$FDFF - Reserved Area/Echo RAM</h4>
+This area echoes internal ram, but is specified by Nintendo as reserved and shouldn't be used at all. To keep with standards and 
+to keep compatibility, don't use this area.
+<br>
+<br>
+<hr size=4 noshade>
+<h4>$FE00-$FE9F - Object Attribute Memory (OAM)</h4>
+OAM is sprite RAM. This area is 40 sprites X 4 bytes long. When you with to display an object (sprite) you write 4 corresponding bytes to OAM. 
+These 4 bytes are:
+<ul>
+<li>Byte 1: X Location</li>
+<li>Byte 2: Y Location</li>
+<li>Tile Number (0-255)</li>
+<li>Attributes</li>
+</ul>
+The tile number is taken from the Character RAM, just a BG tiles are. The X and Y locations are slightly offset (8 pixels and 16 pixels), so you can have sprites 
+partially off of the left and top of the LCD. So if you set the location to 0,0 then the sprite would be off of the screen. To set a sprite to the 
+top-left corner, you'd set it's location to 8,16. Piece of cake. ;-)
+<br>
+<br>
+<hr size=4 noshade>
+<h4>$FEA0-$FEFF - Unused</h4>
+And it'd be smart to leave it that way. =)
+<br>
+<br>
+<hr size=4 noshade>
+<h4>$FF00-$FF7F - Hardware I/O Registers</h4>
+This area contains all the control registers for all the hardware on the GameBoy and is basically a memory-mapped I/O area. Details on 
+this area are in another section.
+<br>
+<br>
+<hr size=4 noshade>
+<h4>$FF80-$FFFE - High RAM Area</h4>
+Originally intended to be used as 127 bytes of stack space, this area is better suited for use as a Zero-Page, or a quick RAM access 
+area, since there is an instruction that accesses the area $FF00-$FFFF quicker than a regular LD instruction. Most coders nowadays just 
+set the stack to the TOP of internal RAM, since it works the same and frees the high RAM for quick variables and such.
+<br>
+<br>
+<hr size=4 noshade>
+<h4>$FFFF - Interrupt Enable Register</h4>
+This is another I/O register, which controls the interrupts.
+<br>
+<br>
+
+
+<!-- End of Content -->
+</td>
+
+<td width=4 class="tablebody">
+<br>
+</td>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=4 class="tableshadow">
+<br>
+</td>
+</tr>
+</table>
+<!-- End of Table Body -->
+
+<!-- Start of Table Footer -->
+<table border=0 cellpadding=0 cellspacing=0 width=700>
+<tr>
+<td width=2 height=3 class="tableborder"></td>
+<td width=2 height=3 class="tablebody"></td>
+<td width=690 height=3 class="tablebody"></td>
+<td width=2 height=3 class="tableborder"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=690 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=690 height=3 class="tableshadow"></td>
+<td width=2 height=3 class="tableshadow"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+
+</table>
+<!-- End of Table Footer -->
+</div>
+<!-- End of Content Window #1 -->
+<br>
+
+<table border=0 cellpadding=0 cellspacing=0 width=700>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=692 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=692 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="bodybackground"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=692 height=2 class="tablebody"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+</table>
+<!-- End of Table Header -->
+
+<!-- Start of Table Body -->
+<table border=0 cellpadding=0 cellspacing=0 width=700>
+<tr>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=8 class="tablebody">
+<br>
+</td>
+<td width=680 class="tablebody" valign="top">
+
+<!-- Window content goes here -->
+
+<!-- Stuff Goes here -->
+<div class="neg2">
+This webpage was designed to be viewed in any HTML 4.0/CSS1 compliant browser, but since Netscape sucks (opinions are like ass holes, everybody has got one), everything looks like sh*t in Netscape, so go get IE 5.5 or Opera 4.0, which both are great browsers (and consequently, display my webpage correctly).
+<br><br>
+DISCLAIMER: You will NOT find commercial ROMS on this website, nor will I answer e-mail in regards 
+to where you can find ROM's on the Internet. Downloading a ROM image of a game you do not own is 
+illegal. I will not answer e-mail regarding Pok&eacute;mon<sup>TM</sup>. This website, to the best 
+of my knowledge does not contain any illegally obtained information, nor any illegal content. 
+Not everything on this webpage was created by me. Some of the content, images, etc, have come from 
+many places, and I thank the friends who have helped me with everything (that means you Sacher!).
+Should you not like my views, opinions, ideas, etc, etc, then pardon me and PISS OFF.
+</div>
+<br>
+
+
+</td>
+
+<td width=4 class="tablebody">
+<br>
+</td>
+<td width=2 class="tableborder">
+<br>
+</td>
+<td width=4 class="tableshadow">
+<br>
+</td>
+</tr>
+</table>
+<!-- End of Table Body -->
+
+<!-- Start of Table Footer -->
+<table border=0 cellpadding=0 cellspacing=0 width=700>
+<tr>
+<td width=2 height=3 class="tableborder"></td>
+<td width=2 height=3 class="tablebody"></td>
+<td width=690 height=3 class="tablebody"></td>
+<td width=2 height=3 class="tableborder"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=690 height=2 class="tableborder"></td>
+<td width=2 height=2 class="tableborder"></td>
+<td width=4 height=2 class="tableshadow"></td>
+</tr>
+<tr>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=2 height=3 class="bodybackground"></td>
+<td width=690 height=3 class="tableshadow"></td>
+<td width=2 height=3 class="tableshadow"></td>
+<td width=4 height=3 class="tableshadow"></td>
+</tr>
+
+</table>
+<!-- End of Table Footer -->
+
+<br>
+
+
+</td>
+<!---- Main (right) column ends here ------------------------------------------------->
+
+</tr>
+</table>
+
+</div>
+</body>
+</html>
